@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
 
   bind(s, (struct sockaddr*) &sin,  sizeof(sin));
 
-  printf("%d\n", b);
+  printf("%d\n", listen(s, 4));
 
   return 0;
 }
