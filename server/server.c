@@ -1,5 +1,9 @@
 #include "server.h"
 
+void exec_cmd(char *cmd) {
+  printf("%s\n", cmd);
+}
+
 int main(int argc, char **argv) {
   int s;
   struct protoent *pe;
@@ -29,7 +33,7 @@ int main(int argc, char **argv) {
   while(1) {
     nread = recv(cfd, buf, 1024, 0);
     if(nread != 0)
-      printf("%s\n", buf);
+      exec_cmd(buf);
   }
 
   return 0;
