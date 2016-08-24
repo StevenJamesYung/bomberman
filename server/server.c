@@ -4,7 +4,6 @@ int main(int argc, char **argv) {
   int s;
   struct protoent *pe;
   struct sockaddr_in sin;
-  int b;
 
   pe = getprotobyname("tcp");
   s = socket(PF_INET, SOCK_STREAM, pe->p_proto);
@@ -13,7 +12,7 @@ int main(int argc, char **argv) {
   sin.sin_port = htons(4242);
   sin.sin_addr.s_addr = INADDR_ANY;
 
-  b = bind(s, (struct sockaddr*) &sin,  sizeof(sin));
+  bind(s, (struct sockaddr*) &sin,  sizeof(sin));
 
   printf("%d\n", b);
 
