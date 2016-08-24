@@ -1,5 +1,21 @@
 #include "client.h"
 
+void ask_connection(int s, char *login) {
+  char *cmd;
+  char *final_cmd;
+  size_t size;
+
+  cmd = "CONNECT";
+  size = sizeof(cmd) + sizeof(login) + 1;
+  final_cmd = malloc(size);
+
+  strcpy(final_cmd, cmd);
+  strcat(final_cmd, " ");
+  strcat(final_cmd, login);
+
+  send(s, final_cmd, size, 0);
+}
+
 int main(int argc, char **argv) {
   int s;
   struct sockaddr_in sin;
@@ -13,8 +29,7 @@ int main(int argc, char **argv) {
 
   connect(s, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
 
-  nwrite = send(s, "test", sizeof("test"), 0);
-  printf("%d\n", nwrite);
+  ask_connection(s, "steven");
 
   return 0;
 }
