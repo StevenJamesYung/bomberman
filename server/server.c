@@ -7,6 +7,8 @@ int main(int argc, char **argv) {
   int cfd;
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
+  char buf[1024];
+  int nread;
 
   pe = getprotobyname("tcp");
   s = socket(PF_INET, SOCK_STREAM, pe->p_proto);
@@ -23,6 +25,12 @@ int main(int argc, char **argv) {
   cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
 
   printf("New connection detected as socket %d\n", cfd);
+
+  while(1) {
+    nread = recv(cfd, buf, 1024, 0);
+    if(nread != 0)
+      printf("%s\n", buf);
+  }
 
   return 0;
 }
