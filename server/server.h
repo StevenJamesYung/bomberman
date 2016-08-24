@@ -2,8 +2,8 @@
 # define __SERVER_H__
 # define _GNU_SOURCE
 
-#include "../bomberman.h"
-#include <netdb.h>
-#include <stdio.h>
+# include "../bomberman.h"
+# include <netdb.h>
+# include <stdio.h>
 
 #endif
