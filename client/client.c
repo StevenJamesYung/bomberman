@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
 
   sin.sin_family = AF_INET;
   sin.sin_port = htons(4242);
-  sin.sin_addr.s_addr = inet_addr("localhost");
+  sin.sin_addr.s_addr = inet_addr("127.0.0.1");
 
   printf("%d\n", connect(s, (struct sockaddr *) &sin, sizeof(struct sockaddr_in)));
 
