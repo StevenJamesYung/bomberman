@@ -1,4 +1,5 @@
 #include "server.h"
+#include <sys/select.h>
 
 void exec_cmd(char *cmd) {
   printf("%s\n", cmd);
@@ -13,6 +14,9 @@ int main(int argc, char **argv) {
   socklen_t peer_addr_size;
   char buf[1024];
   int nread;
+  fd_set active_fds;
+  fd_set read_fds;
+  int i;
 
   pe = getprotobyname("tcp");
   s = socket(PF_INET, SOCK_STREAM, pe->p_proto);
@@ -25,6 +29,7 @@ int main(int argc, char **argv) {
 
   listen(s, 4);
 
+  /*
   peer_addr_size = sizeof(struct sockaddr_in);
   cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
 
@@ -34,6 +39,38 @@ int main(int argc, char **argv) {
     nread = recv(cfd, buf, 1024, 0);
     if(nread != 0)
       exec_cmd(buf);
+  }
+  */
+
+  FD_ZERO(&active_fds);
+  FD_SET(s, &active_fds);
+  while(1) {
+    read_fds = active_fds;
+    if(select(s + 1, &read_fds, NULL, NULL, NULL) < 0) {
+      perror("select");
+      exit(EXIT_FAILURE);
+    }
+
+    for(i = 0; i < s + 1; i++) {
+      if(i == s) {
+        peer_addr_size = sizeof(struct sockaddr_in);
+        cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
+
+        if(cfd < 0) {
+          perror("accept");
+          exit(EXIT_FAILURE);
+        }
+
+        printf("Server: connect from someone");
+
+        FD_SET(cfd, &active_fds);
+      }
+      else {
+        nread = recv(cfd, buf, 1024, 0);
+        if(nread != 0)
+          exec_cmd(buf);
+      }
+    }
   }
 
   return 0;
