@@ -32,12 +32,12 @@ int main(int argc, char **argv) {
   FD_SET(s, &active_fds);
   while(1) {
     read_fds = active_fds;
-    if(select(s + 1, &read_fds, NULL, NULL, NULL) < 0) {
+    if(select(10, &read_fds, NULL, NULL, NULL) < 0) {
       perror("select");
       exit(EXIT_FAILURE);
     }
 
-    for(i = 0; i < s + 1; i++) {
+    for(i = 0; i < 10; i++) {
       if(FD_ISSET(i, &read_fds)) {
         if(i == s) {
           peer_addr_size = sizeof(struct sockaddr_in);
