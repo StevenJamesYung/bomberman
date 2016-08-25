@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   s = socket(PF_INET, SOCK_STREAM, pe->p_proto);
 
   sin.sin_family = AF_INET;
-  sin.sin_port = htons(4242);
+  sin.sin_port = htons(PORT);
   sin.sin_addr.s_addr = INADDR_ANY;
 
   bind(s, (struct sockaddr*) &sin,  sizeof(sin));

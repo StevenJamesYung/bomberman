@@ -6,4 +6,7 @@
 # include <netdb.h>
 # include <sys/select.h>
 
+# define MAX_CONNECTIONS 4
+# define PORT 4242
+
 #endif
