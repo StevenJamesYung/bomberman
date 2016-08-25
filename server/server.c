@@ -1,5 +1,4 @@
 #include "server.h"
-#include <sys/select.h>
 
 void exec_cmd(char *cmd) {
   printf("%s\n", cmd);
@@ -29,19 +28,6 @@ int main(int argc, char **argv) {
 
   listen(s, 4);
 
-  /*
-  peer_addr_size = sizeof(struct sockaddr_in);
-  cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
-
-  printf("New connection detected as socket %d\n", cfd);
-
-  while(1) {
-    nread = recv(cfd, buf, 1024, 0);
-    if(nread != 0)
-      exec_cmd(buf);
-  }
-  */
-
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
   while(1) {
@@ -52,23 +38,25 @@ int main(int argc, char **argv) {
     }
 
     for(i = 0; i < s + 1; i++) {
-      if(i == s) {
-        peer_addr_size = sizeof(struct sockaddr_in);
-        cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
+      if(FD_ISSET(i, &read_fds)) {
+        if(i == s) {
+          peer_addr_size = sizeof(struct sockaddr_in);
+          cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
 
-        if(cfd < 0) {
-          perror("accept");
-          exit(EXIT_FAILURE);
+          if(cfd < 0) {
+            perror("accept");
+            exit(EXIT_FAILURE);
+          }
+
+          printf("Server: connect from someone\n");
+
+          FD_SET(cfd, &active_fds);
         }
-
-        printf("Server: connect from someone");
-
-        FD_SET(cfd, &active_fds);
-      }
-      else {
-        nread = recv(cfd, buf, 1024, 0);
-        if(nread != 0)
-          exec_cmd(buf);
+        else {
+          nread = recv(cfd, buf, 1024, 0);
+          if(nread != 0)
+            exec_cmd(buf);
+        }
       }
     }
   }

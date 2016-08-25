@@ -4,5 +4,6 @@
 
 # include "../bomberman.h"
 # include <netdb.h>
+# include <sys/select.h>
 
 #endif
