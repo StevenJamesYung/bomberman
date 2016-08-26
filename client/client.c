@@ -10,7 +10,6 @@ void ask_connection(int s, char *login) {
   final_cmd = malloc(size);
 
   strcpy(final_cmd, cmd);
-  strcat(final_cmd, " ");
   strcat(final_cmd, login);
 
   send(s, final_cmd, size, 0);

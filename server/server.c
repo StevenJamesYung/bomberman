@@ -1,8 +1,11 @@
 #include "server.h"
 
 void exec_cmd(char *cmd) {
+  char *username;
+
   if(strncmp(cmd, "000", 3) == 0) {
-    printf("Connection asked\n");
+    username = strtok(cmd, "000");
+    printf("%s joined the game\n", username);
   }
 }
 
