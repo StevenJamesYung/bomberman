@@ -6,6 +6,8 @@ void ask_connection(int s, char *login) {
   size_t size;
 
   cmd = "CONNECT";
+  send(s, cmd, size, 0);
+  /*
   size = sizeof(cmd) + sizeof(login) + 1;
   final_cmd = malloc(size);
 
@@ -14,6 +16,7 @@ void ask_connection(int s, char *login) {
   strcat(final_cmd, login);
 
   send(s, final_cmd, size, 0);
+  */
 }
 
 int main(int argc, char **argv) {

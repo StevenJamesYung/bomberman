@@ -1,7 +1,9 @@
 #include "server.h"
 
 void exec_cmd(char *cmd) {
-  printf("%s\n", cmd);
+  if(strcmp(cmd, "CONNECT") == 0) {
+    printf("Connection asked\n");
+  }
 }
 
 void main_loop(int s) {
