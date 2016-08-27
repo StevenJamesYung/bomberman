@@ -1,5 +1,16 @@
 #include "client.h"
 
+void msg_loop(int s) {
+  char *msg;
+
+  while(strcmp(msg, "EXIT") != 0) {
+    printf("Enter a message:\n");
+    scanf("%s", msg);
+
+    send(s, msg, sizeof(msg), 0);
+  }
+}
+
 void ask_connection(int s, char *login) {
   char *cmd;
   char *final_cmd;
@@ -29,6 +40,8 @@ int main(int argc, char **argv) {
   connect(s, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
 
   ask_connection(s, "steven");
+
+  msg_loop(s);
 
   return 0;
 }

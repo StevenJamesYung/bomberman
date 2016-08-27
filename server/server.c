@@ -7,6 +7,9 @@ void exec_cmd(char *cmd) {
     username = strtok(cmd, "000");
     printf("%s joined the game\n", username);
   }
+  else {
+    printf("message receive which is not a command: %s\n", cmd);
+  }
 }
 
 void main_loop(int s) {
