@@ -12,13 +12,28 @@ void exec_cmd(char *cmd) {
   }
 }
 
+void handleNewConnection(int s, fd_set *active_fds) {
+  struct sockaddr_in peer_addr;
+  socklen_t peer_addr_size;
+  int cfd;
+
+  peer_addr_size = sizeof(struct sockaddr_in);
+  cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
+
+  if(cfd < 0) {
+    perror("accept");
+    exit(EXIT_FAILURE);
+  }
+
+  printf("Server: connect from %d\n", cfd);
+
+  FD_SET(cfd, active_fds);
+}
+
 void main_loop(int s) {
   fd_set active_fds;
   fd_set read_fds;
   int i;
-  struct sockaddr_in peer_addr;
-  socklen_t peer_addr_size;
-  int cfd;
   int nread;
   char buf[1024];
 
@@ -30,22 +45,10 @@ void main_loop(int s) {
       perror("select");
       exit(EXIT_FAILURE);
     }
-
     for(i = 0; i < 10; i++) {
       if(FD_ISSET(i, &read_fds)) {
-        if(i == s) {
-          peer_addr_size = sizeof(struct sockaddr_in);
-          cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
-
-          if(cfd < 0) {
-            perror("accept");
-            exit(EXIT_FAILURE);
-          }
-
-          printf("Server: connect from someone\n");
-
-          FD_SET(cfd, &active_fds);
-        }
+        if(i == s)
+          handleNewConnection(s, &active_fds);
         else {
           nread = recv(i, buf, 1024, 0);
           if(nread != 0)
