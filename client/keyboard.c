@@ -33,7 +33,6 @@ int getch() {
   if ((r = read(0, &c, sizeof(c))) < 0) {
     return r;
   } else {
-    printf("%c\n", c);
     return c;
   }
 }
