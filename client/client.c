@@ -1,5 +1,16 @@
 #include "client.h"
 
+void main_loop(int s) {
+  set_conio_terminal_mode();
+
+  while(1) {
+    while(!kbhit()) {
+
+    }
+    (void)getch();
+  }
+}
+
 void msg_loop(int s) {
   char *msg;
 
@@ -41,7 +52,8 @@ int main(int argc, char **argv) {
 
   ask_connection(s, "steven");
 
-  msg_loop(s);
+  //msg_loop(s);
+  main_loop(s);
 
   return 0;
 }
