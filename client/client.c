@@ -1,13 +1,35 @@
 #include "client.h"
 
 void main_loop(int s) {
+  int ch;
+  int test;
+
   set_conio_terminal_mode();
-
-  while(1) {
-    while(!kbhit()) {
-
+  for(ch = getch(); ; ch = getch()) {
+    // Special Character
+    if(ch == 27) {
+      test = getch();
+      //ARROW
+      if(test == 91) {
+        test = getch();
+        if(test == 65) {
+          printf("UP\n");
+        }
+        else if(test == 66) {
+          printf("DOWN\n");
+        }
+        else if(test == 67) {
+          printf("RIGHT\n");
+        }
+        else if(test == 68) {
+          printf("LEFT\n");
+        }
+      }
+      else if(test == 27) {
+        printf("ESC");
+        exit(0);
+      }
     }
-    (void)getch();
   }
 }
 
