@@ -13,16 +13,16 @@ void main_loop(int s) {
       if(test == 91) {
         test = getch();
         if(test == 65) {
-          printf("UP\n");
+          send(s, "2", sizeof("2"), 0);
         }
         else if(test == 66) {
-          printf("DOWN\n");
+          send(s, "3", sizeof("3"), 0);
         }
         else if(test == 67) {
-          printf("RIGHT\n");
+          send(s, "4", sizeof("4"), 0);
         }
         else if(test == 68) {
-          printf("LEFT\n");
+          send(s, "5", sizeof("5"), 0);
         }
       }
       else if(test == 27) {
