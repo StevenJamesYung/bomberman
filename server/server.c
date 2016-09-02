@@ -27,9 +27,10 @@ void handleNewConnection(int s, fd_set *active_fds, t_map *map) {
   }
 
   printf("Server: connect from %d\n", cfd);
-  printf("b4 add");
+  //printf("b4 add");
   add_player(map);
-  printf("b4 debug");
+  //printf("b4 debug");
+  printf("x: %d, y: %d\n", map->players[0]->x, map->players[0]->y);
   debug_map(map);
 
   FD_SET(cfd, active_fds);

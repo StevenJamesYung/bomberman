@@ -34,9 +34,9 @@ t_map *init_map() {
   int i;
   int y;
   t_map *map;
-  ///t_player *players;
+  t_player **players;
 
-  //players = malloc(MAX_PLAYERS * sizeof(t_player));
+  players = (t_player **)malloc(MAX_PLAYERS * sizeof(t_player));
 
   map = malloc(sizeof(t_map));
   m = (int**)malloc(HEIGHT * sizeof(int*));
@@ -49,8 +49,9 @@ t_map *init_map() {
     }
   }
 
-  //map->players = players;
+  map->players = players;
   map->value = m;
+  map->nb_players = 0;
 
   return map;
 }
