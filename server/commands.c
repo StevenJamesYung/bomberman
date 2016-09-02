@@ -2,23 +2,23 @@
 
 void up(t_global *global, int player) {
     printf("UP %d\n", player);
-    printf("UP %d\n", global->nb_players);    
+    printf("UP %d\n", global->nb_players);
 }
 void down(t_global *global, int player) {
     printf("DOWN %d\n", player);
-    // printf("DOWN %s\n", global->players[player]->username);    
+    // printf("DOWN %s\n", global->players[player]->username);
 }
 void right(t_global *global, int player) {
     printf("RIGHT %d\n", player);
-    // printf("RIGHT %s\n", global->players[player]->username);    
+    // printf("RIGHT %s\n", global->players[player]->username);
 }
 void left(t_global *global, int player) {
     printf("LEFT %d\n", player);
-    // printf("LEFT %s\n", global->players[player]->username);    
+    // printf("LEFT %s\n", global->players[player]->username);
 }
 void drop(t_global *global, int player) {
     printf("DROP %d\n", player);
-    // printf("DROP %s\n", global->players[player]->username);    
+    // printf("DROP %s\n", global->players[player]->username);
 }
 
 t_global *init_global() {
@@ -32,7 +32,7 @@ t_global *init_global() {
     global->map = init_map();
     global->nb_players = 0;
 
-    return (global); 
+    return (global);
 }
 
 t_command_funct *init_funct_tab() {
@@ -50,6 +50,6 @@ t_command_funct *init_funct_tab() {
     tab[3].function = &left;
     tab[4].key = "6";
     tab[4].function = &drop;
-    
+
     return (tab);
 }
