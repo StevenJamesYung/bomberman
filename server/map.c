@@ -1,5 +1,18 @@
 #include "map.h"
 
+int is_player_position(t_map *map, int x, int y) {
+  int i;
+
+  for(i = 0; i < MAX_PLAYERS; i++) {
+    if(map->players[i] && map->players[i]->x == x && map->players[i]->y == y) {
+      // TRUE
+      return 1;
+    }
+  }
+  // FALSE
+  return 0;
+}
+
 void debug_map(t_map *map) {
   int x;
   int y;
