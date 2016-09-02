@@ -55,6 +55,7 @@ t_map *init_map() {
   return map;
 }
 
+/*
 void add_player(t_map *map) {
   int maxY = WIDTH - 1;
   int maxX = HEIGHT -1;
@@ -71,4 +72,12 @@ void add_player(t_map *map) {
   else if(map->value[maxX][maxY] == 0) {
     map->value[maxX][maxY] = 1;
   }
+}
+*/
+
+void add_player(t_map *map) {
+  t_player *new_player;
+
+  new_player = init_player(0, 0);
+  map->players[map->nb_players++] = new_player;
 }
