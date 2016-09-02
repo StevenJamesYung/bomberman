@@ -77,7 +77,6 @@ int main(int argc, char **argv) {
 
   ask_connection(s, "steven");
 
-  //msg_loop(s);
   main_loop(s);
 
   return 0;
