@@ -37,6 +37,9 @@ void main_loop(int s) {
   int i;
   int nread;
   char buf[1024];
+  int **map;
+
+  map = init_map();
 
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
@@ -49,7 +52,7 @@ void main_loop(int s) {
     for(i = 0; i < 10; i++) {
       if(FD_ISSET(i, &read_fds)) {
         if(i == s)
-          handleNewConnection(s, &active_fds);
+          handleNewConnection(s, &active_fds, &map);
         else {
           nread = recv(i, buf, 1024, 0);
           if(nread != 0)
@@ -64,7 +67,6 @@ int main(int argc, char **argv) {
   int s;
   struct protoent *pe;
   struct sockaddr_in sin;
-  int **map;
 
   pe = getprotobyname("tcp");
   s = socket(PF_INET, SOCK_STREAM, pe->p_proto);
@@ -76,8 +78,6 @@ int main(int argc, char **argv) {
   bind(s, (struct sockaddr*) &sin,  sizeof(sin));
 
   listen(s, 4);
-
-  map = init_map();
 
   main_loop(s);
 
