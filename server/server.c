@@ -1,4 +1,5 @@
 #include "server.h"
+#include "map.h"
 
 void exec_cmd(char *cmd) {
   char *username;
@@ -63,6 +64,7 @@ int main(int argc, char **argv) {
   int s;
   struct protoent *pe;
   struct sockaddr_in sin;
+  int **map;
 
   pe = getprotobyname("tcp");
   s = socket(PF_INET, SOCK_STREAM, pe->p_proto);
@@ -74,6 +76,8 @@ int main(int argc, char **argv) {
   bind(s, (struct sockaddr*) &sin,  sizeof(sin));
 
   listen(s, 4);
+
+  map = init_map();
 
   main_loop(s);
 
