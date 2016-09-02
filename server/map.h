@@ -11,7 +11,8 @@
 typedef struct s_map t_map;
 struct s_map {
   int ** value;
-  //t_players *players;
+  t_player **players;
+  int nb_players;
 };
 
 t_map *init_map();
