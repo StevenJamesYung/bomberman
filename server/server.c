@@ -3,7 +3,7 @@
 void exec_cmd(char *cmd, t_global *global, int player) {
   int i;
   char *username;
-  t_command_funct **tab;
+  t_command_funct *tab;
 
   tab = init_funct_tab();
   if(strncmp(cmd, "000", 3) == 0) {
@@ -13,16 +13,16 @@ void exec_cmd(char *cmd, t_global *global, int player) {
   else {
     for (i = 0; i < 5; i++)
     {
-      if ((strncmp(cmd, tab[i]->key, 1) == 0))
+      if ((strncmp(cmd, tab[i].key, 1) == 0))
       {
-        tab[i]->function(global, player);
+        tab[i].function(global, player);
         free(tab);
       }
     }
   }
-  else {
-    printf("message receive which is not a command: %s\n", cmd);
-  }
+  // else {
+  //   printf("message receive which is not a command: %s\n", cmd);
+  // }
 }
 
 // void handleNewConnection(int s, fd_set *active_fds, t_map *map) { [REFACTOR]
@@ -54,11 +54,11 @@ void main_loop(int s) {
   int i;
   int nread;
   char buf[1024];
-  // t_map *map; [REFACTOR]
+  // t_map *map; // [REFACTOR]
   t_global *global;
 
   printf("b4 init");
-  // map = init_map(); [REFACTOR]
+  // map = init_map(); //[REFACTOR]
   global = init_global();
 
   FD_ZERO(&active_fds);

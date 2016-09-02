@@ -3,7 +3,6 @@
 # define _GNU_SOURCE
 
 # include "map.h"
-# include "player.h"
 
 typedef struct s_global t_global;
 struct s_global {
