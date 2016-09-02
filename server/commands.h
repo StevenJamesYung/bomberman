@@ -6,14 +6,15 @@
 # include "map.h"
 # include "player.h"
 # include "server.h"
+# include "global.h"
 
-typedef void (*t_func)();
+typedef void (*t_func)(t_global *global, int player);
 
 typedef struct	s_command_funct t_command_funct;
 struct	s_command_funct
 {
   char		key;
-  t_func	function;
+  t_func	*function;
 };
 
 void up(t_global *global, int player);
