@@ -1,0 +1,2 @@
+gcc -o map fmap.c prog2.c `sdl-config --cflags --libs`
+
