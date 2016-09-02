@@ -1,17 +1,18 @@
 #include "commands.h"
 
-void up() {
+void up(t_global *global, int player) {
 
+    printf("UP\n", global->players[player]->username);
 }
-void down() {
-
+void down(t_global *global, int player) {
+    printf("DOWN\n", global->players[player]->username);
 }
-void right() {
-
+void right(t_global *global, int player) {
+    printf("RIGHT\n", global->players[player]->username);
 }
-void left() {
-
+void left(t_global *global, int player) {
+    printf("LEFT\n", global->players[player]->username);
 }
-void drop() {
-
+void drop(t_global *global, int player) {
+    printf("DROP\n", global->players[player]->username);
 }

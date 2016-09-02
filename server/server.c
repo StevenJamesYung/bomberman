@@ -1,23 +1,24 @@
 #include "server.h"
 
-void exec_cmd(char *cmd, t_global *global, t_command_funct **tab) {
+void exec_cmd(char *cmd, t_global *global, int player) {
   int i;
   char *username;
   t_command_funct **tab;
 
-  tab = init_funct_tab()
-;  if(strncmp(cmd, "000", 3) == 0) {
+  tab = init_funct_tab();
+  if(strncmp(cmd, "000", 3) == 0) {
     username = strtok(cmd, "000");
     printf("%s joined the game\n", username);
   }
   else {
     for (i = 0; i < 5; i++)
     {
-      if ((strncmp(cmd, tab[i].key, 1) == 0))
+      if ((strncmp(cmd, tab[i]->key, 1) == 0))
       {
-        return tab[i].function();
+        tab[i]->function(global, player);
         free(tab);
       }
+    }
   }
   else {
     printf("message receive which is not a command: %s\n", cmd);
@@ -77,7 +78,7 @@ void main_loop(int s) {
           nread = recv(i, buf, 1024, 0);
           if(nread != 0)
             // exec_cmd(buf); [REFACTOR]
-            exec_cmd(buf, global);
+            exec_cmd(buf, global, i);
         }
       }
     }

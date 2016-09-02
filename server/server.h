@@ -7,6 +7,7 @@
 # include <sys/select.h>
 # include "map.h"
 # include "shared.h"
+# include "commands.h"
 
 typedef struct s_global t_global;
 struct s_global {
