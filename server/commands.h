@@ -19,7 +19,6 @@ void down(t_global *global, int player);
 void right(t_global *global, int player);
 void left(t_global *global, int player);
 void drop(t_global *global, int player);
-t_global *init_global();
 t_command_funct *init_funct_tab();
 
 #endif

@@ -11,4 +11,6 @@ struct s_global {
     int nb_players;
 };
 
+t_global *init_global();
+
 #endif
