@@ -8,5 +8,6 @@
 # define HEIGHT 10
 
 int **init_map();
+int **add_player(int **map);
 
 #endif

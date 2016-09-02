@@ -13,7 +13,7 @@ void exec_cmd(char *cmd) {
   }
 }
 
-void handleNewConnection(int s, fd_set *active_fds) {
+void handleNewConnection(int s, fd_set *active_fds, int ***map) {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
   int cfd;
@@ -27,6 +27,7 @@ void handleNewConnection(int s, fd_set *active_fds) {
   }
 
   printf("Server: connect from %d\n", cfd);
+  *map = add_player(*map);
 
   FD_SET(cfd, active_fds);
 }

@@ -33,3 +33,22 @@ int **init_map() {
 
   return m;
 }
+
+int **add_player(int **map) {
+  int maxY = WIDTH - 1;
+  int maxX = HEIGHT -1;
+
+  if(map[0][0] == 0) {
+    map[0][0] = 1;
+  }
+  else if(map[0][maxY] == 0) {
+    map[0][maxY] = 1;
+  }
+  else if(map[maxX][0] == 0) {
+    map[maxX][0] = 1;
+  }
+  else if(map[maxX][maxY] == 0) {
+    map[maxX][maxY] = 1;
+  }
+  return map;
+}
