@@ -8,7 +8,6 @@
 # include <sys/select.h>
 # include "commands.h"
 
-
 # define MAX_CONNECTIONS 4
 # define PORT 4242
 

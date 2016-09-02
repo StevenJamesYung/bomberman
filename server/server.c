@@ -26,7 +26,7 @@ void exec_cmd(char *cmd, t_global *global, int player) {
 }
 
 // void handleNewConnection(int s, fd_set *active_fds, t_map *map) { [REFACTOR]
-void handleNewConnection(int s, fd_set *active_fds, t_global *global) {  
+void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
   int cfd;
@@ -73,7 +73,7 @@ void main_loop(int s) {
       if(FD_ISSET(i, &read_fds)) {
         if(i == s)
           // handleNewConnection(s, &active_fds, map); [REFACTOR]
-          handleNewConnection(s, &active_fds, global);          
+          handleNewConnection(s, &active_fds, global);
         else {
           nread = recv(i, buf, 1024, 0);
           if(nread != 0)
