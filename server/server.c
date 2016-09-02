@@ -1,5 +1,4 @@
 #include "server.h"
-#include "map.h"
 
 void exec_cmd(char *cmd) {
   char *username;
