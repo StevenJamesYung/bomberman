@@ -26,23 +26,6 @@ void debug_map(t_map *map) {
 }
 
 t_map *init_map() {
-  /*
-  printf("init_map map value: %p\n", map);
-  newMap = {
-    (int[WIDTH]){5, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    (int[WIDTH]){0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-  };
-  printf("%p\n", &newMap);
-  map = &newMap;
-  */
   int **m;
   int i;
   int y;
@@ -68,26 +51,6 @@ t_map *init_map() {
 
   return map;
 }
-
-/*
-void add_player(t_map *map) {
-  int maxY = WIDTH - 1;
-  int maxX = HEIGHT -1;
-
-  if(map->value[0][0] == 0) {
-    map->value[0][0] = 1;
-  }
-  else if(map->value[0][maxY] == 0) {
-    map->value[0][maxY] = 1;
-  }
-  else if(map->value[maxX][0] == 0) {
-    map->value[maxX][0] = 1;
-  }
-  else if(map->value[maxX][maxY] == 0) {
-    map->value[maxX][maxY] = 1;
-  }
-}
-*/
 
 void add_player(t_map *map) {
   t_player *new_player;
