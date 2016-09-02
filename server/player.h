@@ -12,6 +12,6 @@ struct s_player {
   int socket;
 };
 
-t_player *init_player();
+t_player *init_player(int x, int y, int s);
 
 #endif

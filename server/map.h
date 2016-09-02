@@ -16,7 +16,7 @@ struct s_map {
 };
 
 t_map *init_map();
-void add_player(t_map *map);
+void add_player(t_map *map, int s);
 void debug_map(t_map *map);
 
 #endif

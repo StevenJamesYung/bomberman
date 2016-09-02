@@ -57,9 +57,9 @@ t_map *init_map() {
   return map;
 }
 
-void add_player(t_map *map) {
+void add_player(t_map *map, int s) {
   t_player *new_player;
 
-  new_player = init_player(0, 0);
+  new_player = init_player(0, 0, s);
   map->players[map->nb_players++] = new_player;
 }
