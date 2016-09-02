@@ -19,7 +19,12 @@ void debug_map(t_map *map) {
 
   for(x = 0; x < HEIGHT; x++) {
     for(y = 0; y < WIDTH; y++) {
-      printf("%d ", map->value[x][y]);
+      if(is_player_position(map, x, y) == 1) {
+        printf("%d ", 1);
+      }
+      else {
+        printf("%d ", map->value[x][y]);
+      }
     }
     printf("\n");
   }
