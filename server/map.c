@@ -1,18 +1,18 @@
 #include "map.h"
 
-void debug_map(int **map) {
+void debug_map(t_map *map) {
   int x;
   int y;
 
   for(x = 0; x < HEIGHT; x++) {
     for(y = 0; y < WIDTH; y++) {
-      printf("%d ", map[x][y]);
+      printf("%d ", map->value[x][y]);
     }
     printf("\n");
   }
 }
 
-int **init_map() {
+t_map *init_map() {
   /*
   printf("init_map map value: %p\n", map);
   newMap = {
@@ -33,7 +33,12 @@ int **init_map() {
   int **m;
   int i;
   int y;
+  t_map *map;
+  ///t_player *players;
 
+  //players = malloc(MAX_PLAYERS * sizeof(t_player));
+
+  map = malloc(sizeof(t_map));
   m = (int**)malloc(HEIGHT * sizeof(int*));
 
   for(i = 0; i < HEIGHT; i++) {
@@ -44,24 +49,26 @@ int **init_map() {
     }
   }
 
-  return m;
+  //map->players = players;
+  map->value = m;
+
+  return map;
 }
 
-int **add_player(int **map) {
+void add_player(t_map *map) {
   int maxY = WIDTH - 1;
   int maxX = HEIGHT -1;
 
-  if(map[0][0] == 0) {
-    map[0][0] = 1;
+  if(map->value[0][0] == 0) {
+    map->value[0][0] = 1;
   }
-  else if(map[0][maxY] == 0) {
-    map[0][maxY] = 1;
+  else if(map->value[0][maxY] == 0) {
+    map->value[0][maxY] = 1;
   }
-  else if(map[maxX][0] == 0) {
-    map[maxX][0] = 1;
+  else if(map->value[maxX][0] == 0) {
+    map->value[maxX][0] = 1;
   }
-  else if(map[maxX][maxY] == 0) {
-    map[maxX][maxY] = 1;
+  else if(map->value[maxX][maxY] == 0) {
+    map->value[maxX][maxY] = 1;
   }
-  return map;
 }

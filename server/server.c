@@ -13,7 +13,7 @@ void exec_cmd(char *cmd) {
   }
 }
 
-void handleNewConnection(int s, fd_set *active_fds, int ***map) {
+void handleNewConnection(int s, fd_set *active_fds, t_map *map) {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
   int cfd;
@@ -27,8 +27,10 @@ void handleNewConnection(int s, fd_set *active_fds, int ***map) {
   }
 
   printf("Server: connect from %d\n", cfd);
-  *map = add_player(*map);
-  debug_map(*map);
+  printf("b4 add");
+  add_player(map);
+  printf("b4 debug");
+  debug_map(map);
 
   FD_SET(cfd, active_fds);
 }
@@ -39,8 +41,9 @@ void main_loop(int s) {
   int i;
   int nread;
   char buf[1024];
-  int **map;
+  t_map *map;
 
+  printf("b4 init");
   map = init_map();
 
   FD_ZERO(&active_fds);
@@ -54,7 +57,7 @@ void main_loop(int s) {
     for(i = 0; i < 10; i++) {
       if(FD_ISSET(i, &read_fds)) {
         if(i == s)
-          handleNewConnection(s, &active_fds, &map);
+          handleNewConnection(s, &active_fds, map);
         else {
           nread = recv(i, buf, 1024, 0);
           if(nread != 0)

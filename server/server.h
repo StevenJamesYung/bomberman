@@ -5,6 +5,7 @@
 # include "../bomberman.h"
 # include <netdb.h>
 # include <sys/select.h>
+# include "map.h"
 
 # define MAX_CONNECTIONS 4
 # define PORT 4242
