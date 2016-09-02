@@ -28,6 +28,7 @@ void handleNewConnection(int s, fd_set *active_fds, int ***map) {
 
   printf("Server: connect from %d\n", cfd);
   *map = add_player(*map);
+  debug_map(*map);
 
   FD_SET(cfd, active_fds);
 }

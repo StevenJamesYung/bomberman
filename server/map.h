@@ -9,5 +9,6 @@
 
 int **init_map();
 int **add_player(int **map);
+void debug_map(int **map);
 
 #endif

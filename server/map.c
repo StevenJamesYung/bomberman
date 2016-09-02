@@ -1,4 +1,17 @@
 #include "map.h"
+
+void debug_map(int **map) {
+  int x;
+  int y;
+
+  for(x = 0; x < HEIGHT; x++) {
+    for(y = 0; y < WIDTH; y++) {
+      printf("%d ", map[x][y]);
+    }
+    printf("\n");
+  }
+}
+
 int **init_map() {
   /*
   printf("init_map map value: %p\n", map);
