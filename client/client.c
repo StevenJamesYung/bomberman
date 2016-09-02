@@ -1,5 +1,41 @@
 #include "client.h"
 
+void main_loop(int s) {
+  int ch;
+  int test;
+
+  set_conio_terminal_mode();
+  for(ch = getch(); ; ch = getch()) {
+    // Special Character
+    if(ch == 27) {
+      test = getch();
+      //ARROW
+      if(test == 91) {
+        test = getch();
+        if(test == 65) {
+          send(s, "2", sizeof("2"), 0);
+        }
+        else if(test == 66) {
+          send(s, "3", sizeof("3"), 0);
+        }
+        else if(test == 67) {
+          send(s, "4", sizeof("4"), 0);
+        }
+        else if(test == 68) {
+          send(s, "5", sizeof("5"), 0);
+        }
+      }
+      else if(test == 27) {
+        printf("ESC");
+        exit(0);
+      }
+    }
+    else if(ch == 32) {
+      send(s, "6", sizeof("6"), 0);
+    }
+  }
+}
+
 void msg_loop(int s) {
   char *msg;
 
@@ -41,7 +77,7 @@ int main(int argc, char **argv) {
 
   ask_connection(s, "steven");
 
-  msg_loop(s);
+  main_loop(s);
 
   return 0;
 }
