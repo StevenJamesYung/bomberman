@@ -30,6 +30,9 @@ void main_loop(int s) {
         exit(0);
       }
     }
+    else if(ch == 32) {
+      send(s, "6", sizeof("6"), 0);
+    }
   }
 }
 
