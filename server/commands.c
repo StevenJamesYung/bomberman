@@ -1,19 +1,24 @@
 #include "commands.h"
 
 void up(t_global *global, int player) {
-    printf("UP %s\n", global->players[player]->username);
+    printf("UP %d\n", player);
+    printf("UP %d\n", global->nb_players);    
 }
 void down(t_global *global, int player) {
-    printf("DOWN %s\n", global->players[player]->username);
+    printf("DOWN %d\n", player);
+    // printf("DOWN %s\n", global->players[player]->username);    
 }
 void right(t_global *global, int player) {
-    printf("RIGHT %s\n", global->players[player]->username);
+    printf("RIGHT %d\n", player);
+    // printf("RIGHT %s\n", global->players[player]->username);    
 }
 void left(t_global *global, int player) {
-    printf("LEFT %s\n", global->players[player]->username);
+    printf("LEFT %d\n", player);
+    // printf("LEFT %s\n", global->players[player]->username);    
 }
 void drop(t_global *global, int player) {
-    printf("DROP %s\n", global->players[player]->username);
+    printf("DROP %d\n", player);
+    // printf("DROP %s\n", global->players[player]->username);    
 }
 
 t_global *init_global() {
