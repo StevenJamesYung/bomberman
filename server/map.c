@@ -6,7 +6,7 @@ int is_player_position(t_map *map, int x, int y) {
   for(i = 0; i < MAX_PLAYERS; i++) {
     if(map->players[i] && map->players[i]->x == x && map->players[i]->y == y) {
       // TRUE
-      return 1;
+      return (i + 1);
     }
   }
   // FALSE
@@ -16,11 +16,12 @@ int is_player_position(t_map *map, int x, int y) {
 void debug_map(t_map *map) {
   int x;
   int y;
+  int p;
 
   for(x = 0; x < HEIGHT; x++) {
     for(y = 0; y < WIDTH; y++) {
-      if(is_player_position(map, x, y) == 1) {
-        printf("%d ", 1);
+      if((p = is_player_position(map, x, y)) > 0) {
+        printf("%d ", p);
       }
       else {
         printf("%d ", map->value[x][y]);
