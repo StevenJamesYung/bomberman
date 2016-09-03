@@ -2,8 +2,3 @@ Vagrantfile
 .vagrant
 tmp
 a.out
-*.vscode
-.vscode/*
-settings.json
-.BROWSE.VC.DB-wal
-.BROWSE.VC.DB
