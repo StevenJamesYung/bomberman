@@ -18,8 +18,8 @@ void debug_map(t_map *map) {
   int y;
   int p;
 
-  for(x = 0; x < HEIGHT; x++) {
-    for(y = 0; y < WIDTH; y++) {
+  for(y = 0; y < HEIGHT; y++) {
+    for(x = 0; x < WIDTH; x++) {
       if((p = is_player_position(map, x, y)) > 0) {
         printf("%d ", p);
       }

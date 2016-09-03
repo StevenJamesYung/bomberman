@@ -4,6 +4,7 @@
 
 # include "../bomberman.h"
 # include "global.h"
+# include "map.h"
 
 typedef void (*t_func)(t_global *global, int player);
 
