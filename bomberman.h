@@ -7,4 +7,6 @@
 # include <string.h>
 # include <stdlib.h>
 
+# define MAX_PLAYERS 4
+
 #endif

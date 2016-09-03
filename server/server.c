@@ -1,18 +1,51 @@
 #include "server.h"
 
-void exec_cmd(char *cmd) {
-  char *username;
+void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
+  int x;
+  int y;
+  int s;
 
+  for (s = 0; s < 10 ;s++) {
+    if (FD_ISSET(s, active_fds) && s != server_socket) {
+      for (y = 0; y < HEIGHT; y++) {
+        for (x = 0; x < WIDTH; x++) {
+          if (send(s, &global->map->value[x][y], sizeof(int), 0) < 0) {
+            perror("send");
+            exit(EXIT_FAILURE);
+          }
+        }
+      }
+    }
+  }
+}
+
+void exec_cmd(char *cmd, t_global *global, int player) {
+  int i;
+  char *username;
+  t_command_funct *tab;
+
+  tab = init_funct_tab();
   if(strncmp(cmd, "000", 3) == 0) {
     username = strtok(cmd, "000");
     printf("%s joined the game\n", username);
   }
   else {
-    printf("message receive which is not a command: %s\n", cmd);
+    for (i = 0; i < 5; i++)
+    {
+      if ((strncmp(cmd, tab[i].key, 1) == 0))
+      {
+        tab[i].function(global, player);
+        free(tab);
+      }
+    }
   }
+  // else {
+  //   printf("message receive which is not a command: %s\n", cmd);
+  // }
 }
 
-void handleNewConnection(int s, fd_set *active_fds) {
+// void handleNewConnection(int s, fd_set *active_fds, t_map *map) { [REFACTOR]
+void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
   int cfd;
@@ -26,6 +59,10 @@ void handleNewConnection(int s, fd_set *active_fds) {
   }
 
   printf("Server: connect from %d\n", cfd);
+  // add_player(map, cfd); [REFACTOR]
+  add_player(global->map, cfd);
+  // debug_map(map); [REFACTOR]
+  debug_map(global->map);
 
   FD_SET(cfd, active_fds);
 }
@@ -36,6 +73,12 @@ void main_loop(int s) {
   int i;
   int nread;
   char buf[1024];
+  // t_map *map; // [REFACTOR]
+  t_global *global;
+
+  printf("b4 init");
+  // map = init_map(); //[REFACTOR]
+  global = init_global();
 
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
@@ -48,11 +91,14 @@ void main_loop(int s) {
     for(i = 0; i < 10; i++) {
       if(FD_ISSET(i, &read_fds)) {
         if(i == s)
-          handleNewConnection(s, &active_fds);
+          // handleNewConnection(s, &active_fds, map); [REFACTOR]
+          handleNewConnection(s, &active_fds, global);
         else {
           nread = recv(i, buf, 1024, 0);
           if(nread != 0)
-            exec_cmd(buf);
+            // exec_cmd(buf); [REFACTOR]
+            exec_cmd(buf, global, i);
+            broadcast_map(global, &active_fds, s);
         }
       }
     }

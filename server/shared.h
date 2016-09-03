@@ -3,12 +3,10 @@
 # define _GNU_SOURCE
 
 # include "../bomberman.h"
-# include "global.h"
-# include <netdb.h>
-# include <sys/select.h>
 # include "commands.h"
+# include "global.h"
 
-# define MAX_CONNECTIONS 4
-# define PORT 4242
+// t_global *init_global();
+// t_command_funct *init_funct_tab();
 
 #endif
