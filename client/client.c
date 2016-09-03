@@ -36,6 +36,7 @@ void main_loop(int s) {
   }
 }
 
+/*
 void msg_loop(int s) {
   char *msg;
 
@@ -46,6 +47,7 @@ void msg_loop(int s) {
     send(s, msg, sizeof(msg), 0);
   }
 }
+*/
 
 void ask_connection(int s, char *login) {
   char *cmd;
