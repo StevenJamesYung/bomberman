@@ -7,8 +7,6 @@
 typedef struct s_global t_global;
 struct s_global {
     t_map *map;
-    t_player **players;
-    int nb_players;
 };
 
 t_global *init_global();
