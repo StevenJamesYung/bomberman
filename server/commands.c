@@ -1,5 +1,15 @@
 #include "commands.h"
 
+int search_player_by_socket(t_player **players, int nb_players, int s) {
+  int i;
+
+  for(i = 0; i < nb_players; i++) {
+    if(players[i]->socket == s)
+      return i;
+  }
+  return -1;
+}
+
 void up(t_global *global, int player) {
     printf("UP %d\n", player);
     printf("UP %d\n", global->nb_players);
