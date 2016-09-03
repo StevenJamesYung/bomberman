@@ -42,7 +42,7 @@ void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
   printf("Server: connect from %d\n", cfd);
   // add_player(map, cfd); [REFACTOR]
   add_player(global->map, cfd);
-  // debug_map(map); [REFACTOR]  
+  // debug_map(map); [REFACTOR]
   debug_map(global->map);
 
   FD_SET(cfd, active_fds);
