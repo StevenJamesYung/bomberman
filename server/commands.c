@@ -12,23 +12,31 @@ int search_player_by_socket(t_player **players, int nb_players, int s) {
 
 void up(t_global *global, int player) {
     printf("UP %d\n", player);
-    printf("UP %d\n", global->nb_players);
+    printf("UP %d\n", global->map->nb_players);
 }
 void down(t_global *global, int player) {
+  int i;
+  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
     printf("DOWN %d\n", player);
-    // printf("DOWN %s\n", global->players[player]->username);
+    printf("DOWN %s\n", global->map->players[i]->username);
 }
 void right(t_global *global, int player) {
+  int i;
+  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
     printf("RIGHT %d\n", player);
-    // printf("RIGHT %s\n", global->players[player]->username);
+    printf("RIGHT %s\n", global->map->players[i]->username);
 }
 void left(t_global *global, int player) {
+  int i;
+  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
     printf("LEFT %d\n", player);
-    // printf("LEFT %s\n", global->players[player]->username);
+    printf("LEFT %s\n", global->map->players[i]->username);
 }
 void drop(t_global *global, int player) {
+  int i;
+  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
     printf("DROP %d\n", player);
-    // printf("DROP %s\n", global->players[player]->username);
+    printf("DROP %s\n", global->map->players[i]->username);
 }
 
 t_command_funct *init_funct_tab() {
