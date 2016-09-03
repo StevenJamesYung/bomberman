@@ -14,7 +14,9 @@ void up(t_global *global, int player) {
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  global->map->players[i]->y -= 1;
+  if (global->map->players[i]->y - 1 >= 0) {
+    global->map->players[i]->y -= 1;
+  }
   printf("-------------");
   debug_map(global->map);
 }
@@ -22,7 +24,9 @@ void down(t_global *global, int player) {
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  global->map->players[i]->y += 1;
+  if (global->map->players[i]->y + 1 < HEIGHT) {
+    global->map->players[i]->y += 1;
+  }
   printf("-------------");
   debug_map(global->map);
 }
@@ -30,7 +34,9 @@ void right(t_global *global, int player) {
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  global->map->players[i]->x += 1;
+  if (global->map->players[i]->x + 1 < WIDTH) {
+    global->map->players[i]->x += 1;
+  }
   printf("-------------");
   debug_map(global->map);
 }
@@ -38,7 +44,9 @@ void left(t_global *global, int player) {
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  global->map->players[i]->x -= 1;
+  if (global->map->players[i]->x - 1 >= 0) {
+    global->map->players[i]->x -= 1;
+  }
   printf("-------------");
   debug_map(global->map);
 }
