@@ -61,6 +61,13 @@ t_map *init_map() {
 void add_player(t_map *map, int s) {
   t_player *new_player;
 
-  new_player = init_player(0, 0, s);
+  if(map->nb_players == 0)
+    new_player = init_player(0, 0, s);
+  else if(map->nb_players == 1)
+    new_player = init_player(0, WIDTH - 1, s);
+  else if(map->nb_players == 2)
+    new_player = init_player(HEIGHT - 1, 0, s);
+  else if(map->nb_players == 3)
+    new_player = init_player(HEIGHT - 1, WIDTH - 1, s);
   map->players[map->nb_players++] = new_player;
 }
