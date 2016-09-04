@@ -2,7 +2,7 @@
 # define __PLAYER_H__
 # define _GNU_SOURCE
 
-# include "../bomberman.h"
+#include "../bomberman.h"
 
 typedef struct s_player t_player;
 struct s_player {

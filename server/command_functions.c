@@ -1,4 +1,5 @@
-# include "command_functions.h"
+#include "commands.h"
+#include "command_functions.h"
 
 t_command_funct *init_funct_tab()
 {
