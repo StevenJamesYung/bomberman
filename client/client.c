@@ -5,15 +5,17 @@ void main_loop(int s) {
   int test;
   int i;
   fd_set read_fds;
+  fd_set active_fds;
   int nread;
   char buf[1024];
 
-  FD_ZERO(&read_fds);
-  FD_SET(s, &read_fds);
-  FD_SET(STDIN_FILENO, &read_fds);
+  FD_ZERO(&active_fds);
+  FD_SET(s, &active_fds);
+  FD_SET(STDIN_FILENO, &active_fds);
 
   set_conio_terminal_mode();
   while(1) {
+    read_fds = active_fds;
     select(s + 1, &read_fds, NULL, NULL, 0);
     for(i = 0; i < (s + 1); i++) {
       if(i == STDIN_FILENO) {
