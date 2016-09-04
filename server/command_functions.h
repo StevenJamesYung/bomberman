@@ -2,9 +2,8 @@
 # define __COMMANDS_FUNCTIONS_H__
 # define _GNU_SOURCE
 
-# include "../bomberman.h"
-# include "map.h"
-# include "commands.h"
+#include "../bomberman.h"
+#include "map.h"
 
 typedef void (*t_func)(t_map *map, int player);
 
@@ -15,11 +14,6 @@ struct	s_command_funct
   t_func	function;
 };
 
-void up(t_map *map, int player);
-void down(t_map *map, int player);
-void right(t_map *map, int player);
-void left(t_map *map, int player);
-void drop(t_map *map, int player);
 t_command_funct *init_funct_tab();
 
 
