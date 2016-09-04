@@ -9,5 +9,5 @@ t_player *init_player(int x, int y, int s) {
   player->username = "okko";
   player->socket = s;
 
-  return player;
+  return (player);
 }

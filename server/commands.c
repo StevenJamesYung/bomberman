@@ -7,9 +7,9 @@ int search_player_by_socket(t_player **players, int nb_players, int s)
   for(i = 0; i < nb_players; i++)
   {
     if(players[i]->socket == s)
-      return i;
+      return (i);
   }
-  return -1;
+  return (-1);
 }
 
 void up(t_global *global, int player)

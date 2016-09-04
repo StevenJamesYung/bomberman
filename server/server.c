@@ -21,7 +21,7 @@ char *get_map_str(t_global *global) {
       strcat(map_str, &current_value);
     }
   }
-  return map_str;
+  return (map_str);
 }
 
 void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
@@ -150,5 +150,5 @@ int main() {
 
   main_loop(s);
 
-  return 0;
+  return (0);
 }
