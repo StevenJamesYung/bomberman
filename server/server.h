@@ -4,6 +4,7 @@
 
 # include "../bomberman.h"
 # include "global.h"
+# include "map.h"
 # include <netdb.h>
 # include <sys/select.h>
 # include "commands.h"

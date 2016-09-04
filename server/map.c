@@ -71,17 +71,3 @@ void add_player(t_map *map, int s) {
     new_player = init_player(HEIGHT - 1, WIDTH - 1, s);
   map->players[map->nb_players++] = new_player;
 }
-
-int find_player_by_socket(t_map *map, int s)
-{
-  int i;
-  t_player *player;
-
-  for(i = 0; i < 10; i++)
-  {
-    player = map->players[i];
-    if(player->socket == s)
-      return i;
-  }
-  return -1;
-}

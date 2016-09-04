@@ -15,6 +15,7 @@ struct	s_command_funct
   t_func	function;
 };
 
+int search_player_by_socket(t_player **players, int nb_players, int s);
 void up(t_global *global, int player);
 void down(t_global *global, int player);
 void right(t_global *global, int player);

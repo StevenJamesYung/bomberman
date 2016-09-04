@@ -52,9 +52,12 @@ void exec_cmd(char *cmd, t_global *global, int player) {
   tab = init_funct_tab();
   if(strncmp(cmd, "000", 3) == 0) {
     username = strtok(cmd, "000");
-    src_player = find_player_by_socket(global->map, player);
-    global->map->players[src_player]->username = username;
-    printf("%s joined the game\n", global->map->players[src_player]->username);
+    src_player = search_player_by_socket(global->map->players, global->map->nb_players, player);
+    if(src_player > 0)
+    {
+      global->map->players[src_player]->username = username;
+      printf("%s joined the game\n", global->map->players[src_player]->username);
+    }
   }
   else {
     for (i = 0; i < 5; i++)
