@@ -20,7 +20,7 @@ void up(t_global *global, int player)
   if (global->map->players[i]->y - 1 >= 0) {
     global->map->players[i]->y -= 1;
   }
-  printf("-------------");
+  printf("-------------\n");
   debug_map(global->map);
 }
 
@@ -32,7 +32,7 @@ void down(t_global *global, int player)
   if (global->map->players[i]->y + 1 < HEIGHT) {
     global->map->players[i]->y += 1;
   }
-  printf("-------------");
+  printf("-------------\n");
   debug_map(global->map);
 }
 
@@ -44,7 +44,7 @@ void right(t_global *global, int player)
   if (global->map->players[i]->x + 1 < WIDTH) {
     global->map->players[i]->x += 1;
   }
-  printf("-------------");
+  printf("-------------\n");
   debug_map(global->map);
 }
 
@@ -56,7 +56,7 @@ void left(t_global *global, int player)
   if (global->map->players[i]->x - 1 >= 0) {
     global->map->players[i]->x -= 1;
   }
-  printf("-------------");
+  printf("-------------\n");
   debug_map(global->map);
 }
 
