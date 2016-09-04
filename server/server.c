@@ -1,8 +1,30 @@
 #include "server.h"
 
-void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
+char *get_map_str(t_global *global) {
   int x;
   int y;
+  char *map_str;
+  char current_value;
+
+  map_str = malloc((sizeof(char) * (WIDTH + 1) * HEIGHT) + 10);
+
+  for (y = 0; y < HEIGHT; y++) {
+    for (x = 0; x < WIDTH; x++) {
+      /*
+         if (send(s, &global->map->value[x][y], sizeof(int), 0) < 0) {
+         perror("send");
+         exit(EXIT_FAILURE);
+         }
+         */
+      current_value = global->map->value[x][y] + '0';
+      strcat(map_str, &current_value);
+    }
+    strcat(map_str, "\n");
+  }
+  return map_str;
+}
+
+void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
   int s;
 
   for (s = 0; s < 10 ;s++) {
