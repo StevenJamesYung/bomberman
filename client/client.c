@@ -57,19 +57,6 @@ void main_loop(int s) {
   }
 }
 
-/*
-void msg_loop(int s) {
-  char *msg;
-
-  while(strcmp(msg, "EXIT") != 0) {
-    printf("Enter a message:\n");
-    scanf("%s", msg);
-
-    send(s, msg, sizeof(msg), 0);
-  }
-}
-*/
-
 void ask_connection(int s, char *login) {
   char *cmd;
   char *final_cmd;
