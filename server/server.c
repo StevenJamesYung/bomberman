@@ -5,6 +5,7 @@ char *get_map_str(t_global *global) {
   int y;
   char *map_str;
   char current_value;
+  int p;
 
   map_str = malloc((sizeof(char) * (WIDTH + 1) * HEIGHT) + 10);
 
@@ -16,10 +17,16 @@ char *get_map_str(t_global *global) {
          exit(EXIT_FAILURE);
          }
          */
-      current_value = global->map->value[x][y] + '0';
+      if((p = is_player_position(global->map, x, y)) > 0) {
+        current_value = p + '0';
+      }
+      else {
+        current_value = global->map->value[x][y] + '0';
+      }
+
       strcat(map_str, &current_value);
     }
-    strcat(map_str, "\n");
+    //strcat(map_str, "\n");
   }
   return map_str;
 }
