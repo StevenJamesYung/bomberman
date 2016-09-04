@@ -3,31 +3,49 @@
 void main_loop(int s) {
   int ch;
   int test;
+  int i;
+  fd_set read_fds;
+  int nread;
+  char buf[1024];
+
+  FD_ZERO(&read_fds);
+  FD_SET(s, &read_fds);
+  FD_SET(STDIN_FILENO, &read_fds);
 
   set_conio_terminal_mode();
-  for(ch = getch(); ; ch = getch()) {
-    // Special Character
-    if(ch == 27) {
-      test = getch();
-      //ARROW
-      if(test == 91) {
-        test = getch();
-        if(test == 65)
-          send(s, "2", sizeof("2"), 0);
-        else if(test == 66)
-          send(s, "3", sizeof("3"), 0);
-        else if(test == 67)
-          send(s, "4", sizeof("4"), 0);
-        else if(test == 68)
-          send(s, "5", sizeof("5"), 0);
+  while(1) {
+    select(s + 1, &read_fds, NULL, NULL, 0);
+    for(i = 0; i < (s + 1); i++) {
+      if(i == STDIN_FILENO) {
+        ch = getch();
+        // Special Character
+        if(ch == 27) {
+          test = getch();
+          //ARROW
+          if(test == 91) {
+            test = getch();
+            if(test == 65)
+              send(s, "2", sizeof("2"), 0);
+            else if(test == 66)
+              send(s, "3", sizeof("3"), 0);
+            else if(test == 67)
+              send(s, "4", sizeof("4"), 0);
+            else if(test == 68)
+              send(s, "5", sizeof("5"), 0);
+          }
+          else if(test == 27) {
+            exit(0);
+          }
+        }
+        else if(ch == 32) {
+          send(s, "6", sizeof("6"), 0);
+          i = 3;
+        }
+      } else {
+          nread = recv(i, buf, 1024, 0);
+          if(nread != 0)
+            printf("%s\n", buf);
       }
-      else if(test == 27) {
-        printf("ESC");
-        exit(0);
-      }
-    }
-    else if(ch == 32) {
-      send(s, "6", sizeof("6"), 0);
     }
   }
 }

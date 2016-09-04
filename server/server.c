@@ -36,6 +36,7 @@ void exec_cmd(char *cmd, t_global *global, int player) {
       {
         tab[i].function(global, player);
         free(tab);
+        send(player, "test", sizeof("test"), 0);
       }
     }
   }
