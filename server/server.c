@@ -1,6 +1,6 @@
 #include "server.h"
 
-char *get_map_str(t_global *global) {
+char *get_map_str(t_map *map) {
   int x;
   int y;
   char *map_str;
@@ -11,11 +11,11 @@ char *get_map_str(t_global *global) {
 
   for (y = 0; y < HEIGHT; y++) {
     for (x = 0; x < WIDTH; x++) {
-      if((p = is_player_position(global->map, x, y)) > 0) {
+      if((p = is_player_position(map, x, y)) > 0) {
         current_value = p + '0';
       }
       else {
-        current_value = global->map->value[x][y] + '0';
+        current_value = map->value[x][y] + '0';
       }
 
       strcat(map_str, &current_value);
@@ -24,12 +24,12 @@ char *get_map_str(t_global *global) {
   return (map_str);
 }
 
-void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
+void broadcast_map(t_map *map, fd_set *active_fds, int server_socket) {
   int s;
   char *map_str;
   int sent = 0;
 
-  map_str = get_map_str(global);
+  map_str = get_map_str(map);
   printf("get_map_str() res : \n%s\n", map_str);
   for (s = 0; s < 10 ;s++) {
     if (FD_ISSET(s, active_fds) && s != server_socket) {
@@ -43,7 +43,7 @@ void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
   printf("end broadcast");
 }
 
-void exec_cmd(char *cmd, t_global *global, int player) {
+void exec_cmd(char *cmd, t_map *map, int player) {
   int i;
   char *username;
   t_command_funct *tab;
@@ -52,11 +52,11 @@ void exec_cmd(char *cmd, t_global *global, int player) {
   tab = init_funct_tab();
   if(strncmp(cmd, "000", 3) == 0) {
     username = strtok(cmd, "000");
-    src_player = search_player_by_socket(global->map->players, global->map->nb_players, player);
+    src_player = search_player_by_socket(map->players, map->nb_players, player);
     if(src_player > 0)
     {
-      global->map->players[src_player]->username = username;
-      printf("%s joined the game\n", global->map->players[src_player]->username);
+      map->players[src_player]->username = username;
+      printf("%s joined the game\n", map->players[src_player]->username);
     }
   }
   else {
@@ -64,13 +64,13 @@ void exec_cmd(char *cmd, t_global *global, int player) {
     {
       if ((strncmp(cmd, tab[i].key, 1) == 0))
       {
-        tab[i].function(global, player);
+        tab[i].function(map, player);
       }
     }
   }
 }
 
-void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
+void handleNewConnection(int s, fd_set *active_fds, t_map *map) {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
   int cfd;
@@ -85,17 +85,17 @@ void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
   }
 
   printf("Server: connect from %d\n", cfd);
-  if(global->map->nb_players >= MAX_PLAYERS)
+  if(map->nb_players >= MAX_PLAYERS)
   {
     msg = "full";
     send(cfd, msg, strlen(msg), 0);
     shutdown(cfd, 2);
   }
   else {
-    add_player(global->map, cfd);
+    add_player(map, cfd);
     FD_SET(cfd, active_fds);
   }
-  debug_map(global->map);
+  debug_map(map);
 
 }
 
@@ -120,12 +120,12 @@ void main_loop(int s) {
     for(i = 0; i < 10; i++) {
       if(FD_ISSET(i, &read_fds)) {
         if(i == s)
-          handleNewConnection(s, &active_fds, global);
+          handleNewConnection(s, &active_fds, global->map);
         else {
           nread = recv(i, buf, 1024, 0);
           if(nread != 0)
-            exec_cmd(buf, global, i);
-          broadcast_map(global, &active_fds, s);
+            exec_cmd(buf, global->map, i);
+          broadcast_map(global->map, &active_fds, s);
         }
       }
     }

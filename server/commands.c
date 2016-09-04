@@ -12,61 +12,62 @@ int search_player_by_socket(t_player **players, int nb_players, int s)
   return (-1);
 }
 
-void up(t_global *global, int player)
+void up(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->y - 1 >= 0) {
-    global->map->players[i]->y -= 1;
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (map->players[i]->y - 1 >= 0) 
+  {
+    map->players[i]->y -= 1;
   }
   printf("-------------\n");
-  debug_map(global->map);
+  debug_map(map);
 }
 
-void down(t_global *global, int player)
+void down(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->y + 1 < HEIGHT) {
-    global->map->players[i]->y += 1;
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (map->players[i]->y + 1 < HEIGHT) {
+    map->players[i]->y += 1;
   }
   printf("-------------\n");
-  debug_map(global->map);
+  debug_map(map);
 }
 
-void right(t_global *global, int player)
+void right(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->x + 1 < WIDTH) {
-    global->map->players[i]->x += 1;
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (map->players[i]->x + 1 < WIDTH) {
+    map->players[i]->x += 1;
   }
   printf("-------------\n");
-  debug_map(global->map);
+  debug_map(map);
 }
 
-void left(t_global *global, int player)
+void left(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->x - 1 >= 0) {
-    global->map->players[i]->x -= 1;
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (map->players[i]->x - 1 >= 0) {
+    map->players[i]->x -= 1;
   }
   printf("-------------\n");
-  debug_map(global->map);
+  debug_map(map);
 }
 
-void drop(t_global *global, int player)
+void drop(t_map *map, int player)
 {
   int i;
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
+  i = search_player_by_socket(map->players, map->nb_players, player);
     printf("DROP %d\n", player);
-    printf("DROP %s\n", global->map->players[i]->username);
-  debug_map(global->map);
+    printf("DROP %s\n", map->players[i]->username);
+  debug_map(map);
 }
 
 t_command_funct *init_funct_tab()
