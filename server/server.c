@@ -26,17 +26,12 @@ char *get_map_str(t_global *global) {
 
 void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
   int s;
+  char *map_str;
 
+  map_str = get_map_str(global);
   for (s = 0; s < 10 ;s++) {
     if (FD_ISSET(s, active_fds) && s != server_socket) {
-      for (y = 0; y < HEIGHT; y++) {
-        for (x = 0; x < WIDTH; x++) {
-          if (send(s, &global->map->value[x][y], sizeof(int), 0) < 0) {
-            perror("send");
-            exit(EXIT_FAILURE);
-          }
-        }
-      }
+      send(s, map_str, sizeof(map_str), 0);
     }
   }
 }
@@ -120,7 +115,7 @@ void main_loop(int s) {
           if(nread != 0)
             // exec_cmd(buf); [REFACTOR]
             exec_cmd(buf, global, i);
-            //broadcast_map(global, &active_fds, s);
+          broadcast_map(global, &active_fds, s);
         }
       }
     }
