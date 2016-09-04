@@ -17,4 +17,3 @@ clean:
 fclean:clean
 	$(RM) $(NAME)
 	$(RM) *~
-	make fclean
