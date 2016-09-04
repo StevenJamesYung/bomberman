@@ -47,11 +47,14 @@ void exec_cmd(char *cmd, t_global *global, int player) {
   int i;
   char *username;
   t_command_funct *tab;
+  int src_player;
 
   tab = init_funct_tab();
   if(strncmp(cmd, "000", 3) == 0) {
     username = strtok(cmd, "000");
-    printf("%s joined the game\n", username);
+    src_player = find_player_by_socket(global->map, player);
+    global->map->players[src_player]->username = username;
+    printf("%s joined the game\n", global->map->players[src_player]->username);
   }
   else {
     for (i = 0; i < 5; i++)
