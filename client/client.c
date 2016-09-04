@@ -93,7 +93,7 @@ void ask_connection(int s, char *login)
   send(s, final_cmd, size, 0);
 }
 
-int main()
+int main(int argc, char **argv)
 {
   int s;
   struct sockaddr_in sin;
@@ -101,13 +101,19 @@ int main()
   s = socket(PF_INET, SOCK_STREAM, 0);
 
   sin.sin_family = AF_INET;
-  sin.sin_port = htons(4242);
-  sin.sin_addr.s_addr = inet_addr("127.0.0.1");
-
+  if(argc >= 3)
+    sin.sin_port = htons((uint16_t)atoi(argv[2]));
+  else
+    sin.sin_port = htons(PORT);
+  if(argc >= 2)
+    sin.sin_addr.s_addr = inet_addr(argv[1]);
+  else
+    sin.sin_addr.s_addr = inet_addr(IP);
   connect(s, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
-
-  ask_connection(s, "steven");
-
+  if(argc >= 4)
+    ask_connection(s, argv[3]);
+  else
+    ask_connection(s, USERNAME);
   main_loop(s);
 
   return (0);
