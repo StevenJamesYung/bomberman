@@ -10,7 +10,7 @@ int is_player_position(t_map *map, int x, int y) {
     }
   }
   // FALSE
-  return 0;
+  return (0);
 }
 
 void debug_map(t_map *map) {
@@ -55,7 +55,7 @@ t_map *init_map() {
   map->value = m;
   map->nb_players = 0;
 
-  return map;
+  return (map);
 }
 
 void add_player(t_map *map, int s) {
