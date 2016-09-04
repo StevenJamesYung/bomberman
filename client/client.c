@@ -86,11 +86,10 @@ void ask_connection(int s, char *login)
   send(s, final_cmd, size, 0);
 }
 
-int main(int argc, char **argv)
+int main()
 {
   int s;
   struct sockaddr_in sin;
-  ssize_t nwrite;
 
   s = socket(PF_INET, SOCK_STREAM, 0);
 
