@@ -7,3 +7,5 @@ a.out
 settings.json
 .BROWSE.VC.DB-wal
 .BROWSE.VC.DB
+*.o
+bomberman-*

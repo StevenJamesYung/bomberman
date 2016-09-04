@@ -1,16 +1,19 @@
 #include "commands.h"
 
-int search_player_by_socket(t_player **players, int nb_players, int s) {
+int search_player_by_socket(t_player **players, int nb_players, int s)
+{
   int i;
 
-  for(i = 0; i < nb_players; i++) {
+  for(i = 0; i < nb_players; i++)
+  {
     if(players[i]->socket == s)
       return i;
   }
   return -1;
 }
 
-void up(t_global *global, int player) {
+void up(t_global *global, int player)
+{
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
@@ -20,7 +23,9 @@ void up(t_global *global, int player) {
   printf("-------------");
   debug_map(global->map);
 }
-void down(t_global *global, int player) {
+
+void down(t_global *global, int player)
+{
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
@@ -30,7 +35,9 @@ void down(t_global *global, int player) {
   printf("-------------");
   debug_map(global->map);
 }
-void right(t_global *global, int player) {
+
+void right(t_global *global, int player)
+{
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
@@ -40,7 +47,9 @@ void right(t_global *global, int player) {
   printf("-------------");
   debug_map(global->map);
 }
-void left(t_global *global, int player) {
+
+void left(t_global *global, int player)
+{
   int i;
 
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
@@ -50,7 +59,9 @@ void left(t_global *global, int player) {
   printf("-------------");
   debug_map(global->map);
 }
-void drop(t_global *global, int player) {
+
+void drop(t_global *global, int player)
+{
   int i;
   i = search_player_by_socket(global->map->players, global->map->nb_players, player);
     printf("DROP %d\n", player);
@@ -58,7 +69,8 @@ void drop(t_global *global, int player) {
   debug_map(global->map);
 }
 
-t_command_funct *init_funct_tab() {
+t_command_funct *init_funct_tab()
+{
     t_command_funct *tab;
 
     tab = malloc(sizeof(t_command_funct) * 5);

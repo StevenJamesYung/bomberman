@@ -18,5 +18,6 @@ struct s_map {
 t_map *init_map();
 void add_player(t_map *map, int s);
 void debug_map(t_map *map);
+int is_player_position(t_map *map, int x, int y);
 
 #endif
