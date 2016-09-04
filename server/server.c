@@ -117,7 +117,7 @@ void main_loop(int s) {
   }
 }
 
-int main(int argc, char **argv) {
+int main() {
   int s;
   struct protoent *pe;
   struct sockaddr_in sin;
