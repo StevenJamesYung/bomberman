@@ -84,10 +84,16 @@ void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
   }
 
   printf("Server: connect from %d\n", cfd);
-  add_player(global->map, cfd);
+  if(global->map->nb_players >= MAX_PLAYERS)
+  {
+    shutdown(cfd, 2);
+  }
+  else {
+    add_player(global->map, cfd);
+    FD_SET(cfd, active_fds);
+  }
   debug_map(global->map);
 
-  FD_SET(cfd, active_fds);
 }
 
 void main_loop(int s) {
