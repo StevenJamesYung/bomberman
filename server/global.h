@@ -2,7 +2,7 @@
 # define __GLOBAL_H__
 # define _GNU_SOURCE
 
-# include "map.h"
+#include "map.h"
 
 typedef struct s_global t_global;
 struct s_global {

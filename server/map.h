@@ -2,8 +2,8 @@
 # define __MAP_H__
 # define _GNU_SOURCE
 
-# include "../bomberman.h"
-# include "player.h"
+#include "../bomberman.h"
+#include "player.h"
 
 # define WIDTH 10
 # define HEIGHT 10
