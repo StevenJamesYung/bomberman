@@ -12,18 +12,14 @@ void main_loop(int s) {
       //ARROW
       if(test == 91) {
         test = getch();
-        if(test == 65) {
+        if(test == 65)
           send(s, "2", sizeof("2"), 0);
-        }
-        else if(test == 66) {
+        else if(test == 66)
           send(s, "3", sizeof("3"), 0);
-        }
-        else if(test == 67) {
+        else if(test == 67)
           send(s, "4", sizeof("4"), 0);
-        }
-        else if(test == 68) {
+        else if(test == 68)
           send(s, "5", sizeof("5"), 0);
-        }
       }
       else if(test == 27) {
         printf("ESC");
