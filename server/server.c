@@ -98,7 +98,7 @@ void main_loop(int s) {
           if(nread != 0)
             // exec_cmd(buf); [REFACTOR]
             exec_cmd(buf, global, i);
-            broadcast_map(global, &active_fds, s);
+            //broadcast_map(global, &active_fds, s);
         }
       }
     }
