@@ -27,13 +27,20 @@ char *get_map_str(t_global *global) {
 void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
   int s;
   char *map_str;
+  int sent = 0;
 
   map_str = get_map_str(global);
+  printf("get_map_str() res : \n%s\n", map_str);
   for (s = 0; s < 10 ;s++) {
     if (FD_ISSET(s, active_fds) && s != server_socket) {
-      send(s, map_str, sizeof(map_str), 0);
+      int map_size= strlen(map_str);
+      do {
+        sent += send(s, map_str, map_size, 0);
+        printf("send to %d / %d \n", sent, map_size);
+      } while(sent < map_size);
     }
   }
+  printf("end broadcast");
 }
 
 void exec_cmd(char *cmd, t_global *global, int player) {
