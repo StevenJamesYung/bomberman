@@ -2,6 +2,7 @@ CC= gcc
 CFLAGS= -W -Wall -Werror -Wextra
 NAME= bomberman-server
 SRC= commands.c \
+		 command_functions.c \
 		 global.c \
 		 map.c \
 		 player.c \
