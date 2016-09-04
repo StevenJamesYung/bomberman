@@ -57,8 +57,7 @@ void exec_cmd(char *cmd, t_global *global, int player) {
       if ((strncmp(cmd, tab[i].key, 1) == 0))
       {
         tab[i].function(global, player);
-        free(tab);
-        send(player, "test", sizeof("test"), 0);
+        //free(tab);
       }
     }
   }
