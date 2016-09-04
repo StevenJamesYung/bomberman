@@ -6,7 +6,8 @@ SRC= commands.c \
 		 global.c \
 		 map.c \
 		 player.c \
-		 server.c
+		 server.c \
+		 server_functions.c
 DEBUG= gdb
 DFLAGS= -g
 OBJ= $(SRC:%.c=%.o)
