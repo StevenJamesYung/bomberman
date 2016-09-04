@@ -18,35 +18,40 @@ void main_loop(int s) {
     read_fds = active_fds;
     select(s + 1, &read_fds, NULL, NULL, 0);
     for(i = 0; i < (s + 1); i++) {
-      if(i == STDIN_FILENO) {
-        ch = getch();
-        // Special Character
-        if(ch == 27) {
-          test = getch();
-          //ARROW
-          if(test == 91) {
+      if(FD_ISSET(i, &read_fds)) {
+        if(i == STDIN_FILENO) {
+          ch = getch();
+          // Special Character
+          if(ch == 27) {
             test = getch();
-            if(test == 65)
-              send(s, "2", sizeof("2"), 0);
-            else if(test == 66)
-              send(s, "3", sizeof("3"), 0);
-            else if(test == 67)
-              send(s, "4", sizeof("4"), 0);
-            else if(test == 68)
-              send(s, "5", sizeof("5"), 0);
+            //ARROW
+            if(test == 91) {
+              test = getch();
+              if(test == 65) {
+                send(s, "2", sizeof("2"), 0);
+                printf("UP\n");
+              }
+              else if(test == 66)
+                send(s, "3", sizeof("3"), 0);
+              else if(test == 67)
+                send(s, "4", sizeof("4"), 0);
+              else if(test == 68)
+                send(s, "5", sizeof("5"), 0);
+            }
+            else if(test == 27) {
+              exit(0);
+            }
           }
-          else if(test == 27) {
-            exit(0);
+          else if(ch == 32) {
+            send(s, "6", sizeof("6"), 0);
           }
+        } else if(i == s) {
+          do {
+            nread = recv(i, buf, 1024, 0);
+            if(nread > 0)
+              printf("%s\n", buf);
+          } while(nread == 0);
         }
-        else if(ch == 32) {
-          send(s, "6", sizeof("6"), 0);
-          i = 3;
-        }
-      } else {
-          nread = recv(i, buf, 1024, 0);
-          if(nread != 0)
-            printf("%s\n", buf);
       }
     }
   }
