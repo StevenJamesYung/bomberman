@@ -1,13 +1,55 @@
 #include "client.h"
 
-void main_loop(int s) {
+void handle_user_input(int s) {
   int ch;
   int test;
+
+  ch = getch();
+  if(ch == 27) {
+    test = getch();
+    if(test == 91) {
+      test = getch();
+
+      if(test == 65)
+        send(s, "2", sizeof("2"), 0);
+      else if(test == 66)
+        send(s, "3", sizeof("3"), 0);
+      else if(test == 67)
+        send(s, "4", sizeof("4"), 0);
+      else if(test == 68)
+        send(s, "5", sizeof("5"), 0);
+    }
+    else if(test == 27)
+      exit(0);
+  }
+  else if(ch == 32) {
+    send(s, "6", sizeof("6"), 0);
+  }
+}
+
+void handle_file_desc(int s, fd_set read_fds) {
   int i;
-  fd_set read_fds;
-  fd_set active_fds;
   int nread;
   char buf[1024];
+
+  for(i = 0; i < (s + 1); i++) {
+    if(FD_ISSET(i, &read_fds)) {
+      if(i == STDIN_FILENO)
+        handle_user_input(s);
+      else if(i == s) {
+        do {
+          nread = recv(i, buf, 1024, 0);
+          if(nread > 0)
+            printf("%s\n", buf);
+        } while(nread == 0);
+      }
+    }
+  }
+}
+
+void main_loop(int s) {
+  fd_set read_fds;
+  fd_set active_fds;
 
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
@@ -17,43 +59,7 @@ void main_loop(int s) {
   while(1) {
     read_fds = active_fds;
     select(s + 1, &read_fds, NULL, NULL, 0);
-    for(i = 0; i < (s + 1); i++) {
-      if(FD_ISSET(i, &read_fds)) {
-        if(i == STDIN_FILENO) {
-          ch = getch();
-          // Special Character
-          if(ch == 27) {
-            test = getch();
-            //ARROW
-            if(test == 91) {
-              test = getch();
-              if(test == 65) {
-                send(s, "2", sizeof("2"), 0);
-                printf("UP\n");
-              }
-              else if(test == 66)
-                send(s, "3", sizeof("3"), 0);
-              else if(test == 67)
-                send(s, "4", sizeof("4"), 0);
-              else if(test == 68)
-                send(s, "5", sizeof("5"), 0);
-            }
-            else if(test == 27) {
-              exit(0);
-            }
-          }
-          else if(ch == 32) {
-            send(s, "6", sizeof("6"), 0);
-          }
-        } else if(i == s) {
-          do {
-            nread = recv(i, buf, 1024, 0);
-            if(nread > 0)
-              printf("%s\n", buf);
-          } while(nread == 0);
-        }
-      }
-    }
+    handle_file_desc(s, read_fds);
   }
 }
 
