@@ -74,6 +74,7 @@ void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
   int cfd;
+  char *msg;
 
   peer_addr_size = sizeof(struct sockaddr_in);
   cfd = accept(s, (struct sockaddr *) &peer_addr, &peer_addr_size);
@@ -86,6 +87,8 @@ void handleNewConnection(int s, fd_set *active_fds, t_global *global) {
   printf("Server: connect from %d\n", cfd);
   if(global->map->nb_players >= MAX_PLAYERS)
   {
+    msg = "full";
+    send(cfd, msg, strlen(msg), 0);
     shutdown(cfd, 2);
   }
   else {

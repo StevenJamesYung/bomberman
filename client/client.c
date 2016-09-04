@@ -45,7 +45,14 @@ void handle_file_desc(int s, fd_set read_fds)
         {
           nread = recv(i, buf, 1024, 0);
           if(nread > 0)
+          {
+            if(strcmp(buf, "full") == 0)
+            {
+              printf("The server is full.\n");
+              exit(0);
+            }
             printf("%s\n", buf);
+          }
         } while(nread == 0);
       }
     }
