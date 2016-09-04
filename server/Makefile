@@ -1,11 +1,13 @@
 CC= gcc
-CFLAGS= -W -Wall -Werror -Wextra -g
+CFLAGS= -W -Wall -Werror -Wextra
 NAME= bomberman-server
 SRC= commands.c \
 		 global.c \
 		 map.c \
 		 player.c \
 		 server.c
+DEBUG= gdb
+DFLAGS= -g
 OBJ= $(SRC:%.c=%.o)
 	RM= rm -rf
 
@@ -20,3 +22,7 @@ clean:
 fclean:clean
 	$(RM) $(NAME)
 	$(RM) *~
+
+debug:
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS)
+	$(DEBUG) $(NAME)
