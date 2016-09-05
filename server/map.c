@@ -68,17 +68,30 @@ t_map *init_map()
   return (map);
 }
 
-void add_player(t_map *map, int s)
+int add_player(t_map *map, int s)
 {
   t_player *new_player;
 
   if (map->nb_players == 0)
-    new_player = init_player(0, 0, s);
+  {
+    if ((new_player = init_player(0, 0, s)) == NULL)
+      return (-1);
+  }
   else if (map->nb_players == 1)
-    new_player = init_player(0, WIDTH - 1, s);
+  {
+    if ((new_player = init_player(0, WIDTH - 1, s)) == NULL)
+      return (-1);
+  }
   else if (map->nb_players == 2)
-    new_player = init_player(HEIGHT - 1, 0, s);
+  {
+    if ((new_player = init_player(HEIGHT - 1, 0, s)) == NULL)
+      return (-1);
+  }
   else if (map->nb_players == 3)
-    new_player = init_player(HEIGHT - 1, WIDTH - 1, s);
+  {
+    if ((new_player = init_player(HEIGHT - 1, WIDTH - 1, s)) == NULL)
+      return (-1);
+  }
   map->players[map->nb_players++] = new_player;
+  return (0);
 }
