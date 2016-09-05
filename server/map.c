@@ -47,12 +47,16 @@ t_map *init_map()
   t_map *map;
   t_player **players;
 
-  players = (t_player **)malloc(MAX_PLAYERS * sizeof(t_player));
-  map = malloc(sizeof(t_map));
-  m = (int **)malloc(HEIGHT * sizeof(int *));
+  if ((players = (t_player **)malloc(MAX_PLAYERS * sizeof(t_player))) = NULL)
+    return (NULL);
+  if ((map = malloc(sizeof(t_map))) == NULL)
+    return (NULL);
+  if ((m = (int **)malloc(HEIGHT * sizeof(int *))) == NULL)
+    return (NULL);
   for (i = 0; i < HEIGHT; i++)
   {
-    m[i] = (int *)malloc(WIDTH * sizeof(int));
+    if ((m[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
+      return (NULL);
     for (y = 0; y < WIDTH; y++)
     {
       m[i][y] = 0;

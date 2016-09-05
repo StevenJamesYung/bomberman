@@ -84,7 +84,8 @@ void ask_connection(int s, char *login)
 
   cmd = "000";
   size = sizeof(cmd) + sizeof(login) + 1;
-  final_cmd = malloc(size);
+  if ((final_cmd = malloc(size)) == NULL)
+    return (NULL);
   strcpy(final_cmd, cmd);
   strcat(final_cmd, login);
   send(s, final_cmd, size, 0);

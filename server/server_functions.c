@@ -11,7 +11,8 @@ char *get_map_str(t_map *map)
   char current_value;
   int p;
 
-  map_str = malloc((sizeof(char) * (WIDTH + 1) * HEIGHT) + 10);
+  if ((map_str = malloc((sizeof(char) * (WIDTH + 1) * HEIGHT) + 10)) == NULL)
+    return (NULL);
   for (y = 0; y < HEIGHT; y++)
   {
     for (x = 0; x < WIDTH; x++)

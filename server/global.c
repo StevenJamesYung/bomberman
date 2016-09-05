@@ -3,7 +3,8 @@
 t_global *init_global() {
   t_global *global;
 
-  global = malloc(sizeof(t_global));
+  if (global = malloc(sizeof(t_global)) == NULL)
+    return (NULL);
   global->map = init_map();
   return (global);
 }

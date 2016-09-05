@@ -5,7 +5,8 @@ t_command_funct *init_funct_tab()
 {
     t_command_funct *tab;
 
-    tab = malloc(sizeof(t_command_funct) * 5);
+    if (tab = malloc(sizeof(t_command_funct) * 5) == NULL)
+        return (NULL);
     tab[0].key = "2";
     tab[0].function = &up;
     tab[1].key = "3";
