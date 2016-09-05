@@ -76,7 +76,7 @@ void main_loop(int s)
   }
 }
 
-void ask_connection(int s, char *login)
+int ask_connection(int s, char *login)
 {
   char *cmd;
   char *final_cmd;
@@ -85,10 +85,11 @@ void ask_connection(int s, char *login)
   cmd = "000";
   size = sizeof(cmd) + sizeof(login) + 1;
   if ((final_cmd = malloc(size)) == NULL)
-    return (NULL);
+    return (1);
   strcpy(final_cmd, cmd);
   strcat(final_cmd, login);
   send(s, final_cmd, size, 0);
+  return (0);
 }
 
 int main(int argc, char **argv)

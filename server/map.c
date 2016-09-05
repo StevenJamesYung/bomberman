@@ -47,7 +47,7 @@ t_map *init_map()
   t_map *map;
   t_player **players;
 
-  if ((players = (t_player **)malloc(MAX_PLAYERS * sizeof(t_player))) = NULL)
+  if ((players = (t_player **)malloc(MAX_PLAYERS * sizeof(t_player))) == NULL)
     return (NULL);
   if ((map = malloc(sizeof(t_map))) == NULL)
     return (NULL);
