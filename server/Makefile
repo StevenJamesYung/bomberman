@@ -28,3 +28,8 @@ fclean:clean
 debug:
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS)
 	$(DEBUG) $(NAME)
+
+mrproper:clean
+	rm -rf $(NAME)
+
+.PHONY:clean mrproper

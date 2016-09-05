@@ -17,3 +17,8 @@ clean:
 fclean:clean
 	$(RM) $(NAME)
 	$(RM) *~
+
+mrproper:clean
+	rm -rf $(NAME)
+
+.PHONY:clean mrproper
