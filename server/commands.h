@@ -5,10 +5,10 @@
 #include "../bomberman.h"
 #include "map.h"
 
-void up(t_map *map, int player);
-void down(t_map *map, int player);
-void right(t_map *map, int player);
-void left(t_map *map, int player);
-void drop(t_map *map, int player);
+int up(t_map *map, int player);
+int down(t_map *map, int player);
+int right(t_map *map, int player);
+int left(t_map *map, int player);
+int drop(t_map *map, int player);
 
 #endif
