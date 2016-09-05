@@ -5,7 +5,7 @@
 #include "../bomberman.h"
 #include "map.h"
 
-typedef void (*t_func)(t_map *map, int player);
+typedef int (*t_func)(t_map *map, int player);
 
 typedef struct	s_command_funct t_command_funct;
 struct	s_command_funct
