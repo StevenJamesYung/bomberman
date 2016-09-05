@@ -1,16 +1,19 @@
 #include "server_functions.h"
 #include "server.h"
 
-void main_loop(int s)
+int main_loop(int s)
 {
   fd_set active_fds;
   fd_set read_fds;
   t_map *map;
 
-  map = init_map();
+  if ((map = init_map()) == NULL)
+    return (-1);
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
-  server_loop(active_fds, read_fds, s, map);
+  if (server_loop(active_fds, read_fds, s, map) == -1)
+    return (-1);
+  return (0);
 }
 
 int main()

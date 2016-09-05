@@ -10,7 +10,7 @@
 #include "commands.h"
 #include "command_functions.h"
 
-void main_loop(int s);
+int main_loop(int s);
 int main();
 
 # define MAX_CONNECTIONS 4

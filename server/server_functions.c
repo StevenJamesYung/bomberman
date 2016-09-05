@@ -31,13 +31,14 @@ char *get_map_str(t_map *map)
   return (map_str);
 }
 
-void broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
+int broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
 {
   int s;
   char *map_str;
   int sent = 0;
 
-  map_str = get_map_str(map);
+  if ((map_str = get_map_str(map)) == NULL)
+    return (-1);
   printf("get_map_str() res : \n%s\n", map_str);
   for (s = 0; s < 10; s++)
   {
@@ -49,12 +50,14 @@ void broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
         sent += send(s, map_str, map_size, 0);
         printf("send to %d / %d \n", sent, map_size);
       } while (sent < map_size);
+      sent = 0;
     }
   }
   printf("end broadcast");
+  return (0);
 }
 
-void exec_cmd(char *cmd, t_map *map, int player)
+int exec_cmd(char *cmd, t_map *map, int player)
 {
   int i;
   char *username;
@@ -78,13 +81,15 @@ void exec_cmd(char *cmd, t_map *map, int player)
     {
       if ((strncmp(cmd, tab[i].key, 1) == 0))
       {
-        tab[i].function(map, player);
+        if (tab[i].function(map, player) == -1)
+          return (-1);
       }
     }
   }
+  return (0);
 }
 
-void handleNewConnection(int s, fd_set *active_fds, t_map *map)
+int handleNewConnection(int s, fd_set *active_fds, t_map *map)
 {
   struct sockaddr_in peer_addr;
   socklen_t peer_addr_size;
@@ -94,26 +99,25 @@ void handleNewConnection(int s, fd_set *active_fds, t_map *map)
   peer_addr_size = sizeof(struct sockaddr_in);
   cfd = accept(s, (struct sockaddr *)&peer_addr, &peer_addr_size);
   if (cfd < 0)
-  {
-    perror("accept");
-    exit(EXIT_FAILURE);
-  }
+    return (-1);
   printf("Server: connect from %d\n", cfd);
   if (map->nb_players >= MAX_PLAYERS)
   {
     msg = "full";
-    send(cfd, msg, strlen(msg), 0);
+    send(cfd, msg, strlen(msg), 0); // [TODO MY_SEND]
     shutdown(cfd, 2);
   }
   else
   {
-    add_player(map, cfd);
+    if ((add_player(map, cfd)) == -1)
+      return (-1);
     FD_SET(cfd, active_fds);
   }
   debug_map(map);
+  return (0);
 }
 
-void server_loop(fd_set active_fds,
+int server_loop(fd_set active_fds,
                  fd_set read_fds,
                  int s,
                  t_map *map)
@@ -126,22 +130,26 @@ void server_loop(fd_set active_fds,
     {
         read_fds = active_fds;
         if (select(10, &read_fds, NULL, NULL, NULL) < 0)
-        {
-            perror("select");
-            exit(EXIT_FAILURE);
-        }
+            return (-1);
         for (i = 0; i < 10; i++)
         {
             if (FD_ISSET(i, &read_fds))
             {
                 if (i == s)
-                    handleNewConnection(s, &active_fds, map);
+                {
+                  if (handleNewConnection(s, &active_fds, map) == -1)
+                    return (-1);
+                }
                 else
                 {
                     nread = recv(i, buf, 1024, 0);
                     if (nread != 0)
-                        exec_cmd(buf, map, i);
-                    broadcast_map(map, &active_fds, s);
+                    {
+                      if ((exec_cmd(buf, map, i)) == -1)
+                        return (-1);
+                    }
+                    if (broadcast_map(map, &active_fds, s) == -1)
+                      return (-1);
                 }
             }
         }
