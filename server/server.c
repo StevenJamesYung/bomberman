@@ -28,7 +28,8 @@ void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
   int s;
   char *map_str;
   int sent = 0;
-
+  //  FILE *fp;
+  
   map_str = get_map_str(global);
   printf("get_map_str() res : \n%s\n", map_str);
   for (s = 0; s < 10 ;s++) {
@@ -38,9 +39,12 @@ void broadcast_map(t_global *global, fd_set *active_fds, int server_socket) {
         sent += send(s, map_str, map_size, 0);
         printf("send to %d / %d \n", sent, map_size);
       } while(sent < map_size);
+      //      fp = fopen("file.txt", "w+");
+      // fputs(map_str, fp);
+      // fclose(fp);
     }
   }
-  printf("end broadcast");
+  printf("end broadcast\n");
 }
 
 void exec_cmd(char *cmd, t_global *global, int player) {

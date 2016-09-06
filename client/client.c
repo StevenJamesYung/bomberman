@@ -1,4 +1,7 @@
+#include "fmap.h"
 #include "client.h"
+
+#include <unistd.h>
 
 void handle_user_input(int s)
 {
@@ -27,12 +30,15 @@ void handle_user_input(int s)
     send(s, "6", sizeof("6"), 0);
 }
 
-void handle_file_desc(int s, fd_set read_fds)
+char* handle_file_desc(int s, fd_set read_fds)
 {
   int i;
   int nread;
   char buf[1024];
+  char *newbuf;
+  int j, k, count;
 
+  
   for(i = 0; i < (s + 1); i++)
   {
     if(FD_ISSET(i, &read_fds))
@@ -44,19 +50,42 @@ void handle_file_desc(int s, fd_set read_fds)
         do
         {
           nread = recv(i, buf, 1024, 0);
-          if(nread > 0)
+          if(nread > 0) {
             printf("%s\n", buf);
-        } while(nread == 0);
+
+	    count = strlen(buf);
+	    newbuf = malloc(count * sizeof(char));
+	    k = 0;
+	    for (j=0; j < count; j++){
+	      
+	      if ((int)buf[j] >= 48 && (int)buf[j] <= 57) {
+		newbuf[k] = buf[j];
+		printf("bufval %d\n", newbuf[k]);
+		k++;
+		//newbuf[k] = 32;
+		//k++;
+	      }
+	    }
+
+	    
+	  }
+	} while(nread == 0);
       }
     }
   }
+  return newbuf;
 }
 
-void main_loop(int s)
+void main_loop(int s, SDL_Surface* screen, Map* m)
 {
   fd_set read_fds;
   fd_set active_fds;
+  char *new_buf;
 
+  new_buf = malloc(96 * sizeof(char));
+  AfficherMap(m,screen);
+  SDL_Flip(screen);
+  
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
   FD_SET(STDIN_FILENO, &active_fds);
@@ -66,7 +95,16 @@ void main_loop(int s)
   {
     read_fds = active_fds;
     select(s + 1, &read_fds, NULL, NULL, 0);
-    handle_file_desc(s, read_fds);
+    new_buf = NULL;
+    new_buf =  handle_file_desc(s, read_fds);
+
+    UpdateMap(new_buf, m);
+
+    
+
+      AfficherMap(m, screen);
+      SDL_Flip(screen);
+
   }
 }
 
@@ -90,7 +128,9 @@ int main()
 {
   int s;
   struct sockaddr_in sin;
+  SDL_Surface* screen;
 
+  Map* m;
   s = socket(PF_INET, SOCK_STREAM, 0);
 
   sin.sin_family = AF_INET;
@@ -100,8 +140,12 @@ int main()
   connect(s, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
 
   ask_connection(s, "steven");
-
-  main_loop(s);
+  
+  SDL_Init(SDL_INIT_VIDEO);               // prepare SDL
+  screen = SDL_SetVideoMode(280, 280, 32,SDL_HWSURFACE|SDL_DOUBLEBUF);
+  m = ChargerMap("level.txt");
+  
+  main_loop(s, screen, m);
 
   return (0);
 }

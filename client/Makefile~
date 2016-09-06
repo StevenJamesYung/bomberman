@@ -1,15 +1,13 @@
 CC= gcc
 CFLAGS= -W -Wall -Werror -Wextra -g
-LDFLAGS='sdl-config --cflags --libs'
 NAME= bomberman-client
 SRC= client.c\
-		keyboard.c\
-		fmap.c	
+		 keyboard.c
 OBJ= $(SRC:%.c=%.o)
 RM= rm -rf
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(CFLAGS)
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS)
 
 all: $(NAME)
 
