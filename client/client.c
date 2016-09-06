@@ -1,3 +1,13 @@
+/*
+** client.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:11:34 2016 YUNG Steven
+** Last update Tue Sep  6 22:11:36 2016 YUNG Steven
+*/
+
 #include "client.h"
 
 int handle_user_input(int s)

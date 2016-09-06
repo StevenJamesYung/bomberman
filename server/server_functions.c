@@ -1,3 +1,12 @@
+/*
+** server_functions.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:16:30 2016 YUNG Steven
+** Last update Tue Sep  6 22:16:31 2016 YUNG Steven
+*/
 #include <netdb.h>
 #include <sys/select.h>
 #include "command_functions.h"

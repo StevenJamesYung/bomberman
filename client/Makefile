@@ -1,3 +1,13 @@
+##
+## Makefile for bomberman in /Users/stevenyung/workspace/current/bomberman
+## 
+## Made by YUNG Steven
+## Login   <yung_s@etna-alternance.net>
+## 
+## Started on  Tue Sep  6 22:11:11 2016 YUNG Steven
+## Last update Tue Sep  6 22:11:14 2016 YUNG Steven
+##
+
 CC= gcc
 CFLAGS= -W -Wall -Werror -Wextra -g
 NAME= bomberman-client

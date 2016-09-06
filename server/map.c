@@ -1,3 +1,13 @@
+/*
+** map.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:15:17 2016 YUNG Steven
+** Last update Tue Sep  6 22:15:19 2016 YUNG Steven
+*/
+
 #include "map.h"
 
 int is_player_position(t_map *map, int x, int y)

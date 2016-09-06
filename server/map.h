@@ -1,3 +1,13 @@
+/*
+** map.h for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:15:32 2016 YUNG Steven
+** Last update Tue Sep  6 22:15:34 2016 YUNG Steven
+*/
+
 #ifndef __MAP_H__
 # define __MAP_H__
 # define _GNU_SOURCE

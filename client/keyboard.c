@@ -1,3 +1,13 @@
+/*
+** keyboard.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:12:31 2016 YUNG Steven
+** Last update Tue Sep  6 22:12:33 2016 YUNG Steven
+*/
+
 #include "keyboard.h"
 
 struct termios orig_termios;

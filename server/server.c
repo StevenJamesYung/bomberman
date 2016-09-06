@@ -1,3 +1,12 @@
+/*
+** server.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:16:12 2016 YUNG Steven
+** Last update Tue Sep  6 22:16:13 2016 YUNG Steven
+*/
 #include "server_functions.h"
 #include "server.h"
 
