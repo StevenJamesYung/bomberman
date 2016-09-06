@@ -2,6 +2,7 @@
 #include <sys/select.h>
 #include "command_functions.h"
 #include "server_functions.h"
+#include <unistd.h>
 
 char *get_map_str(t_map *map)
 {
@@ -105,7 +106,7 @@ int handleNewConnection(int s, fd_set *active_fds, t_map *map)
   {
     msg = "full";
     send(cfd, msg, strlen(msg), 0); // [TODO MY_SEND]
-    shutdown(cfd, 2);
+    close(cfd);
   }
   else
   {
