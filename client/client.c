@@ -38,38 +38,39 @@ char* handle_file_desc(int s, fd_set read_fds)
   char *newbuf;
   int j, k, count;
 
-  
-  for(i = 0; i < (s + 1); i++)
+  for (i = 0; i < (s + 1); i++)
   {
-    if(FD_ISSET(i, &read_fds))
+    printf("FD_ISSET +> %d \n", FD_ISSET(i, &read_fds));
+    if (FD_ISSET(i, &read_fds))
     {
-      if(i == STDIN_FILENO)
+      if (i == STDIN_FILENO)
         handle_user_input(s);
-      else if(i == s)
+      else if (i == s)
       {
         do
         {
           nread = recv(i, buf, 1024, 0);
-          if(nread > 0) {
+          if (nread > 0)
+          {
             printf("%s\n", buf);
 
-	    count = strlen(buf);
-	    newbuf = malloc(count * sizeof(char));
-	    k = 0;
-	    for (j=0; j < count; j++){
-	      
-	      if ((int)buf[j] >= 48 && (int)buf[j] <= 57) {
-		newbuf[k] = buf[j];
-		printf("bufval %d\n", newbuf[k]);
-		k++;
-		//newbuf[k] = 32;
-		//k++;
-	      }
-	    }
+            count = strlen(buf);
+            newbuf = malloc(count * sizeof(char));
+            k = 0;
+            for (j = 0; j < count; j++)
+            {
 
-	    
-	  }
-	} while(nread == 0);
+              if ((int)buf[j] >= 48 && (int)buf[j] <= 57)
+              {
+                newbuf[k] = buf[j];
+                printf("bufval %d\n", newbuf[k]);
+                k++;
+                //newbuf[k] = 32;
+                //k++;
+              }
+            }
+          }
+        } while (nread == 0);
       }
     }
   }
@@ -95,15 +96,13 @@ void main_loop(int s, SDL_Surface* screen, Map* m)
   {
     read_fds = active_fds;
     select(s + 1, &read_fds, NULL, NULL, 0);
-    new_buf = NULL;
+    // new_buf = NULL;
     new_buf =  handle_file_desc(s, read_fds);
-
-    UpdateMap(new_buf, m);
-
-    
-
+    if (new_buf != NULL) {
+          UpdateMap(new_buf, m);
       AfficherMap(m, screen);
       SDL_Flip(screen);
+    }
 
   }
 }
