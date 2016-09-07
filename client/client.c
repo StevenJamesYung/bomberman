@@ -153,49 +153,39 @@ int main(int argc, char **argv)
   int ret;
   int s;
 
+  ret = 0;
   s = setup_connection(argc, argv);
-  if (s == -1)
-  {
-    printf("Failed to create socket\n\n");
-    return (-1);
-  }
-  else if (s == -2)
-  {
-    printf("Failed to connect to the server");
-    return (-1);
-  }
-  if (argc >= 4)
-    ret = ask_connection(s, argv[3]);
-  else
-    ret = ask_connection(s, USERNAME);
+  ret = s;
   if (ret == -1)
-  {
-    printf("Failed to malloc in ask_connection\n");
-    return (-1);
-  }
+    printf("Failed to create socket");
   else if (ret == -2)
+    printf("Failed to connect to the server");
+  if (ret >= 0)
   {
-    printf("Failed to send the connection request\n");
-    return (-1);
+    if (argc >= 4)
+      ret = ask_connection(s, argv[3]);
+    else
+      ret = ask_connection(s, USERNAME);
+    if (ret == -1)
+      printf("Failed to malloc in ask_connection");
+    else if (ret == -2)
+      printf("Failed to send the connection request");
+    else if (ret < 0)
+      return (-3);
   }
-  if (ret < 0)
-    return (-3);
-  if((ret = main_loop(s)) == -1)
+  if (ret >= 0)
   {
-    printf("select failed, program will close now.\n\n");
-    return (ret);
-  }
-  else if (ret == 2)
-  {
-    printf("The server is full, the program will now close.\n\n");
-    return (ret);
-  }
-  else if (ret == -2)
-  {
-    printf("set_conio_terminal_mode failed, program will close now.\n\n");
-    return (ret);
+    if((ret = main_loop(s)) == -1)
+      printf("select failed");
+    else if (ret == 2)
+      printf("The server is full");
+    else if (ret == -2)
+      printf("set_conio_terminal_mode failed, program will close now.");
   }
 
-  printf("See you later!\n\n");
-  return (0);
+  if (ret != 0)
+    printf(", program will close now.\n\n");
+  else
+    printf("\nSee you later!\n\n");
+  return (ret);
 }
