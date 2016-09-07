@@ -35,7 +35,7 @@ char *get_map_str(t_map *map)
       {
         current_value = map->value[x][y] + '0';
       }
-      strcat(map_str, &current_value);
+      strncat(map_str, &current_value, 1);
     }
   }
   return (map_str);
