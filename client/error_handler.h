@@ -8,17 +8,14 @@
 ** Last update Tue Sep  6 22:12:06 2016 YUNG Steven
 */
 
-#ifndef __CLIENT_H__
-# define __CLIENT_H__
+#ifndef __ERROR_HANDLER_H__
+# define __ERROR_HANDLER_H__
 # define _GNU_SOURCE
 
 #include "../bomberman.h"
-#include "keyboard.h"
-#include "error_handler.h"
-#include "connection.h"
-#include <netinet/in.h>
-#include <arpa/inet.h>
 
-# define USERNAME "Player"
+# define NB_ERRORS 7
+
+void handle_error(int error);
 
 #endif
