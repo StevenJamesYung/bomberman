@@ -94,12 +94,12 @@ int main_loop(int s)
   FD_SET(s, &active_fds);
   FD_SET(STDIN_FILENO, &active_fds);
   if (set_conio_terminal_mode() == -1)
-    return (-2);
+    return (-5);
   while (1)
   {
     read_fds = active_fds;
     if((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
-      return (ret);
+      return (-6);
     if ((ret = handle_file_desc(s, read_fds)) == 1)
       return (ret);
     else if (ret == 2)
@@ -117,11 +117,11 @@ int ask_connection(int s, char *login)
   cmd = "000";
   size = sizeof(cmd) + sizeof(login) + 1;
   if ((final_cmd = malloc(size)) == NULL)
-    return (-1);
+    return (-3);
   strcpy(final_cmd, cmd);
   strcat(final_cmd, login);
   if ((ret = send(s, final_cmd, size, 0)) == -1)
-    return (-2);
+    return (-4);
   return (0);
 }
 
@@ -166,20 +166,20 @@ int main(int argc, char **argv)
       ret = ask_connection(s, argv[3]);
     else
       ret = ask_connection(s, USERNAME);
-    if (ret == -1)
+    if (ret == -3)
       printf("Failed to malloc in ask_connection");
     else if (ret == -2)
       printf("Failed to send the connection request");
     else if (ret < 0)
-      return (-3);
+      return (-4);
   }
   if (ret >= 0)
   {
-    if((ret = main_loop(s)) == -1)
+    if((ret = main_loop(s)) == -6)
       printf("select failed");
     else if (ret == 2)
       printf("The server is full");
-    else if (ret == -2)
+    else if (ret == -5)
       printf("set_conio_terminal_mode failed, program will close now.");
   }
 
