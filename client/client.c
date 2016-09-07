@@ -41,12 +41,29 @@ int handle_user_input(int s)
   return (0);
 }
 
-int handle_file_desc(int s, fd_set read_fds)
+int my_recv(int s)
 {
-  int i;
   int nread;
   char buf[1024];
+
+  do
+  {
+    if ((nread = recv(s, buf, 1024, 0)) == -1)
+      printf("failed to received map\n");
+    if (nread > 0)
+    {
+      if (strncmp(buf, "full", 4) == 0)
+        return (2);
+      printf("%s\n", buf);
+    }
+  } while (nread == 0);
+  return (0);
+}
+
+int handle_file_desc(int s, fd_set read_fds)
+{
   int ret;
+  int i;
 
   for (i = 0; i < (s + 1); i++)
   {
@@ -60,19 +77,8 @@ int handle_file_desc(int s, fd_set read_fds)
           return (ret);
       }
       else if (i == s)
-      {
-        do
-        {
-          if ((nread = recv(i, buf, 1024, 0)) == -1)
-            printf("failed to received map\n");
-          if (nread > 0)
-          {
-            if (strncmp(buf, "full", 4) == 0)
-              return (-2);
-            printf("%s\n", buf);
-          }
-        } while (nread == 0);
-      }
+        if ((ret = my_recv(i)) > 0)
+          return (2);
     }
   }
   return (0);
@@ -96,11 +102,8 @@ int main_loop(int s)
       return (ret);
     if ((ret = handle_file_desc(s, read_fds)) == 1)
       return (ret);
-    else if (ret == -2)
-    {
-      printf("The server is full, program will close now.\n\n");
+    else if (ret == 2)
       return (ret);
-    }
   }
 }
 
@@ -146,6 +149,11 @@ int main(int argc, char **argv)
   if((ret = main_loop(s)) == -1)
   {
     printf("select failed, program will close now.\n\n");
+    return (ret);
+  }
+  else if (ret == 2)
+  {
+    printf("The server is full, the program will now close.\n\n");
     return (ret);
   }
   else if (ret == -2)
