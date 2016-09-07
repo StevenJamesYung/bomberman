@@ -18,5 +18,7 @@
 #include <stdlib.h>
 
 # define MAX_PLAYERS 4
+# define PORT 4242
+# define IP "127.0.0.1"
 
 #endif
