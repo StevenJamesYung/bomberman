@@ -14,6 +14,7 @@
 
 #include "../bomberman.h"
 #include "keyboard.h"
+#include "my_recv.h"
 #include "error_handler.h"
 #include "connection.h"
 #include <netinet/in.h>

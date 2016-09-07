@@ -41,25 +41,6 @@ int handle_user_input(int s)
   return (0);
 }
 
-int my_recv(int s)
-{
-  int nread;
-  char buf[1024];
-
-  do
-  {
-    if ((nread = recv(s, buf, 1024, 0)) == -1)
-      printf("failed to received map\n");
-    if (nread > 0)
-    {
-      if (strncmp(buf, "full", 4) == 0)
-        return (2);
-      printf("%s\n", buf);
-    }
-  } while (nread == 0);
-  return (0);
-}
-
 int handle_file_desc(int s, fd_set read_fds)
 {
   int ret;
