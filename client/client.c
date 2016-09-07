@@ -29,17 +29,7 @@ int handle_user_input(int s)
   {
     ch = getch();
     if (ch == 91)
-    {
-      ch = getch();
-      if (ch == 65)
-        cmd = "2";
-      else if (ch == 66)
-        cmd = "3";
-      else if (ch == 67)
-        cmd = "4";
-      else if (ch == 68)
-        cmd = "5";
-    }
+      convert_signal_to_cmd(getch(), &cmd);
     else if (ch == 27)
       return (1);
   }
@@ -77,7 +67,7 @@ int handle_file_desc(int s, fd_set read_fds)
             printf("failed to received map\n");
           if (nread > 0)
           {
-            if (strcmp(buf, "full") == 0)
+            if (strncmp(buf, "full", 4) == 0)
               return (-2);
             printf("%s\n", buf);
           }
