@@ -94,7 +94,7 @@ int main_loop(int s, SDL_Surface* screen, Map* m)
     else if (ret == 2)
       return (ret);
     if (new_buf != NULL) {
-          UpdateMap(new_buf, m);
+      UpdateMap(new_buf, m);
       AfficherMap(m, screen);
       SDL_Flip(screen);
     }    

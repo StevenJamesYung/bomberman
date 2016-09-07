@@ -26,6 +26,7 @@ int my_recv(int s, char **new_buff)
       printf("%s\n", buf);
     }
   } while (nread == 0);
-  strncmp(*new_buff, buf, 1024);
+  strncpy(*new_buff, buf, 1024);
+  printf("buffer %s\n", *new_buff);
   return (0);
 }
