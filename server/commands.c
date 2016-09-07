@@ -1,90 +1,88 @@
+/*
+** commands.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:14:07 2016 YUNG Steven
+** Last update Tue Sep  6 22:14:09 2016 YUNG Steven
+*/
+
 #include "commands.h"
 
-int search_player_by_socket(t_player **players, int nb_players, int s)
+int up(t_map *map, int player)
 {
   int i;
 
-  for(i = 0; i < nb_players; i++)
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (i == -1)
+    return (-1);
+  if (map->players[i]->y - 1 >= 0) 
   {
-    if(players[i]->socket == s)
-      return i;
+    map->players[i]->y -= 1;
   }
-  return -1;
+  printf("-------------\n");
+  debug_map(map);
+  return (0);
 }
 
-void up(t_global *global, int player)
+int down(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->y - 1 >= 0) {
-    global->map->players[i]->y -= 1;
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (i == -1)
+    return (-1);
+  if (map->players[i]->y + 1 < HEIGHT) 
+  {
+    map->players[i]->y += 1;
   }
-  printf("-------------");
-  debug_map(global->map);
+  printf("-------------\n");
+  debug_map(map);
+  return (0);
 }
 
-void down(t_global *global, int player)
+int right(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->y + 1 < HEIGHT) {
-    global->map->players[i]->y += 1;
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (i == -1)
+    return (-1);
+  if (map->players[i]->x + 1 < WIDTH) 
+  {
+    map->players[i]->x += 1;
   }
-  printf("-------------");
-  debug_map(global->map);
+  printf("-------------\n");
+  debug_map(map);
+  return (0);
 }
 
-void right(t_global *global, int player)
+int left(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->x + 1 < WIDTH) {
-    global->map->players[i]->x += 1;
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (i == -1)
+    return (-1);
+  if (map->players[i]->x - 1 >= 0) 
+  {
+    map->players[i]->x -= 1;
   }
-  printf("-------------");
-  debug_map(global->map);
+  printf("-------------\n");
+  debug_map(map);
+  return (0);
 }
 
-void left(t_global *global, int player)
+int drop(t_map *map, int player)
 {
   int i;
 
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-  if (global->map->players[i]->x - 1 >= 0) {
-    global->map->players[i]->x -= 1;
-  }
-  printf("-------------");
-  debug_map(global->map);
-}
-
-void drop(t_global *global, int player)
-{
-  int i;
-  i = search_player_by_socket(global->map->players, global->map->nb_players, player);
-    printf("DROP %d\n", player);
-    printf("DROP %s\n", global->map->players[i]->username);
-  debug_map(global->map);
-}
-
-t_command_funct *init_funct_tab()
-{
-    t_command_funct *tab;
-
-    tab = malloc(sizeof(t_command_funct) * 5);
-
-    tab[0].key = "2";
-    tab[0].function = &up;
-    tab[1].key = "3";
-    tab[1].function = &down;
-    tab[2].key = "4";
-    tab[2].function = &right;
-    tab[3].key = "5";
-    tab[3].function = &left;
-    tab[4].key = "6";
-    tab[4].function = &drop;
-
-    return (tab);
+  i = search_player_by_socket(map->players, map->nb_players, player);
+  if (i == -1)
+    return (-1);
+  printf("DROP %d\n", player);
+  printf("DROP %s\n", map->players[i]->username);
+  debug_map(map);
+  return (0);
 }

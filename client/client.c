@@ -1,150 +1,133 @@
+/*
+** client.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:11:34 2016 YUNG Steven
+** Last update Tue Sep  6 22:11:36 2016 YUNG Steven
+*/
+
 #include "fmap.h"
+#include <unistd.h>
 #include "client.h"
 
-#include <unistd.h>
-
-void handle_user_input(int s)
+void convert_signal_to_cmd(int ch, char** cmd)
 {
-  int ch;
+  int tmp;
+  char tmp_char;
 
-  ch = getch();
-  if(ch == 27)
-  {
-    ch = getch();
-    if(ch == 91)
-    {
-      ch = getch();
-      if(ch == 65)
-        send(s, "2", sizeof("2"), 0);
-      else if(ch == 66)
-        send(s, "3", sizeof("3"), 0);
-      else if(ch == 67)
-        send(s, "4", sizeof("4"), 0);
-      else if(ch == 68)
-        send(s, "5", sizeof("5"), 0);
-    }
-    else if(ch == 27)
-      exit(0);
-  }
-  else if(ch == 32)
-    send(s, "6", sizeof("6"), 0);
+  tmp = ch - 63 + '0';
+  tmp_char = (char)tmp;
+  *cmd = &tmp_char;
 }
 
-char* handle_file_desc(int s, fd_set read_fds)
+int handle_user_input(int s)
 {
+  int ch;
+  char *cmd;
+
+  ch = getch();
+  if (ch == 27)
+  {
+    ch = getch();
+    if (ch == 91)
+      convert_signal_to_cmd(getch(), &cmd);
+    else if (ch == 27)
+      return (1);
+  }
+  else if (ch == 32)
+    cmd ="6";
+
+  if (send(s, cmd, strlen(cmd), 0) == -1)
+    return (-1);
+  return (0);
+}
+
+int handle_file_desc(int s, fd_set read_fds, char **new_buff)
+{
+  int ret;
   int i;
-  int nread;
-  char buf[1024];
-  char *newbuf;
-  int j, k, count;
 
   for (i = 0; i < (s + 1); i++)
   {
-    printf("FD_ISSET +> %d \n", FD_ISSET(i, &read_fds));
     if (FD_ISSET(i, &read_fds))
     {
       if (i == STDIN_FILENO)
-        handle_user_input(s);
-      else if (i == s)
       {
-        do
-        {
-          nread = recv(i, buf, 1024, 0);
-          if (nread > 0)
-          {
-            printf("%s\n", buf);
-
-            count = strlen(buf);
-            newbuf = malloc(count * sizeof(char));
-            k = 0;
-            for (j = 0; j < count; j++)
-            {
-
-              if ((int)buf[j] >= 48 && (int)buf[j] <= 57)
-              {
-                newbuf[k] = buf[j];
-                printf("bufval %d\n", newbuf[k]);
-                k++;
-                //newbuf[k] = 32;
-                //k++;
-              }
-            }
-          }
-        } while (nread == 0);
+        if ((ret = handle_user_input(s)) == -1)
+          printf("Input couldn't be sent\n");
+        else if (ret == 1)
+          return (ret);
       }
+      else if (i == s)
+        if ((ret = my_recv(i, new_buff)) > 0)
+          return (2);
     }
   }
-  return newbuf;
+  return (0);
 }
 
-void main_loop(int s, SDL_Surface* screen, Map* m)
+int main_loop(int s, SDL_Surface* screen, Map* m)
 {
   fd_set read_fds;
   fd_set active_fds;
-  char *new_buf;
+  int ret;
+  char *new_buf;  
 
-  new_buf = malloc(96 * sizeof(char));
+  new_buf = malloc(1024 * sizeof(char));
   AfficherMap(m,screen);
   SDL_Flip(screen);
   
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
   FD_SET(STDIN_FILENO, &active_fds);
-
-  set_conio_terminal_mode();
-  while(1)
+  if (set_conio_terminal_mode() == -1)
+    return (-5);
+  while (1)
   {
     read_fds = active_fds;
-    select(s + 1, &read_fds, NULL, NULL, 0);
-    // new_buf = NULL;
-    new_buf =  handle_file_desc(s, read_fds);
+    if((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
+      return (-6);
+    if ((ret = handle_file_desc(s, read_fds, &new_buf)) == 1)
+      return (ret);
+    else if (ret == 2)
+      return (ret);
     if (new_buf != NULL) {
           UpdateMap(new_buf, m);
       AfficherMap(m, screen);
       SDL_Flip(screen);
-    }
-
+    }    
   }
 }
 
-void ask_connection(int s, char *login)
+int main(int argc, char **argv)
 {
-  char *cmd;
-  char *final_cmd;
-  size_t size;
-
-  cmd = "000";
-  size = sizeof(cmd) + sizeof(login) + 1;
-  final_cmd = malloc(size);
-
-  strcpy(final_cmd, cmd);
-  strcat(final_cmd, login);
-
-  send(s, final_cmd, size, 0);
-}
-
-int main()
-{
+  int ret;
   int s;
-  struct sockaddr_in sin;
   SDL_Surface* screen;
-
   Map* m;
-  s = socket(PF_INET, SOCK_STREAM, 0);
 
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(4242);
-  sin.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-  connect(s, (struct sockaddr *) &sin, sizeof(struct sockaddr_in));
-
-  ask_connection(s, "steven");
-  
-  SDL_Init(SDL_INIT_VIDEO);               // prepare SDL
-  screen = SDL_SetVideoMode(280, 280, 32,SDL_HWSURFACE|SDL_DOUBLEBUF);
-  m = ChargerMap("level.txt");
-  
-  main_loop(s, screen, m);
-
-  return (0);
+  ret = 0;
+  s = setup_connection(argc, argv);
+  ret = s;
+  if (ret >= 0)
+  {
+    if (argc >= 4)
+      ret = ask_connection(s, argv[3]);
+    else
+      ret = ask_connection(s, USERNAME);
+  }
+  if (ret >= 0)
+  {
+    SDL_Init(SDL_INIT_VIDEO); // prepare SDL
+    screen = SDL_SetVideoMode(280, 280, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    m = ChargerMap("level.txt");
+    ret = main_loop(s, screen, m);
+  }
+  if (ret < 0 || ret == 2)
+    handle_error(ret);
+  else
+    printf("\nSee you later!\n\n");
+  return (ret);
 }

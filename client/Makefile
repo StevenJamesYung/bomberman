@@ -1,15 +1,28 @@
+##
+## Makefile for bomberman in /Users/stevenyung/workspace/current/bomberman
+## 
+## Made by YUNG Steven
+## Login   <yung_s@etna-alternance.net>
+## 
+## Started on  Tue Sep  6 22:11:11 2016 YUNG Steven
+## Last update Tue Sep  6 22:11:14 2016 YUNG Steven
+##
+
 CC= gcc
-CFLAGS= -W -Wall -Werror -Wextra -g
-LDFLAGS='sdl-config --cflags --libs'
+CFLAGS= -W -Wall -Werror -Wextra -g 
+WFLAGS= -Wno-unknown-pragmas `sdl-config --cflags --libs`
 NAME= bomberman-client
 SRC= client.c\
 		keyboard.c\
-		fmap.c	
+		fmap.c	\
+		connection.c \
+		error_handler.c \
+		my_recv.c
 OBJ= $(SRC:%.c=%.o)
 RM= rm -rf
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(CFLAGS)
+	$(CC) -o $(NAME) $(OBJ) $(WFLAGS)
 
 all: $(NAME)
 
@@ -19,4 +32,8 @@ clean:
 fclean:clean
 	$(RM) $(NAME)
 	$(RM) *~
-	make fclean
+
+mrproper:clean
+	rm -rf $(NAME)
+
+.PHONY:clean mrproper

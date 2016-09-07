@@ -1,9 +1,19 @@
+/*
+** map.h for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:15:32 2016 YUNG Steven
+** Last update Tue Sep  6 22:15:34 2016 YUNG Steven
+*/
+
 #ifndef __MAP_H__
 # define __MAP_H__
 # define _GNU_SOURCE
 
-# include "../bomberman.h"
-# include "player.h"
+#include "../bomberman.h"
+#include "player.h"
 
 # define WIDTH 10
 # define HEIGHT 10
@@ -16,7 +26,7 @@ struct s_map {
 };
 
 t_map *init_map();
-void add_player(t_map *map, int s);
+int add_player(t_map *map, int s);
 void debug_map(t_map *map);
 int is_player_position(t_map *map, int x, int y);
 

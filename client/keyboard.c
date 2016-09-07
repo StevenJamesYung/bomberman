@@ -1,40 +1,48 @@
-#include "keyboard.h"
+/*
+** keyboard.c for bomberman in /Users/stevenyung/workspace/current/bomberman
+** 
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+** 
+** Started on  Tue Sep  6 22:12:31 2016 YUNG Steven
+** Last update Tue Sep  6 22:12:33 2016 YUNG Steven
+*/
 
-struct termios orig_termios;
+#include "keyboard.h"
 
 void reset_terminal_mode()
 {
+  struct termios orig_termios;
+
   tcsetattr(0, TCSANOW, &orig_termios);
 }
 
-void set_conio_terminal_mode()
+int set_conio_terminal_mode()
 {
+  struct termios orig_termios;
   struct termios new_termios;
+  int ret;
 
   tcgetattr(0, &orig_termios);
   memcpy(&new_termios, &orig_termios, sizeof(new_termios));
-
-  atexit(reset_terminal_mode);
+  if ((ret = atexit(reset_terminal_mode)) == -1)
+    return (ret);
   cfmakeraw(&new_termios);
   tcsetattr(0, TCSANOW, &new_termios);
-}
-
-int kbhit()
-{
-  struct timeval tv = { 0L, 0L };
-  fd_set fds;
-  FD_ZERO(&fds);
-  FD_SET(0, &fds);
-  return (select(1, &fds, NULL, NULL, &tv));
+  return (0);
 }
 
 int getch()
 {
   int r;
   unsigned char c;
-  if ((r = read(0, &c, sizeof(c))) < 0) {
+
+  if ((r = read(0, &c, sizeof(c))) < 0)
+  {
     return (r);
-  } else {
+  }
+  else
+  {
     return (c);
   }
 }
