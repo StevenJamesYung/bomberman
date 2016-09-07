@@ -20,5 +20,6 @@
 # define IP "127.0.0.1"
 # define PORT 4242
 # define USERNAME "Player"
+# define NB_ERRORS 6
 
 #endif
