@@ -107,68 +107,6 @@ int main_loop(int s)
   }
 }
 
-int ask_connection(int s, char *login)
-{
-  char *cmd;
-  char *final_cmd;
-  size_t size;
-  int ret;
-
-  cmd = "000";
-  size = sizeof(cmd) + sizeof(login) + 1;
-  if ((final_cmd = malloc(size)) == NULL)
-    return (-3);
-  strcpy(final_cmd, cmd);
-  strcat(final_cmd, login);
-  if ((ret = send(s, final_cmd, size, 0)) == -1)
-    return (-4);
-  return (0);
-}
-
-// -1 socket failed
-// -2 connect failed
-int setup_connection(int argc, char **argv)
-{
-  int s;
-  struct sockaddr_in sin;
-
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
-    return (-1);
-  sin.sin_family = AF_INET;
-  if (argc >= 3)
-    sin.sin_port = htons((uint16_t)atoi(argv[2]));
-  else
-    sin.sin_port = htons(PORT);
-  if (argc >= 2)
-    sin.sin_addr.s_addr = inet_addr(argv[1]);
-  else
-    sin.sin_addr.s_addr = inet_addr(IP);
-  if (connect(s, (struct sockaddr *)&sin, sizeof(struct sockaddr_in)) == -1)
-    return (-2);
-  return (s);
-}
-
-void handle_error(int error)
-{
-  char *error_msg[NB_ERRORS];
-
-  error_msg[0] = "The server is full";
-  error_msg[1] = "Failed to create socket";
-  error_msg[2] = "Failed to connect to the server";
-  error_msg[3] = "Failed to malloc in ask_connection";
-  error_msg[4] = "Failed to send the connection request";
-  error_msg[5] = "set_conio_terminal_mode failed";
-  error_msg[6] = "select failed";
-
-  if (error == 2)
-    printf("%s", error_msg[0]);
-  else
-  {
-    printf("%s", error_msg[error * -1]);
-    printf(", program will close now.\n\n");
-  }
-}
-
 int main(int argc, char **argv)
 {
   int ret;

@@ -11,8 +11,9 @@
 CC= gcc
 CFLAGS= -W -Wall -Werror -Wextra -g
 NAME= bomberman-client
-SRC= client.c\
-		 keyboard.c
+SRC= client.c \
+		 keyboard.c \
+		connection.c
 OBJ= $(SRC:%.c=%.o)
 RM= rm -rf
 

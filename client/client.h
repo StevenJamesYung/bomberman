@@ -14,6 +14,7 @@
 
 #include "../bomberman.h"
 #include "keyboard.h"
+#include "connection.h"
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
