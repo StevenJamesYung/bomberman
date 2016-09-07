@@ -121,16 +121,19 @@ int ask_connection(int s, char *login)
   strcpy(final_cmd, cmd);
   strcat(final_cmd, login);
   if ((ret = send(s, final_cmd, size, 0)) == -1)
-    return (ret);
+    return (-2);
   return (0);
 }
 
+// -1 socket failed
+// -2 connect failed
 int setup_connection(int argc, char **argv)
 {
   int s;
   struct sockaddr_in sin;
 
-  s = socket(PF_INET, SOCK_STREAM, 0);
+  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
+    return (-1);
   sin.sin_family = AF_INET;
   if (argc >= 3)
     sin.sin_port = htons((uint16_t)atoi(argv[2]));
@@ -140,11 +143,8 @@ int setup_connection(int argc, char **argv)
     sin.sin_addr.s_addr = inet_addr(argv[1]);
   else
     sin.sin_addr.s_addr = inet_addr(IP);
-  connect(s, (struct sockaddr *)&sin, sizeof(struct sockaddr_in));
-  if (argc >= 4)
-    ask_connection(s, argv[3]);
-  else
-    ask_connection(s, USERNAME);
+  if (connect(s, (struct sockaddr *)&sin, sizeof(struct sockaddr_in)) == -1)
+    return (-2);
   return (s);
 }
 
@@ -154,6 +154,32 @@ int main(int argc, char **argv)
   int s;
 
   s = setup_connection(argc, argv);
+  if (s == -1)
+  {
+    printf("Failed to create socket\n\n");
+    return (-1);
+  }
+  else if (s == -2)
+  {
+    printf("Failed to connect to the server");
+    return (-1);
+  }
+  if (argc >= 4)
+    ret = ask_connection(s, argv[3]);
+  else
+    ret = ask_connection(s, USERNAME);
+  if (ret == -1)
+  {
+    printf("Failed to malloc in ask_connection\n");
+    return (-1);
+  }
+  else if (ret == -2)
+  {
+    printf("Failed to send the connection request\n");
+    return (-1);
+  }
+  if (ret < 0)
+    return (-3);
   if((ret = main_loop(s)) == -1)
   {
     printf("select failed, program will close now.\n\n");
