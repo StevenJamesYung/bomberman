@@ -19,6 +19,7 @@ void convert_signal_to_cmd(int ch, char** cmd)
   tmp_char = (char)tmp;
   *cmd = &tmp_char;
 }
+
 int handle_user_input(int s)
 {
   int ch;
