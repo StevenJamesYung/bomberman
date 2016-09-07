@@ -125,11 +125,10 @@ int ask_connection(int s, char *login)
   return (0);
 }
 
-int main(int argc, char **argv)
+int setup_connection(int argc, char **argv)
 {
   int s;
   struct sockaddr_in sin;
-  int ret;
 
   s = socket(PF_INET, SOCK_STREAM, 0);
   sin.sin_family = AF_INET;
@@ -146,6 +145,15 @@ int main(int argc, char **argv)
     ask_connection(s, argv[3]);
   else
     ask_connection(s, USERNAME);
+  return (s);
+}
+
+int main(int argc, char **argv)
+{
+  int ret;
+  int s;
+
+  s = setup_connection(argc, argv);
   if((ret = main_loop(s)) == -1)
   {
     printf("select failed, program will close now.\n\n");
