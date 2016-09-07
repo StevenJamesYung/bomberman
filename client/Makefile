@@ -13,7 +13,8 @@ CFLAGS= -W -Wall -Werror -Wextra -g
 NAME= bomberman-client
 SRC= client.c \
 		 keyboard.c \
-		connection.c
+		connection.c \
+		error_handler.c
 OBJ= $(SRC:%.c=%.o)
 RM= rm -rf
 
