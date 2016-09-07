@@ -20,7 +20,6 @@
 
 void reset_terminal_mode();
 int set_conio_terminal_mode();
-int kbhit();
 int getch();
 
 #endif

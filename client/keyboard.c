@@ -10,15 +10,16 @@
 
 #include "keyboard.h"
 
-struct termios orig_termios;
-
 void reset_terminal_mode()
 {
+  struct termios orig_termios;
+
   tcsetattr(0, TCSANOW, &orig_termios);
 }
 
 int set_conio_terminal_mode()
 {
+  struct termios orig_termios;
   struct termios new_termios;
   int ret;
 
