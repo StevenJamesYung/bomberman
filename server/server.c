@@ -18,7 +18,7 @@ char *get_map_str(t_global *global) {
         current_value = global->map->value[x][y] + '0';
       }
 
-      strcat(map_str, &current_value);
+      strncat(map_str, &current_value, 1);
     }
   }
   return map_str;
