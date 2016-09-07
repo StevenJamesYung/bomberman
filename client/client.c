@@ -79,7 +79,7 @@ int main_loop(int s)
   while (1)
   {
     read_fds = active_fds;
-    if((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
+    if ((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
       return (-6);
     if ((ret = handle_file_desc(s, read_fds)) == 1)
       return (ret);
