@@ -5,7 +5,7 @@
 ** Login   <yung_s@etna-alternance.net>
 ** 
 ** Started on  Tue Sep  6 22:12:04 2016 YUNG Steven
-** Last update Tue Sep  6 22:12:06 2016 YUNG Steven
+** Last update Thu Sep  8 21:53:56 2016 YUNG Steven
 */
 
 #include "error_handler.h"
@@ -25,8 +25,8 @@ void handle_error(int error)
   if (error == 2)
     printf("%s", error_msg[0]);
   else
-  {
-    printf("%s", error_msg[error * -1]);
-    printf(", program will close now.\n\n");
-  }
+    {
+      printf("%s", error_msg[error * -1]);
+      printf(", program will close now.\n\n");
+    }
 }

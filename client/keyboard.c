@@ -5,7 +5,7 @@
 ** Login   <yung_s@etna-alternance.net>
 ** 
 ** Started on  Tue Sep  6 22:12:31 2016 YUNG Steven
-** Last update Tue Sep  6 22:12:33 2016 YUNG Steven
+** Last update Thu Sep  8 21:55:32 2016 YUNG Steven
 */
 
 #include "keyboard.h"
@@ -38,11 +38,11 @@ int getch()
   unsigned char c;
 
   if ((r = read(0, &c, sizeof(c))) < 0)
-  {
-    return (r);
-  }
+    {
+      return (r);
+    }
   else
-  {
-    return (c);
-  }
+    {
+      return (c);
+    }
 }

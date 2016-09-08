@@ -5,7 +5,7 @@
 ** Login   <yung_s@etna-alternance.net>
 ** 
 ** Started on  Tue Sep  6 22:15:17 2016 YUNG Steven
-** Last update Tue Sep  6 22:15:19 2016 YUNG Steven
+** Last update Thu Sep  8 21:57:05 2016 YUNG Steven
 */
 
 #include "map.h"
@@ -15,13 +15,13 @@ int is_player_position(t_map *map, int x, int y)
   int i;
 
   for (i = 0; i < MAX_PLAYERS; i++)
-  {
-    if (map->players[i] && map->players[i]->x == x && map->players[i]->y == y)
     {
-      // TRUE
-      return (i + 1);
+      if (map->players[i] && map->players[i]->x == x && map->players[i]->y == y)
+	{
+	  // TRUE
+	  return (i + 1);
+	}
     }
-  }
   // FALSE
   return (0);
 }
@@ -33,20 +33,20 @@ void debug_map(t_map *map)
   int p;
 
   for (y = 0; y < HEIGHT; y++)
-  {
-    for (x = 0; x < WIDTH; x++)
     {
-      if ((p = is_player_position(map, x, y)) > 0)
-      {
-        printf("%d ", p);
-      }
-      else
-      {
-        printf("%d ", map->value[x][y]);
-      }
+      for (x = 0; x < WIDTH; x++)
+	{
+	  if ((p = is_player_position(map, x, y)) > 0)
+	    {
+	      printf("%d ", p);
+	    }
+	  else
+	    {
+	      printf("%d ", map->value[x][y]);
+	    }
+	}
+      printf("\n");
     }
-    printf("\n");
-  }
 }
 
 t_map *init_map()
@@ -64,15 +64,15 @@ t_map *init_map()
   if ((m = (int **)malloc(HEIGHT * sizeof(int *))) == NULL)
     return (NULL);
   for (i = 0; i < HEIGHT; i++)
-  {
-    if ((m[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
-      return (NULL);
-    for (y = 0; y < WIDTH; y++)
     {
-      m[i][y] = 0;
+      if ((m[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
+	return (NULL);
+      for (y = 0; y < WIDTH; y++)
+	{
+	  m[i][y] = 0;
+	}
     }
-  }
-  map->players = players;  
+  map->players = players;
   for (i = 0; i < MAX_PLAYERS; i++)
     map->players[i] = NULL;
   map->value = m;
@@ -87,55 +87,55 @@ int add_player(t_map *map, int s)
   int y;
 
   /*
-  if (map->nb_players == 0)
-  {
+    if (map->nb_players == 0)
+    {
     if ((new_player = init_player(0, 0, s)) == NULL)
-      return (-1);
-  }
-  else if (map->nb_players == 1)
-  {
+    return (-1);
+    }
+    else if (map->nb_players == 1)
+    {
     if ((new_player = init_player(0, WIDTH - 1, s)) == NULL)
-      return (-1);
-  }
-  else if (map->nb_players == 2)
-  {
+    return (-1);
+    }
+    else if (map->nb_players == 2)
+    {
     if ((new_player = init_player(HEIGHT - 1, 0, s)) == NULL)
-      return (-1);
-  }
-  else if (map->nb_players == 3)
-  {
+    return (-1);
+    }
+    else if (map->nb_players == 3)
+    {
     if ((new_player = init_player(HEIGHT - 1, WIDTH - 1, s)) == NULL)
-      return (-1);
-  }
+    return (-1);
+    }
   */
 
   for (i = 0; i < MAX_PLAYERS; i++)
     if (map->players[i] == NULL)
-    {
-      if (i == 0)
       {
-        x = 0;
-        y = 0;
+	if (i == 0)
+	  {
+	    x = 0;
+	    y = 0;
+	  }
+	else if (i == 1)
+	  {
+	    x = 0;
+	    y = WIDTH - 1;
+	  }
+	else if (i == 2)
+	  {
+	    x = HEIGHT - 1;
+	    y = 0;
+	  }
+	else if (i == 3)
+	  {
+	    x = HEIGHT - 1;
+	    y = WIDTH - 1;
+	  }
+	map->players[i] = init_player(x, y, s);
+	map->nb_players++;
+	i = MAX_PLAYERS;
       }
-      else if (i == 1)
-      {
-        x = 0;
-        y = WIDTH - 1;
-      }
-      else if (i == 2)
-      {
-        x = HEIGHT - 1;
-        y = 0;
-      }
-      else if (i == 3)
-      {
-        x = HEIGHT - 1;
-        y = WIDTH - 1;
-      }
-      map->players[i] = init_player(x, y, s);
-      map->nb_players++;
-      i = MAX_PLAYERS;
-    }
   return (0);
 }
 

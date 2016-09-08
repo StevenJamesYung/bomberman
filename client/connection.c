@@ -5,7 +5,7 @@
 ** Login   <yung_s@etna-alternance.net>
 ** 
 ** Started on  Tue Sep  6 22:11:34 2016 YUNG Steven
-** Last update Tue Sep  6 22:11:36 2016 YUNG Steven
+** Last update Thu Sep  8 21:53:38 2016 YUNG Steven
 */
 
 #include "connection.h"
@@ -21,10 +21,10 @@ int ask_disconnection(int s)
   cmd = "111";
   size = strlen(cmd);
   do {
-  ret = send(s, cmd, size, 0);
-  if (ret == -1)
-    return (-4);
-  nread += ret;
+    ret = send(s, cmd, size, 0);
+    if (ret == -1)
+      return (-4);
+    nread += ret;
   } while(nread < size);
   return (0);
 }
@@ -41,14 +41,14 @@ int ask_connection(int s, char *login)
   cmd = "000";
   size = sizeof(cmd) + sizeof(login) + 1;
   do {
-  if ((final_cmd = malloc(size)) == NULL)
-    return (-3);
-  strcpy(final_cmd, cmd);
-  strcat(final_cmd, login);
-  ret = send(s, final_cmd, size, 0);
-  if (ret == -1)
-    return (-4);
-  nread += ret;
+    if ((final_cmd = malloc(size)) == NULL)
+      return (-3);
+    strcpy(final_cmd, cmd);
+    strcat(final_cmd, login);
+    ret = send(s, final_cmd, size, 0);
+    if (ret == -1)
+      return (-4);
+    nread += ret;
   } while(nread < (int)size);
   free(final_cmd);
   return (0);

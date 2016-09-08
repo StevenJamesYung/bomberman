@@ -5,7 +5,7 @@
 ** Login   <yung_s@etna-alternance.net>
 ** 
 ** Started on  Tue Sep  6 22:16:42 2016 YUNG Steven
-** Last update Tue Sep  6 22:16:43 2016 YUNG Steven
+** Last update Thu Sep  8 21:58:37 2016 YUNG Steven
 */
 
 #ifndef __COMMANDS_FUNCTIONS_H__
@@ -24,6 +24,5 @@ int server_loop(fd_set active_fds,
                  fd_set read_fds,
                  int s,
                  t_map *map);
-
 
 #endif

@@ -5,7 +5,7 @@
 ** Login   <yung_s@etna-alternance.net>
 ** 
 ** Started on  Tue Sep  6 22:16:12 2016 YUNG Steven
-** Last update Tue Sep  6 22:16:13 2016 YUNG Steven
+** Last update Thu Sep  8 21:57:58 2016 YUNG Steven
 */
 
 #include "server_functions.h"
@@ -22,10 +22,10 @@ int main_loop(int s)
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
   if (server_loop(active_fds, read_fds, s, map) == -1)
-  {
-    free(map);
-    return (-1);
-  }
+    {
+      free(map);
+      return (-1);
+    }
   free(map);
   return (0);
 }
