@@ -116,8 +116,6 @@ int AfficherMap(Map* m,SDL_Surface* screen)
   int i,j;
   SDL_Rect Rect_dest;
   int numero_tile;
-  printf("tilesHauteur %d", m->nbtiles_largeur_monde);
-  printf("tilesLargeur %d", m->nbtiles_hauteur_monde);
   for (i=0;i<m->nbtiles_largeur_monde;i++)
   {
     for(j=0;j<m->nbtiles_hauteur_monde;j++)
@@ -126,7 +124,6 @@ int AfficherMap(Map* m,SDL_Surface* screen)
       Rect_dest.y = j*m->HAUTEUR_TILE;
       numero_tile = m->schema[i][j];
       SDL_BlitSurface(m->tileset,&(m->props[numero_tile].R),screen,&Rect_dest);
-      printf("valeurTile %d\n", m->schema[i][j]);
     }
   }
   return 0;
