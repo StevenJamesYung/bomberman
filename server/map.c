@@ -64,14 +64,14 @@ t_map		*init_map()
   if ((m = (int **)malloc(HEIGHT * sizeof(int *))) == NULL)
     return (NULL);
   for (i = 0; i < HEIGHT; i++)
+  {
+    if ((m[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
+      return (NULL);
+    for (y = 0; y < WIDTH; y++)
     {
-      if ((m[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
-	return (NULL);
-      for (y = 0; y < WIDTH; y++)
-	{
-	  m[i][y] = 0;
-	}
+      m[i][y] = 0;
     }
+  }
   map->players = players;
   for (i = 0; i < MAX_PLAYERS; i++)
     map->players[i] = NULL;
@@ -85,29 +85,6 @@ int		add_player(t_map *map, int s)
   int		i;
   int		x;
   int		y;
-
-  /*
-    if (map->nb_players == 0)
-    {
-    if ((new_player = init_player(0, 0, s)) == NULL)
-    return (-1);
-    }
-    else if (map->nb_players == 1)
-    {
-    if ((new_player = init_player(0, WIDTH - 1, s)) == NULL)
-    return (-1);
-    }
-    else if (map->nb_players == 2)
-    {
-    if ((new_player = init_player(HEIGHT - 1, 0, s)) == NULL)
-    return (-1);
-    }
-    else if (map->nb_players == 3)
-    {
-    if ((new_player = init_player(HEIGHT - 1, WIDTH - 1, s)) == NULL)
-    return (-1);
-    }
-  */
 
   for (i = 0; i < MAX_PLAYERS; i++)
     if (map->players[i] == NULL)

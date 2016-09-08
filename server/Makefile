@@ -35,8 +35,7 @@ fclean:clean
 	$(RM) $(NAME)
 	$(RM) *~
 
-re: fclean
-	all
+re: fclean all
 
 debug:
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS)
