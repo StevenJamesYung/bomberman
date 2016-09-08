@@ -41,7 +41,7 @@ debug:
 	$(DEBUG) $(NAME)
 
 dev: $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS) $(SDL)
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS)
 
 mrproper:clean
 	rm -rf $(NAME)
