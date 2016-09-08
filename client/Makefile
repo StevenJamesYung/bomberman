@@ -23,26 +23,26 @@ OBJ= $(SRC:%.c=%.o)
 RM= rm -rf
 
 $(NAME): $(OBJ)
-$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(WFLAGS)
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(WFLAGS)
 
 all: $(NAME)
 
 clean:
-$(RM) *.o
+	$(RM) *.o
 
 fclean:clean
-$(RM) $(NAME)
-$(RM) *~
+	$(RM) $(NAME)
+	$(RM) *~
 
 re: fclean all
 
 mrproper:clean
-rm -rf $(NAME)
+	rm -rf $(NAME)
 
 install:
-sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
+	sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
 
 dev: $(OBJ)
-$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS) $(WFLAGS)
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS) $(WFLAGS)
 
 .PHONY:clean mrproper

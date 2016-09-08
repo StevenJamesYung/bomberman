@@ -54,8 +54,6 @@ int			ask_connection(int s, char *login)
   return (0);
 }
 
-// -1 socket failed
-// -2 connect failed
 int			setup_connection(int argc, char **argv)
 {
   int			s;

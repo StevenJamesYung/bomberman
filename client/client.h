@@ -20,6 +20,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-# define USERNAME "Player"
+#define USERNAME "Player"
 
 #endif

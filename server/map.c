@@ -15,14 +15,12 @@ int		is_player_position(t_map *map, int x, int y)
   int		i;
 
   for (i = 0; i < MAX_PLAYERS; i++)
+  {
+    if (map->players[i] && map->players[i]->x == x && map->players[i]->y == y)
     {
-      if (map->players[i] && map->players[i]->x == x && map->players[i]->y == y)
-	{
-	  // TRUE
-	  return (i + 1);
-	}
+      return (i + 1);
     }
-  // FALSE
+  }
   return (0);
 }
 
@@ -35,16 +33,16 @@ void		debug_map(t_map *map)
   for (y = 0; y < HEIGHT; y++)
     {
       for (x = 0; x < WIDTH; x++)
-	{
-	  if ((p = is_player_position(map, x, y)) > 0)
-	    {
-	      printf("%d ", p);
-	    }
-	  else
-	    {
-	      printf("%d ", map->value[x][y]);
-	    }
-	}
+      {
+        if ((p = is_player_position(map, x, y)) > 0)
+        {
+          printf("%d ", p);
+        }
+        else
+        {
+          printf("%d ", map->value[x][y]);
+        }
+      }
       printf("\n");
     }
 }
@@ -88,31 +86,31 @@ int		add_player(t_map *map, int s)
 
   for (i = 0; i < MAX_PLAYERS; i++)
     if (map->players[i] == NULL)
+    {
+      if (i == 0)
       {
-	if (i == 0)
-	  {
-	    x = 0;
-	    y = 0;
-	  }
-	else if (i == 1)
-	  {
-	    x = 0;
-	    y = WIDTH - 1;
-	  }
-	else if (i == 2)
-	  {
-	    x = HEIGHT - 1;
-	    y = 0;
-	  }
-	else if (i == 3)
-	  {
-	    x = HEIGHT - 1;
-	    y = WIDTH - 1;
-	  }
-	map->players[i] = init_player(x, y, s);
-	map->nb_players++;
-	i = MAX_PLAYERS;
+        x = 0;
+        y = 0;
       }
+      else if (i == 1)
+      {
+        x = 0;
+        y = WIDTH - 1;
+      }
+      else if (i == 2)
+      {
+        x = HEIGHT - 1;
+        y = 0;
+      }
+      else if (i == 3)
+      {
+        x = HEIGHT - 1;
+        y = WIDTH - 1;
+      }
+      map->players[i] = init_player(x, y, s);
+      map->nb_players++;
+      i = MAX_PLAYERS;
+    }
   return (0);
 }
 
