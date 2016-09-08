@@ -72,6 +72,8 @@ t_map *init_map()
       m[i][y] = 0;
     }
   }
+  for (i = 0; i < MAX_PLAYERS; i++)
+    map->players[i] = NULL;
   map->players = players;
   map->value = m;
   map->nb_players = 0;
@@ -80,8 +82,11 @@ t_map *init_map()
 
 int add_player(t_map *map, int s)
 {
-  t_player *new_player;
+  int i;
+  int x;
+  int y;
 
+  /*
   if (map->nb_players == 0)
   {
     if ((new_player = init_player(0, 0, s)) == NULL)
@@ -102,7 +107,35 @@ int add_player(t_map *map, int s)
     if ((new_player = init_player(HEIGHT - 1, WIDTH - 1, s)) == NULL)
       return (-1);
   }
-  map->players[map->nb_players++] = new_player;
+  */
+
+  for (i = 0; i < MAX_PLAYERS; i++)
+    if (map->players[i] == NULL)
+    {
+      if (i == 0)
+      {
+        x = 0;
+        y = 0;
+      }
+      else if (i == 1)
+      {
+        x = 0;
+        y = WIDTH - 1;
+      }
+      else if (i == 2)
+      {
+        x = HEIGHT - 1;
+        y = 0;
+      }
+      else if (i == 3)
+      {
+        x = HEIGHT - 1;
+        y = WIDTH - 1;
+      }
+      map->players[i] = init_player(x, y, s);
+      map->nb_players++;
+      i = MAX_PLAYERS;
+    }
   return (0);
 }
 
@@ -118,5 +151,19 @@ int free_map(t_map *map)
   free(map->players);
   free(map);
 
+  return (0);
+}
+
+int disconnect_player(t_map *map, int s)
+{
+  int i;
+
+  i = search_player_by_socket(map->players, map->nb_players, s);
+  printf("iiiiiii: %d\n", i);
+  if (i < 0)
+    return (-1);
+  free(map->players[i]);
+  map->players[i] = NULL;
+  map->nb_players--;
   return (0);
 }

@@ -10,6 +10,25 @@
 
 #include "connection.h"
 
+int ask_disconnection(int s)
+{
+  char *cmd;
+  int size;
+  int ret;
+  int nread;
+
+  nread = 0;
+  cmd = "111";
+  size = strlen(cmd);
+  do {
+  ret = send(s, cmd, size, 0);
+  if (ret == -1)
+    return (-4);
+  nread += ret;
+  } while(nread < size);
+  return (0);
+}
+
 int ask_connection(int s, char *login)
 {
   char *cmd;
@@ -30,7 +49,7 @@ int ask_connection(int s, char *login)
   if (ret == -1)
     return (-4);
   nread += ret;
-  } while(nread < size);
+  } while(nread < (int)size);
   free(final_cmd);
   return (0);
 }
