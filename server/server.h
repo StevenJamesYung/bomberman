@@ -13,7 +13,6 @@
 # define _GNU_SOURCE
 
 #include "../bomberman.h"
-#include "global.h"
 #include "map.h"
 #include <netdb.h>
 #include <sys/select.h>

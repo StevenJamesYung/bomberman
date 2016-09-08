@@ -14,7 +14,6 @@ DFLAGS= -g
 NAME= bomberman-server
 SRC= commands.c \
 		 command_functions.c \
-		 global.c \
 		 map.c \
 		 player.c \
 		 server.c \
@@ -35,6 +34,9 @@ clean:
 fclean:clean
 	$(RM) $(NAME)
 	$(RM) *~
+
+re: fclean 
+	all
 
 debug:
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS)

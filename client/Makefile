@@ -34,6 +34,9 @@ fclean:clean
 	$(RM) $(NAME)
 	$(RM) *~
 
+re: fclean 
+	all
+
 mrproper:clean
 	rm -rf $(NAME)
 
