@@ -79,9 +79,9 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
   int		ret;
   char		*new_buf;
 
+  ret = 0;
   ShowMap(m,screen);
   SDL_Flip(screen);
-
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
   FD_SET(STDIN_FILENO, &active_fds);
@@ -91,26 +91,18 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
   while (1)
   {
     read_fds = active_fds;
-    if((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
+    if(select(s + 1, &read_fds, NULL, NULL, 0) == -1)
+      ret = -6;
+    if (ret == 0 && (ret = handle_file_desc(s, read_fds, &new_buf)) == 1)
+      ret = 1;
+    if (ret == 0 && new_buf != NULL)
     {
-      free(new_buf);
-      return (-6);
-    }
-    if ((ret = handle_file_desc(s, read_fds, &new_buf)) == 1)
-    {
-      free(new_buf);
-      return (ret);
-    }
-    else if (ret == 2)
-    {
-      free(new_buf);
-      return (ret);
-    }
-    if (new_buf != NULL) {
       UpdateMap(new_buf, m);
       ShowMap(m, screen);
       SDL_Flip(screen);
     }
+    free(new_buf);
+    return (ret);
   }
 }
 
