@@ -49,7 +49,7 @@ int ask_connection(int s, char *login)
   if (ret == -1)
     return (-4);
   nread += ret;
-  } while(nread < size);
+  } while(nread < (int)size);
   free(final_cmd);
   return (0);
 }

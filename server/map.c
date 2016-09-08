@@ -82,7 +82,6 @@ t_map *init_map()
 
 int add_player(t_map *map, int s)
 {
-  t_player *new_player;
   int i;
   int x;
   int y;
