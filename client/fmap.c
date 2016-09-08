@@ -137,9 +137,9 @@ int		ShowMap(Map* m,SDL_Surface* screen)
   return (0);
 }
 
-int FreeMap(Map* m)
+int		FreeMap(Map* m)
 {
-  int i;
+  int		i;
 
   SDL_FreeSurface(m->tileset);
   for (i = 0; i < m->nbtiles_height_world; i++)
