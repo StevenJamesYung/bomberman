@@ -18,6 +18,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+int ask_disconnection(int s);
 int ask_connection(int s, char *login);
 int setup_connection(int argc, char **argv);
 
