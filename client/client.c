@@ -19,7 +19,7 @@ void		convert_signal_to_cmd(int ch, char** cmd)
 
   tmp = ch - 63 + '0';
   tmp_char = (char)tmp;
-  strcpy(*cmd, &tmp_char);
+  strncpy(*cmd, &tmp_char, 1);
 }
 
 int		handle_user_input(int s)
@@ -27,17 +27,18 @@ int		handle_user_input(int s)
   int		ch;
   char		*cmd;
 
+  cmd = malloc((sizeof(char) * 3) + 1);
   ch = getch();
   if (ch == 27)
     {
       ch = getch();
       if (ch == 91)
-	convert_signal_to_cmd(getch(), &cmd);
+        convert_signal_to_cmd(getch(), &cmd);
       else if (ch == 27)
-	{
-	  ask_disconnection(s);
-	  return (1);
-	}
+      {
+        ask_disconnection(s);
+        return (1);
+      }
     }
   else if (ch == 32)
     cmd ="6";
@@ -55,18 +56,18 @@ int		handle_file_desc(int s, fd_set read_fds, char **new_buff)
   for (i = 0; i < (s + 1); i++)
     {
       if (FD_ISSET(i, &read_fds))
-	{
-	  if (i == STDIN_FILENO)
-	    {
-	      if ((ret = handle_user_input(s)) == -1)
-		printf("Input couldn't be sent\n");
-	      else if (ret == 1)
-		return (ret);
-	    }
-	  else if (i == s)
-	    if ((ret = my_recv(i, new_buff)) > 0)
-	      return (2);
-	}
+      {
+        if (i == STDIN_FILENO)
+        {
+          if ((ret = handle_user_input(s)) == -1)
+            printf("Input couldn't be sent\n");
+          else if (ret == 1)
+            return (ret);
+        }
+        else if (i == s)
+          if ((ret = my_recv(i, new_buff)) > 0)
+            return (2);
+      }
     }
   return (0);
 }
@@ -88,29 +89,29 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
     return (-5);
   new_buf = malloc(1024 * sizeof(char));
   while (1)
+  {
+    read_fds = active_fds;
+    if((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
     {
-      read_fds = active_fds;
-      if((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
-	{
-	  free(new_buf);
-	  return (-6);
-	}
-      if ((ret = handle_file_desc(s, read_fds, &new_buf)) == 1)
-	{
-	  free(new_buf);
-	  return (ret);
-	}
-      else if (ret == 2)
-	{
-	  free(new_buf);
-	  return (ret);
-	}
-      if (new_buf != NULL) {
-	UpdateMap(new_buf, m);
-	ShowMap(m, screen);
-	SDL_Flip(screen);
-      }
+      free(new_buf);
+      return (-6);
     }
+    if ((ret = handle_file_desc(s, read_fds, &new_buf)) == 1)
+    {
+      free(new_buf);
+      return (ret);
+    }
+    else if (ret == 2)
+    {
+      free(new_buf);
+      return (ret);
+    }
+    if (new_buf != NULL) {
+      UpdateMap(new_buf, m);
+      ShowMap(m, screen);
+      SDL_Flip(screen);
+    }
+  }
 }
 
 int		main(int argc, char **argv)
@@ -124,11 +125,11 @@ int		main(int argc, char **argv)
   s = setup_connection(argc, argv);
   ret = s;
   if (ret >= 0)
-    {
-      if (argc >= 4)
-	ret = ask_connection(s, argv[3]);
-      else
-	ret = ask_connection(s, USERNAME);
+  {
+    if (argc >= 4)
+      ret = ask_connection(s, argv[3]);
+    else
+      ret = ask_connection(s, USERNAME);
     }
   if (ret >= 0)
     {
