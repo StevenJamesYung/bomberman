@@ -65,11 +65,12 @@ int		handle_file_desc(int s, fd_set read_fds, char **new_buff)
 
 int setup_loop(Map *m, SDL_Surface *screen, fd_set *active_fds, int s)
 {
-  ShowMap(m,screen);
+  ShowMap(m, screen);
   SDL_Flip(screen);
   FD_ZERO(active_fds);
   FD_SET(s, active_fds);
   FD_SET(STDIN_FILENO, active_fds);
+  printf("\nsetup loop\n\n");
   if (set_conio_terminal_mode() == -1)
     return (-5);
   return (0);
@@ -86,7 +87,7 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
   if (setup_loop(m, screen, &active_fds, s) == -5)
     return (-5);
   new_buf = malloc(1024 * sizeof(char));
-  while (1)
+  while (ret == 0)
   {
     read_fds = active_fds;
     if(select(s + 1, &read_fds, NULL, NULL, 0) == -1)
@@ -95,13 +96,14 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
       ret = 1;
     if (ret == 0 && new_buf != NULL)
     {
+      printf("newbuff : %s\n", new_buf);
       UpdateMap(new_buf, m);
       ShowMap(m, screen);
       SDL_Flip(screen);
     }
-    free(new_buf);
-    return (ret);
   }
+  free(new_buf);
+  return (ret);
 }
 
 int		main(int argc, char **argv)
@@ -115,7 +117,7 @@ int		main(int argc, char **argv)
   s = setup_connection(argc, argv);
   ret = s;
   if (ret >= 0)
-    (argc >= 4) ? (ask_connection(s, argv[3])) : (ask_connection(s, USERNAME));
+    (argc >= 4) ? (ret = ask_connection(s, argv[3])) : (ret = ask_connection(s, USERNAME));
   if (ret >= 0)
   {
     SDL_Init(SDL_INIT_VIDEO);
