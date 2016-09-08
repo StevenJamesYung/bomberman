@@ -39,6 +39,10 @@ debug:
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS)
 	$(DEBUG) $(NAME)
 
+dev:
+	$(CC) -o $(NAME) $(OBJ) $(WFLAGS)
+	./$(NAME)
+
 mrproper:clean
 	rm -rf $(NAME)
 
