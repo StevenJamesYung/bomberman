@@ -77,7 +77,10 @@ int exec_cmd(char *cmd, t_map *map, int player)
   int src_player;
 
   tab = init_funct_tab();
-  if (strncmp(cmd, "000", 3) == 0)
+  printf("is disconnect: %d\n\n", strncmp(cmd, "111", 3) == 0);
+  if (strncmp(cmd, "111", 3) == 0)
+    disconnect_player(map, player);
+  else if (strncmp(cmd, "000", 3) == 0)
   {
     username = strtok(cmd, "000");
     src_player = search_player_by_socket(map->players, map->nb_players, player);

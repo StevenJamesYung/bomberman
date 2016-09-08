@@ -155,3 +155,17 @@ int free_map(t_map *map)
 
   return (0);
 }
+
+int disconnect_player(t_map *map, int s)
+{
+  int i;
+
+  i = search_player_by_socket(map->players, map->nb_players, s);
+  printf("iiiiiii: %d\n", i);
+  if (i <= 0)
+    return (-1);
+  free(map->players[i]);
+  map->players[i] = NULL;
+  map->nb_players--;
+  return (0);
+}
