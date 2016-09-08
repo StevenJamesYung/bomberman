@@ -1,23 +1,23 @@
 /*
 ** commands.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:14:07 2016 YUNG Steven
-** Last update Thu Sep  8 21:56:37 2016 YUNG Steven
+** Last update Thu Sep  8 22:22:56 2016 YUNG Steven
 */
 
 #include "commands.h"
 
-int up(t_map *map, int player)
+int	up(t_map *map, int player)
 {
-  int i;
+  int	i;
 
   i = search_player_by_socket(map->players, map->nb_players, player);
   if (i == -1)
     return (-1);
-  if (map->players[i]->y - 1 >= 0) 
+  if (map->players[i]->y - 1 >= 0)
     {
       map->players[i]->y -= 1;
     }
@@ -26,14 +26,14 @@ int up(t_map *map, int player)
   return (0);
 }
 
-int down(t_map *map, int player)
+int	down(t_map *map, int player)
 {
-  int i;
+  int	i;
 
   i = search_player_by_socket(map->players, map->nb_players, player);
   if (i == -1)
     return (-1);
-  if (map->players[i]->y + 1 < HEIGHT) 
+  if (map->players[i]->y + 1 < HEIGHT)
     {
       map->players[i]->y += 1;
     }
@@ -42,14 +42,14 @@ int down(t_map *map, int player)
   return (0);
 }
 
-int right(t_map *map, int player)
+int	right(t_map *map, int player)
 {
-  int i;
+  int	i;
 
   i = search_player_by_socket(map->players, map->nb_players, player);
   if (i == -1)
     return (-1);
-  if (map->players[i]->x + 1 < WIDTH) 
+  if (map->players[i]->x + 1 < WIDTH)
     {
       map->players[i]->x += 1;
     }
@@ -58,14 +58,14 @@ int right(t_map *map, int player)
   return (0);
 }
 
-int left(t_map *map, int player)
+int	left(t_map *map, int player)
 {
-  int i;
+  int	i;
 
   i = search_player_by_socket(map->players, map->nb_players, player);
   if (i == -1)
     return (-1);
-  if (map->players[i]->x - 1 >= 0) 
+  if (map->players[i]->x - 1 >= 0)
     {
       map->players[i]->x -= 1;
     }
@@ -74,9 +74,9 @@ int left(t_map *map, int player)
   return (0);
 }
 
-int drop(t_map *map, int player)
+int	drop(t_map *map, int player)
 {
-  int i;
+  int	i;
 
   i = search_player_by_socket(map->players, map->nb_players, player);
   if (i == -1)

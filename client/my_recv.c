@@ -1,19 +1,19 @@
 /*
 ** client.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:11:34 2016 YUNG Steven
-** Last update Thu Sep  8 21:55:48 2016 YUNG Steven
+** Last update Thu Sep  8 22:15:03 2016 YUNG Steven
 */
 
 #include "my_recv.h"
 
-int my_recv(int s, char **new_buff)
+int	my_recv(int s, char **new_buff)
 {
-  int nread;
-  char buf[1024];
+  int	nread;
+  char	buf[1024];
 
   do
     {

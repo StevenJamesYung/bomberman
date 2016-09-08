@@ -22,9 +22,9 @@ typedef struct
   int nbtiles_width_world,nbtiles_height_world;
 } Map;
 
-Map* LoadMap(const char* fic);
-int ShowMap(Map* m,SDL_Surface* screen);
-int FreeMap(Map* m);
-void UpdateMap(char* str_map, Map* m);
+Map	*LoadMap(const char* fic);
+int	ShowMap(Map* m,SDL_Surface* screen);
+int	FreeMap(Map* m);
+void	UpdateMap(char* str_map, Map* m);
 
 #endif

@@ -1,19 +1,19 @@
 /*
 ** command_functions.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:13:45 2016 YUNG Steven
-** Last update Thu Sep  8 21:56:11 2016 YUNG Steven
+** Last update Thu Sep  8 22:17:32 2016 YUNG Steven
 */
 
 #include "commands.h"
 #include "command_functions.h"
 
-t_command_funct *init_funct_tab()
+t_command_funct		*init_funct_tab()
 {
-  t_command_funct *tab;
+  t_command_funct	*tab;
 
   if ((tab = malloc(sizeof(t_command_funct) * 5)) == NULL)
     return (NULL);

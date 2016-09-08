@@ -1,31 +1,31 @@
 /*
 ** client.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:11:34 2016 YUNG Steven
-** Last update Thu Sep  8 21:52:41 2016 YUNG Steven
+** Last update Thu Sep  8 22:08:27 2016 YUNG Steven
 */
 
 #include "fmap.h"
 #include <unistd.h>
 #include "client.h"
 
-void convert_signal_to_cmd(int ch, char** cmd)
+void		convert_signal_to_cmd(int ch, char** cmd)
 {
-  int tmp;
-  char tmp_char;
+  int		tmp;
+  char		tmp_char;
 
   tmp = ch - 63 + '0';
   tmp_char = (char)tmp;
   strcpy(*cmd, &tmp_char);
 }
 
-int handle_user_input(int s)
+int		handle_user_input(int s)
 {
-  int ch;
-  char *cmd;
+  int		ch;
+  char		*cmd;
 
   ch = getch();
   if (ch == 27)
@@ -47,10 +47,10 @@ int handle_user_input(int s)
   return (0);
 }
 
-int handle_file_desc(int s, fd_set read_fds, char **new_buff)
+int		handle_file_desc(int s, fd_set read_fds, char **new_buff)
 {
-  int ret;
-  int i;
+  int		ret;
+  int		i;
 
   for (i = 0; i < (s + 1); i++)
     {
@@ -71,12 +71,12 @@ int handle_file_desc(int s, fd_set read_fds, char **new_buff)
   return (0);
 }
 
-int main_loop(int s, SDL_Surface* screen, Map* m)
+int		main_loop(int s, SDL_Surface* screen, Map* m)
 {
-  fd_set read_fds;
-  fd_set active_fds;
-  int ret;
-  char *new_buf;
+  fd_set	read_fds;
+  fd_set	active_fds;
+  int		ret;
+  char		*new_buf;
 
   ShowMap(m,screen);
   SDL_Flip(screen);
@@ -113,12 +113,12 @@ int main_loop(int s, SDL_Surface* screen, Map* m)
     }
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
-  int ret;
-  int s;
-  SDL_Surface* screen;
-  Map* m;
+  int		ret;
+  int		s;
+  SDL_Surface	*screen;
+  Map		*m;
 
   ret = 0;
   s = setup_connection(argc, argv);
@@ -132,7 +132,7 @@ int main(int argc, char **argv)
     }
   if (ret >= 0)
     {
-      SDL_Init(SDL_INIT_VIDEO); // prepare SDL
+      SDL_Init(SDL_INIT_VIDEO);
       screen = SDL_SetVideoMode(280, 280, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
       m = LoadMap("level.txt");
       ret = main_loop(s, screen, m);

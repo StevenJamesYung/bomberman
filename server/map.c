@@ -1,18 +1,18 @@
 /*
 ** map.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:15:17 2016 YUNG Steven
-** Last update Thu Sep  8 21:57:05 2016 YUNG Steven
+** Last update Thu Sep  8 22:25:37 2016 YUNG Steven
 */
 
 #include "map.h"
 
-int is_player_position(t_map *map, int x, int y)
+int		is_player_position(t_map *map, int x, int y)
 {
-  int i;
+  int		i;
 
   for (i = 0; i < MAX_PLAYERS; i++)
     {
@@ -26,11 +26,11 @@ int is_player_position(t_map *map, int x, int y)
   return (0);
 }
 
-void debug_map(t_map *map)
+void		debug_map(t_map *map)
 {
-  int x;
-  int y;
-  int p;
+  int		x;
+  int		y;
+  int		p;
 
   for (y = 0; y < HEIGHT; y++)
     {
@@ -49,13 +49,13 @@ void debug_map(t_map *map)
     }
 }
 
-t_map *init_map()
+t_map		*init_map()
 {
-  int **m;
-  int i;
-  int y;
-  t_map *map;
-  t_player **players;
+  int		**m;
+  int		i;
+  int		y;
+  t_map		*map;
+  t_player	**players;
 
   if ((players = (t_player **)malloc(MAX_PLAYERS * sizeof(t_player))) == NULL)
     return (NULL);
@@ -80,11 +80,11 @@ t_map *init_map()
   return (map);
 }
 
-int add_player(t_map *map, int s)
+int		add_player(t_map *map, int s)
 {
-  int i;
-  int x;
-  int y;
+  int		i;
+  int		x;
+  int		y;
 
   /*
     if (map->nb_players == 0)
@@ -139,9 +139,9 @@ int add_player(t_map *map, int s)
   return (0);
 }
 
-int free_map(t_map *map)
+int		free_map(t_map *map)
 {
-  int i;
+  int		i;
 
   for (i = 0; i < HEIGHT; i++)
     free(map->value[i]);
@@ -154,9 +154,9 @@ int free_map(t_map *map)
   return (0);
 }
 
-int disconnect_player(t_map *map, int s)
+int		disconnect_player(t_map *map, int s)
 {
-  int i;
+  int		i;
 
   i = search_player_by_socket(map->players, map->nb_players, s);
   printf("iiiiiii: %d\n", i);

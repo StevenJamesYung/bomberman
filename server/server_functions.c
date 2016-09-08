@@ -1,11 +1,11 @@
 /*
 ** server_functions.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:16:30 2016 YUNG Steven
-** Last update Thu Sep  8 21:58:25 2016 YUNG Steven
+** Last update Thu Sep  8 22:32:32 2016 YUNG Steven
 */
 
 #include <netdb.h>
@@ -14,13 +14,13 @@
 #include "server_functions.h"
 #include <unistd.h>
 
-char *get_map_str(t_map *map)
+char		*get_map_str(t_map *map)
 {
-  int x;
-  int y;
-  char *map_str;
-  char current_value;
-  int p;
+  int		x;
+  int		y;
+  char		*map_str;
+  char		current_value;
+  int		p;
 
   if ((map_str = malloc((sizeof(char) * (WIDTH + 1) * HEIGHT) + 10)) == NULL)
     return (NULL);
@@ -42,12 +42,13 @@ char *get_map_str(t_map *map)
   return (map_str);
 }
 
-int broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
+int		broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
 {
-  int s;
-  char *map_str;
-  int sent = 0;
+  int		s;
+  char		*map_str;
+  int		sent;
 
+  sent = 0;
   if ((map_str = get_map_str(map)) == NULL)
     return (-1);
   printf("get_map_str() res : \n%s\n", map_str);
@@ -69,12 +70,12 @@ int broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
   return (0);
 }
 
-int exec_cmd(char *cmd, t_map *map, int player, fd_set *active_fds)
+int			exec_cmd(char *cmd, t_map *map, int player, fd_set *active_fds)
 {
-  int i;
-  char *username;
-  t_command_funct *tab;
-  int src_player;
+  int			i;
+  char			*username;
+  t_command_funct	*tab;
+  int			src_player;
 
   tab = init_funct_tab();
   printf("is disconnect: %d\n\n", strncmp(cmd, "111", 3) == 0);
@@ -111,12 +112,12 @@ int exec_cmd(char *cmd, t_map *map, int player, fd_set *active_fds)
   return (0);
 }
 
-int handleNewConnection(int s, fd_set *active_fds, t_map *map)
+int			handleNewConnection(int s, fd_set *active_fds, t_map *map)
 {
-  struct sockaddr_in peer_addr;
-  socklen_t peer_addr_size;
-  int cfd;
-  char *msg;
+  struct sockaddr_in	peer_addr;
+  socklen_t		peer_addr_size;
+  int			cfd;
+  char			*msg;
 
   peer_addr_size = sizeof(struct sockaddr_in);
   cfd = accept(s, (struct sockaddr *)&peer_addr, &peer_addr_size);
@@ -139,14 +140,14 @@ int handleNewConnection(int s, fd_set *active_fds, t_map *map)
   return (0);
 }
 
-int server_loop(fd_set active_fds,
-		fd_set read_fds,
-		int s,
-		t_map *map)
+int			server_loop(fd_set active_fds,
+					fd_set read_fds,
+					int s,
+					t_map *map)
 {
-  char buf[1024];
-  int nread;
-  int i;
+  char			buf[1024];
+  int			nread;
+  int			i;
 
   while (1)
     {

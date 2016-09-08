@@ -1,21 +1,21 @@
 /*
 ** client.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:11:34 2016 YUNG Steven
-** Last update Thu Sep  8 21:53:38 2016 YUNG Steven
+** Last update Thu Sep  8 22:10:32 2016 YUNG Steven
 */
 
 #include "connection.h"
 
-int ask_disconnection(int s)
+int			ask_disconnection(int s)
 {
-  char *cmd;
-  int size;
-  int ret;
-  int nread;
+  char			*cmd;
+  int			size;
+  int			ret;
+  int			nread;
 
   nread = 0;
   cmd = "111";
@@ -29,13 +29,13 @@ int ask_disconnection(int s)
   return (0);
 }
 
-int ask_connection(int s, char *login)
+int			ask_connection(int s, char *login)
 {
-  char *cmd;
-  char *final_cmd;
-  size_t size;
-  int ret;
-  int nread;
+  char			*cmd;
+  char			*final_cmd;
+  size_t		size;
+  int			ret;
+  int			nread;
 
   nread = 0;
   cmd = "000";
@@ -56,10 +56,10 @@ int ask_connection(int s, char *login)
 
 // -1 socket failed
 // -2 connect failed
-int setup_connection(int argc, char **argv)
+int			setup_connection(int argc, char **argv)
 {
-  int s;
-  struct sockaddr_in sin;
+  int			s;
+  struct sockaddr_in	sin;
 
   if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
     return (-1);

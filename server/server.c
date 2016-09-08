@@ -1,21 +1,21 @@
 /*
 ** server.c for bomberman in /Users/stevenyung/workspace/current/bomberman
-** 
+**
 ** Made by YUNG Steven
 ** Login   <yung_s@etna-alternance.net>
-** 
+**
 ** Started on  Tue Sep  6 22:16:12 2016 YUNG Steven
-** Last update Thu Sep  8 21:57:58 2016 YUNG Steven
+** Last update Thu Sep  8 22:28:39 2016 YUNG Steven
 */
 
 #include "server_functions.h"
 #include "server.h"
 
-int main_loop(int s)
+int		main_loop(int s)
 {
-  fd_set active_fds;
-  fd_set read_fds;
-  t_map *map;
+  fd_set	active_fds;
+  fd_set	read_fds;
+  t_map		*map;
 
   if ((map = init_map()) == NULL)
     return (-1);
@@ -30,11 +30,11 @@ int main_loop(int s)
   return (0);
 }
 
-int main()
+int		main()
 {
-  int s;
-  struct protoent *pe;
-  struct sockaddr_in sin;
+  int		s;
+  struct	protoent *pe;
+  struct	sockaddr_in sin;
 
   pe = getprotobyname("tcp");
   s = socket(PF_INET, SOCK_STREAM, pe->p_proto);
