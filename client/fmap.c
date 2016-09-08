@@ -9,12 +9,12 @@ SDL_Surface	*LoadImage32(const char* image_file)
 
   image_ram = SDL_LoadBMP(image_file);
   if (image_ram == NULL)
-    {
-      printf("Image %s introuvable !! \n", image_file);
-      SDL_Quit();
-      system("pause");
-      return (NULL);
-    }
+  {
+    printf("Image %s introuvable !! \n", image_file);
+    SDL_Quit();
+    system("pause");
+    return (NULL);
+  }
   image_result = SDL_DisplayFormat(image_ram);
   SDL_FreeSurface(image_ram);
   return (image_result);
@@ -36,18 +36,16 @@ void		LoadMap_tileset(FILE* F,Map* m)
   m->TILE_HEIGHT = m->tileset->h / m->nbtilesY;
   m->props = malloc(m->nbtilesX * m->nbtilesY * sizeof(TileProp));
   for (j = 0, numtile = 0; j < m->nbtilesY; j++)
+    for (i = 0; i < m->nbtilesX; i++, numtile++)
     {
-      for (i = 0; i < m->nbtilesX; i++, numtile++)
-      {
-        m->props[numtile].R.w = m->TILE_WIDTH;
-        m->props[numtile].R.h = m->TILE_HEIGHT;
-        m->props[numtile].R.x = i * m->TILE_WIDTH;
-        m->props[numtile].R.y = j * m->TILE_HEIGHT;
-        fscanf(F, "%s %s", buf, buf2);
-        m->props[numtile].mur = 0;
-        if (strcmp(buf2, "mur") == 0)
-          m->props[numtile].mur = 1;
-      }
+      m->props[numtile].R.w = m->TILE_WIDTH;
+      m->props[numtile].R.h = m->TILE_HEIGHT;
+      m->props[numtile].R.x = i * m->TILE_WIDTH;
+      m->props[numtile].R.y = j * m->TILE_HEIGHT;
+      fscanf(F, "%s %s", buf, buf2);
+      m->props[numtile].mur = 0;
+      if (strcmp(buf2, "mur") == 0)
+        m->props[numtile].mur = 1;
     }
 }
 
@@ -59,13 +57,13 @@ void		UpdateMap(char* str_map, Map* m)
 
   k = 0;
   for (j = 0; j < m->nbtiles_height_world; j++)
+  {
+    for (i = 0; i < m->nbtiles_width_world; i++)
     {
-      for (i = 0; i < m->nbtiles_width_world; i++)
-      {
-        m->schema[i][j] = str_map[k] - 48;
-        k++;
-      }
+      m->schema[i][j] = str_map[k] - 48;
+      k++;
     }
+  }
 }
 
 int		LoadMap_level(FILE* F,Map* m)
@@ -106,12 +104,12 @@ Map*		LoadMap(const char* level)
 
   F = fopen(level,"r");
   if (!F)
-    {
-      printf("fichier %s introuvable !! \n",level);
-      SDL_Quit();
-      system("pause");
-      return (NULL);
-    }
+  {
+    printf("fichier %s introuvable !! \n",level);
+    SDL_Quit();
+    system("pause");
+    return (NULL);
+  }
   m = malloc(sizeof(Map));
   LoadMap_tileset(F,m);
   LoadMap_level(F,m);
