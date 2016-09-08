@@ -1,14 +1,9 @@
 #include <SDL/SDL.h>
 
-#pragma comment (lib,"sdl.lib") 
-#pragma comment (lib,"sdlmain.lib")
-
-
 typedef struct
 {
   SDL_Rect R;
   int mur;
-  // tout ce que vous voulez...
 } TileProp;
 
 typedef struct
