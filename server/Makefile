@@ -14,6 +14,7 @@ DFLAGS= -g
 NAME= bomberman-server
 SRC=	commands.c \
 	command_functions.c \
+	map_functions.c \
 	map.c \
 	player.c \
 	server.c \

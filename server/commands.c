@@ -9,6 +9,7 @@
 */
 
 #include "commands.h"
+#include "map_functions.h"
 
 int	up(t_map *map, int player)
 {

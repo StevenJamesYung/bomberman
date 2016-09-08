@@ -5,7 +5,7 @@
 ** Login   <yung_s@etna-alternance.net>
 **
 ** Started on  Tue Sep  6 22:16:30 2016 YUNG Steven
-** Last update Thu Sep  8 22:32:32 2016 YUNG Steven
+** Last update Thu Sep  8 22:54:20 2016 TRAORE Abdoulaye Karim
 */
 
 #include <netdb.h>
@@ -127,7 +127,7 @@ int			handleNewConnection(int s, fd_set *active_fds, t_map *map)
   if (map->nb_players >= MAX_PLAYERS)
     {
       msg = "full";
-      send(cfd, msg, strlen(msg), 0); // [TODO MY_SEND]
+      send(cfd, msg, strlen(msg), 0);
       close(cfd);
     }
   else
