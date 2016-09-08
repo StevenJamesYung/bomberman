@@ -69,7 +69,7 @@ int broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
   return (0);
 }
 
-int exec_cmd(char *cmd, t_map *map, int player)
+int exec_cmd(char *cmd, t_map *map, int player, fd_set *active_fds)
 {
   int i;
   char *username;
@@ -79,7 +79,10 @@ int exec_cmd(char *cmd, t_map *map, int player)
   tab = init_funct_tab();
   printf("is disconnect: %d\n\n", strncmp(cmd, "111", 3) == 0);
   if (strncmp(cmd, "111", 3) == 0)
+  {
     disconnect_player(map, player);
+    FD_CLR(player, active_fds);
+  }
   else if (strncmp(cmd, "000", 3) == 0)
   {
     username = strtok(cmd, "000");
@@ -164,11 +167,13 @@ int server_loop(fd_set active_fds,
                     nread = recv(i, buf, 1024, 0);
                     if (nread != 0)
                     {
-                      if ((exec_cmd(buf, map, i)) == -1)
+                      if ((exec_cmd(buf, map, i, &active_fds)) == -1)
                         return (-1);
                     }
+                    printf("b4 broadcast");
                     if (broadcast_map(map, &active_fds, s) == -1)
                       return (-1);
+                    printf("after broadcast");
                 }
             }
         }
