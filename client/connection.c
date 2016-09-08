@@ -16,17 +16,22 @@ int ask_connection(int s, char *login)
   char *final_cmd;
   size_t size;
   int ret;
+  int nread;
 
+  nread = 0;
   cmd = "000";
   size = sizeof(cmd) + sizeof(login) + 1;
+  do {
   if ((final_cmd = malloc(size)) == NULL)
     return (-3);
   strcpy(final_cmd, cmd);
   strcat(final_cmd, login);
   ret = send(s, final_cmd, size, 0);
-  // free(final_cmd);
   if (ret == -1)
     return (-4);
+  nread += ret;
+  } while(nread < size);
+  free(final_cmd);
   return (0);
 }
 
