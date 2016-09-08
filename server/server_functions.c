@@ -81,7 +81,7 @@ int exec_cmd(char *cmd, t_map *map, int player)
   {
     username = strtok(cmd, "000");
     src_player = search_player_by_socket(map->players, map->nb_players, player);
-    if (src_player > 0)
+    if (src_player >= 0)
     {
       map->players[src_player]->username = username;
       printf("%s joined the game\n", map->players[src_player]->username);

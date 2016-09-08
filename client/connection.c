@@ -24,7 +24,7 @@ int ask_connection(int s, char *login)
   strcpy(final_cmd, cmd);
   strcat(final_cmd, login);
   ret = send(s, final_cmd, size, 0);
-  free(final_cmd);
+  // free(final_cmd);
   if (ret == -1)
     return (-4);
   return (0);
