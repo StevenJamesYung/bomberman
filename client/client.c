@@ -27,6 +27,8 @@ int		handle_user_input(int s)
   int		ch;
   char		*cmd;
 
+  if ((cmd = malloc((sizeof(char) * 3) + 1)) == NULL)
+    return (-1);
   ch = getch();
   if (ch == 27)
     {

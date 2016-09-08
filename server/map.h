@@ -14,7 +14,7 @@
 
 #include "../bomberman.h"
 #include "player.h"
-
+#include "map_functions.h"
 #define WIDTH 10
 #define HEIGHT 10
 

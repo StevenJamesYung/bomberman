@@ -14,6 +14,7 @@
 
 #include "../bomberman.h"
 #include "map.h"
+#include "map_functions.h"
 
 int	up(t_map *map, int player);
 int	down(t_map *map, int player);

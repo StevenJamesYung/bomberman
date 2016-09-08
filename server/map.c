@@ -66,9 +66,7 @@ t_map		*init_map()
     if ((m[i] = (int *)malloc(WIDTH * sizeof(int))) == NULL)
       return (NULL);
     for (y = 0; y < WIDTH; y++)
-    {
       m[i][y] = 0;
-    }
   }
   map->players = players;
   for (i = 0; i < MAX_PLAYERS; i++)
@@ -76,42 +74,6 @@ t_map		*init_map()
   map->value = m;
   map->nb_players = 0;
   return (map);
-}
-
-int		add_player(t_map *map, int s)
-{
-  int		i;
-  int		x;
-  int		y;
-
-  for (i = 0; i < MAX_PLAYERS; i++)
-    if (map->players[i] == NULL)
-    {
-      if (i == 0)
-      {
-        x = 0;
-        y = 0;
-      }
-      else if (i == 1)
-      {
-        x = 0;
-        y = WIDTH - 1;
-      }
-      else if (i == 2)
-      {
-        x = HEIGHT - 1;
-        y = 0;
-      }
-      else if (i == 3)
-      {
-        x = HEIGHT - 1;
-        y = WIDTH - 1;
-      }
-      map->players[i] = init_player(x, y, s);
-      map->nb_players++;
-      i = MAX_PLAYERS;
-    }
-  return (0);
 }
 
 int		free_map(t_map *map)
