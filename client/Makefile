@@ -22,7 +22,7 @@ OBJ= $(SRC:%.c=%.o)
 RM= rm -rf
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(WFLAGS)
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(WFLAGS)
 
 all: $(NAME)
 
