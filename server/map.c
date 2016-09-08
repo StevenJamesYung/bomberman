@@ -113,6 +113,10 @@ int free_map(t_map *map)
   for (i = 0; i < HEIGHT; i++)
     free(map->value[i]);
   free(map->value);
+  for (i = 0; i < map->nb_players; i++)
+    free(map->players[i]);
+  free(map->players);
+  free(map);
 
   return (0);
 }

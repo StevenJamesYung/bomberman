@@ -23,7 +23,9 @@ int ask_connection(int s, char *login)
     return (-3);
   strcpy(final_cmd, cmd);
   strcat(final_cmd, login);
-  if ((ret = send(s, final_cmd, size, 0)) == -1)
+  ret = send(s, final_cmd, size, 0);
+  free(final_cmd);
+  if (ret == -1)
     return (-4);
   return (0);
 }

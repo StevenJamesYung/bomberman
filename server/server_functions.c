@@ -64,6 +64,7 @@ int broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
       sent = 0;
     }
   }
+  free(map_str);
   printf("end broadcast");
   return (0);
 }
@@ -93,10 +94,14 @@ int exec_cmd(char *cmd, t_map *map, int player)
       if ((strncmp(cmd, tab[i].key, 1) == 0))
       {
         if (tab[i].function(map, player) == -1)
+        {
+          free(tab);
           return (-1);
+        }
       }
     }
   }
+  free(tab);
   return (0);
 }
 

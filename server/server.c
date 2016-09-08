@@ -22,7 +22,11 @@ int main_loop(int s)
   FD_ZERO(&active_fds);
   FD_SET(s, &active_fds);
   if (server_loop(active_fds, read_fds, s, map) == -1)
+  {
+    free(map);
     return (-1);
+  }
+  free(map);
   return (0);
 }
 

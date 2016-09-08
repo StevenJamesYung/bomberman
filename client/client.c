@@ -75,7 +75,6 @@ int main_loop(int s, SDL_Surface* screen, Map* m)
   int ret;
   char *new_buf;  
 
-  new_buf = malloc(1024 * sizeof(char));
   AfficherMap(m,screen);
   SDL_Flip(screen);
   
@@ -84,15 +83,25 @@ int main_loop(int s, SDL_Surface* screen, Map* m)
   FD_SET(STDIN_FILENO, &active_fds);
   if (set_conio_terminal_mode() == -1)
     return (-5);
+  new_buf = malloc(1024 * sizeof(char));
   while (1)
   {
     read_fds = active_fds;
     if((ret = select(s + 1, &read_fds, NULL, NULL, 0)) == -1)
+    {
+      free(new_buf);
       return (-6);
+    }
     if ((ret = handle_file_desc(s, read_fds, &new_buf)) == 1)
+    {
+      free(new_buf);
       return (ret);
+    }
     else if (ret == 2)
+    {
+      free(new_buf);
       return (ret);
+    }
     if (new_buf != NULL) {
       UpdateMap(new_buf, m);
       AfficherMap(m, screen);
@@ -124,6 +133,7 @@ int main(int argc, char **argv)
     screen = SDL_SetVideoMode(280, 280, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     m = ChargerMap("level.txt");
     ret = main_loop(s, screen, m);
+    LibererMap(m);
   }
   if (ret < 0 || ret == 2)
     handle_error(ret);
