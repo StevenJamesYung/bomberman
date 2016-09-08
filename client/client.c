@@ -119,15 +119,15 @@ int		main(int argc, char **argv)
       ret = ask_connection(s, argv[3]);
     else
       ret = ask_connection(s, USERNAME);
-    }
+  }
   if (ret >= 0)
-    {
-      SDL_Init(SDL_INIT_VIDEO);
-      screen = SDL_SetVideoMode(280, 280, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-      m = LoadMap("level.txt");
-      ret = main_loop(s, screen, m);
-      FreeMap(m);
-    }
+  {
+    SDL_Init(SDL_INIT_VIDEO);
+    screen = SDL_SetVideoMode(280, 280, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    m = LoadMap("level.txt");
+    ret = main_loop(s, screen, m);
+    FreeMap(m);
+  }
   if (ret < 0 || ret == 2)
     handle_error(ret);
   else
