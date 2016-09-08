@@ -34,7 +34,10 @@ int handle_user_input(int s)
     if (ch == 91)
       convert_signal_to_cmd(getch(), &cmd);
     else if (ch == 27)
+    {
+      ask_disconnection(s);
       return (1);
+    }
   }
   else if (ch == 32)
     cmd ="6";
