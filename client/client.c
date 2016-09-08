@@ -19,7 +19,7 @@ void convert_signal_to_cmd(int ch, char** cmd)
 
   tmp = ch - 63 + '0';
   tmp_char = (char)tmp;
-  *cmd = &tmp_char;
+  strncpy(*cmd, &tmp_char, 1);
 }
 
 int handle_user_input(int s)
