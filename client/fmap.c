@@ -2,47 +2,51 @@
 #include <string.h>
 #include "fmap.h"
 
-#define CACHE_SIZE 5000
 
-SDL_Surface* LoadImage32(const char* fichier_image)
+SDL_Surface* LoadImage32(const char* image_file)
 {
-  SDL_Surface* image_result;
-  SDL_Surface* image_ram = SDL_LoadBMP(fichier_image);    // charge l'image dans image_ram en RAM
-  if (image_ram==NULL)
+  SDL_Surface *image_result;
+  SDL_Surface *image_ram;
+
+  image_ram = SDL_LoadBMP(image_file); // charge l'image dans image_ram en RAM
+  if (image_ram == NULL)
   {
-    printf("Image %s introuvable !! \n",fichier_image);
+    printf("Image %s introuvable !! \n", image_file);
     SDL_Quit();
     system("pause");
-    exit(-1);
+    return (-1);
   }
   image_result = SDL_DisplayFormat(image_ram);
   SDL_FreeSurface(image_ram);
-  return image_result;
+  return (image_result);
 }
 
-void ChargerMap_tileset(FILE* F,Map* m)
+void LoadMap_tileset(FILE* F,Map* m)
 {
-  int numtile,i,j;
-  char buf[CACHE_SIZE];  // un buffer, petite mémoire cache
-  char buf2[CACHE_SIZE];  // un buffer, petite mémoire cache
-  fscanf(F,"%s",buf); // #tileset
-  fscanf(F,"%s",buf); // nom du fichier
+  int numtile;
+  int i;
+  int j;
+  char buf[CACHE_SIZE];
+  char buf2[CACHE_SIZE];
+
+  fscanf(F, "%s", buf);
+  fscanf(F, "%s", buf);
   m->tileset = LoadImage32(buf);
-  fscanf(F,"%d %d",&m->nbtilesX,&m->nbtilesY);
-  m->LARGEUR_TILE = m->tileset->w/m->nbtilesX;
-  m->HAUTEUR_TILE = m->tileset->h/m->nbtilesY;
-  m->props = malloc(m->nbtilesX*m->nbtilesY*sizeof(TileProp));
-  for(j=0,numtile=0;j<m->nbtilesY;j++)
+  fscanf(F, "%d %d", &m->nbtilesX, &m->nbtilesY);
+  m->TILE_WIDTH = m->tileset->w / m->nbtilesX;
+  m->TILE_HEIGHT = m->tileset->h / m->nbtilesY;
+  m->props = malloc(m->nbtilesX * m->nbtilesY * sizeof(TileProp));
+  for (j = 0, numtile = 0; j < m->nbtilesY; j++)
   {
-    for(i=0;i<m->nbtilesX;i++,numtile++)
+    for (i = 0; i < m->nbtilesX; i++, numtile++)
     {
-      m->props[numtile].R.w = m->LARGEUR_TILE;
-      m->props[numtile].R.h = m->HAUTEUR_TILE;
-      m->props[numtile].R.x = i*m->LARGEUR_TILE;
-      m->props[numtile].R.y = j*m->HAUTEUR_TILE;
-      fscanf(F,"%s %s",buf,buf2);
+      m->props[numtile].R.w = m->TILE_WIDTH;
+      m->props[numtile].R.h = m->TILE_HEIGHT;
+      m->props[numtile].R.x = i * m->TILE_WIDTH;
+      m->props[numtile].R.y = j * m->TILE_HEIGHT;
+      fscanf(F, "%s %s", buf, buf2);
       m->props[numtile].mur = 0;
-      if (strcmp(buf2,"mur")==0)
+      if (strcmp(buf2, "mur") == 0)
         m->props[numtile].mur = 1;
     }
   }
@@ -50,93 +54,100 @@ void ChargerMap_tileset(FILE* F,Map* m)
 
 void UpdateMap(char* str_map, Map* m)
 {
-  int i,j,k;
+  int i;
+  int j;
+  int k;
 
-  k = 0;  
-  for(j=0;j<m->nbtiles_hauteur_monde;j++)
+  k = 0;
+  for (j = 0; j < m->nbtiles_height_world; j++)
   {
-    for(i=0;i<m->nbtiles_largeur_monde;i++)
+    for (i = 0; i < m->nbtiles_width_world; i++)
     {
       m->schema[i][j] = str_map[k] - 48;
       k++;
     }
   }
-
 }
 
-void ChargerMap_level(FILE* F,Map* m)
+void LoadMap_level(FILE* F,Map* m)
 {
-  int i,j;
-  char buf[CACHE_SIZE];  // un buffer, petite mémoire cache
-  fscanf(F,"%s",buf); // #level
-  fscanf(F,"%d %d",&m->nbtiles_largeur_monde,&m->nbtiles_hauteur_monde);
-  m->schema = malloc(m->nbtiles_largeur_monde*sizeof(Uint16*));
-  for(i=0;i<m->nbtiles_largeur_monde;i++)
-    m->schema[i] = malloc(m->nbtiles_hauteur_monde*sizeof(Uint16));
-  for(j=0;j<m->nbtiles_hauteur_monde;j++)
+  int i;
+  int j;
+  char buf[CACHE_SIZE];
+
+  fscanf(F, "%s", buf);
+  fscanf(F, "%d %d", &m->nbtiles_width_world, &m->nbtiles_height_world);
+  m->schema = malloc(m->nbtiles_width_world * sizeof(Uint16 *));
+  for (i = 0; i < m->nbtiles_width_world; i++)
+    m->schema[i] = malloc(m->nbtiles_height_world * sizeof(Uint16));
+  for (j = 0; j < m->nbtiles_height_world; j++)
   {
-    for(i=0;i<m->nbtiles_largeur_monde;i++)
+    for (i = 0; i < m->nbtiles_width_world; i++)
     {
       int tmp;
-      fscanf(F,"%d",&tmp);
+      fscanf(F, "%d", &tmp);
 
-      if (tmp>=m->nbtilesX*m->nbtilesY)
+      if (tmp >= m->nbtilesX * m->nbtilesY)
       {
         printf("level tile hors limite\n");
         SDL_Quit();
         system("pause");
-        exit(-1);
+        return (-1);
       }
       m->schema[i][j] = tmp;
     }
   }
 }
 
-Map* ChargerMap(const char* level)
+Map* LoadMap(const char* level)
 {
   FILE* F;
   Map* m;
+
   F = fopen(level,"r");
   if (!F)
   {
     printf("fichier %s introuvable !! \n",level);
     SDL_Quit();
     system("pause");
-    exit(-1);
+    return (-1);
   }
   m = malloc(sizeof(Map));
-  ChargerMap_tileset(F,m);
-  ChargerMap_level(F,m);
+  LoadMap_tileset(F,m);
+  LoadMap_level(F,m);
   fclose(F);
-  return m;
+  return (m);
 }
 
-int AfficherMap(Map* m,SDL_Surface* screen)
-{
-  int i,j;
-  SDL_Rect Rect_dest;
-  int numero_tile;
-  for (i=0;i<m->nbtiles_largeur_monde;i++)
-  {
-    for(j=0;j<m->nbtiles_hauteur_monde;j++)
-    {
-      Rect_dest.x = i*m->LARGEUR_TILE;
-      Rect_dest.y = j*m->HAUTEUR_TILE;
-      numero_tile = m->schema[i][j];
-      SDL_BlitSurface(m->tileset,&(m->props[numero_tile].R),screen,&Rect_dest);
-    }
-  }
-  return 0;
-}
-
-int LibererMap(Map* m)
+int ShowMap(Map* m,SDL_Surface* screen)
 {
   int i;
+  int j;
+
+  SDL_Rect Rect_dest;
+  int numero_tile;
+  for (i = 0; i < m->nbtiles_width_world; i++)
+  {
+    for (j = 0; j < m->nbtiles_height_world; j++)
+    {
+      Rect_dest.x = i * m->TILE_WIDTH;
+      Rect_dest.y = j * m->TILE_HEIGHT;
+      numero_tile = m->schema[i][j];
+      SDL_BlitSurface(m->tileset, &(m->props[numero_tile].R), screen, &Rect_dest);
+    }
+  }
+  return (0);
+}
+
+int FreeMap(Map* m)
+{
+  int i;
+
   SDL_FreeSurface(m->tileset);
-  for(i=0;i<m->nbtiles_hauteur_monde;i++)
+  for (i = 0; i < m->nbtiles_height_world; i++)
     free(m->schema[i]);
   free(m->schema);
   free(m->props);
   free(m);
-  return 0;
+  return (0);
 }

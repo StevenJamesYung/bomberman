@@ -78,7 +78,7 @@ int main_loop(int s, SDL_Surface* screen, Map* m)
   int ret;
   char *new_buf;  
 
-  AfficherMap(m,screen);
+  ShowMap(m,screen);
   SDL_Flip(screen);
   
   FD_ZERO(&active_fds);
@@ -107,7 +107,7 @@ int main_loop(int s, SDL_Surface* screen, Map* m)
     }
     if (new_buf != NULL) {
       UpdateMap(new_buf, m);
-      AfficherMap(m, screen);
+      ShowMap(m, screen);
       SDL_Flip(screen);
     }    
   }
@@ -134,9 +134,9 @@ int main(int argc, char **argv)
   {
     SDL_Init(SDL_INIT_VIDEO); // prepare SDL
     screen = SDL_SetVideoMode(280, 280, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    m = ChargerMap("level.txt");
+    m = LoadMap("level.txt");
     ret = main_loop(s, screen, m);
-    LibererMap(m);
+    FreeMap(m);
   }
   if (ret < 0 || ret == 2)
     handle_error(ret);
