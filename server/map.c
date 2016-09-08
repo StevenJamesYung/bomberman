@@ -105,3 +105,14 @@ int add_player(t_map *map, int s)
   map->players[map->nb_players++] = new_player;
   return (0);
 }
+
+int free_map(t_map *map)
+{
+  int i;
+
+  for (i = 0; i < HEIGHT; i++)
+    free(map->value[i]);
+  free(map->value);
+
+  return (0);
+}
