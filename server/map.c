@@ -109,9 +109,7 @@ int add_player(t_map *map, int s)
   }
   */
 
-  x = -1;
-  y = -1;
-  for (i = 0; (i < MAX_PLAYERS) || (x < 0 && y < 0); i++)
+  for (i = 0; i < MAX_PLAYERS; i++)
     if (map->players[i] == NULL)
     {
       if (i == 0)
@@ -136,6 +134,7 @@ int add_player(t_map *map, int s)
       }
       map->players[i] = init_player(x, y, s);
       map->nb_players++;
+      i = MAX_PLAYERS;
     }
   return (0);
 }
