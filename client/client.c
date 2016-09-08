@@ -62,6 +62,18 @@ int		handle_file_desc(int s, fd_set read_fds, char **new_buff)
   return (0);
 }
 
+int setup_loop(Map *m, SDL_Surface *screen, fd_set *active_fds)
+{
+  ShowMap(m,screen);
+  SDL_Flip(screen);
+  FD_ZERO(&active_fds);
+  FD_SET(s, &active_fds);
+  FD_SET(STDIN_FILENO, &active_fds);
+  if (set_conio_terminal_mode() == -1)
+    return (-5);
+  return (0);
+}
+
 int		main_loop(int s, SDL_Surface* screen, Map* m)
 {
   fd_set	read_fds;
@@ -70,12 +82,7 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
   char		*new_buf;
 
   ret = 0;
-  ShowMap(m,screen);
-  SDL_Flip(screen);
-  FD_ZERO(&active_fds);
-  FD_SET(s, &active_fds);
-  FD_SET(STDIN_FILENO, &active_fds);
-  if (set_conio_terminal_mode() == -1)
+  if (setup_loop(m, screen, &active_fds == -5))
     return (-5);
   new_buf = malloc(1024 * sizeof(char));
   while (1)
