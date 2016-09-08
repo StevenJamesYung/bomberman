@@ -9,17 +9,18 @@
 ##
 
 CC= gcc
-CFLAGS= -W -Wall -Werror -Wextra -g 
+CFLAGS= -W -Wall -Werror -Wextra
+DFLAGS= -g
 WFLAGS= -Wno-unknown-pragmas `sdl-config --cflags --libs`
 NAME= bomberman-client
-SRC= client.c\
-		keyboard.c\
-		fmap.c	\
-		connection.c \
-		error_handler.c \
-		my_recv.c
+SRC= client.c \
+		 keyboard.c \
+		 fmap.c \
+		 connection.c \
+		 error_handler.c \
+		 my_recv.c
 OBJ= $(SRC:%.c=%.o)
-RM= rm -rf
+	RM= rm -rf
 
 $(NAME): $(OBJ)
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(WFLAGS)
@@ -40,7 +41,7 @@ install:
 	sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev
 
 dev:
-	$(CC) -o $(NAME) $(OBJ) $(WFLAGS)
+	$(CC) -o $(NAME) $(SRC) $(WFLAGS) $(DFLAGS)
 	./$(NAME)
 
 .PHONY:clean mrproper
