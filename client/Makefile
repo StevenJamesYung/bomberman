@@ -18,7 +18,8 @@ SRC= 	client.c \
 	fmap.c \
 	connection.c \
 	error_handler.c \
-	my_recv.c
+	my_recv.c \
+	signal.c
 OBJ= $(SRC:%.c=%.o)
 RM= rm -rf
 

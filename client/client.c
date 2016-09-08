@@ -11,6 +11,7 @@
 #include "fmap.h"
 #include <unistd.h>
 #include "client.h"
+#include "signal.h"
 
 int		handle_user_input(int s)
 {
@@ -62,13 +63,13 @@ int		handle_file_desc(int s, fd_set read_fds, char **new_buff)
   return (0);
 }
 
-int setup_loop(Map *m, SDL_Surface *screen, fd_set *active_fds)
+int setup_loop(Map *m, SDL_Surface *screen, fd_set *active_fds, int s)
 {
   ShowMap(m,screen);
   SDL_Flip(screen);
-  FD_ZERO(&active_fds);
-  FD_SET(s, &active_fds);
-  FD_SET(STDIN_FILENO, &active_fds);
+  FD_ZERO(active_fds);
+  FD_SET(s, active_fds);
+  FD_SET(STDIN_FILENO, active_fds);
   if (set_conio_terminal_mode() == -1)
     return (-5);
   return (0);
@@ -82,7 +83,7 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
   char		*new_buf;
 
   ret = 0;
-  if (setup_loop(m, screen, &active_fds == -5))
+  if (setup_loop(m, screen, &active_fds, s) == -5)
     return (-5);
   new_buf = malloc(1024 * sizeof(char));
   while (1)
@@ -114,12 +115,7 @@ int		main(int argc, char **argv)
   s = setup_connection(argc, argv);
   ret = s;
   if (ret >= 0)
-  {
-    if (argc >= 4)
-      ret = ask_connection(s, argv[3]);
-    else
-      ret = ask_connection(s, USERNAME);
-  }
+    (argc >= 4) ? (ask_connection(s, argv[3])) : (ask_connection(s, USERNAME));
   if (ret >= 0)
   {
     SDL_Init(SDL_INIT_VIDEO);
