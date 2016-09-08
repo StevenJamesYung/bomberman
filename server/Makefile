@@ -10,6 +10,7 @@
 
 CC= gcc
 CFLAGS= -W -Wall -Werror -Wextra
+DFLAGS= -g
 NAME= bomberman-server
 SRC= commands.c \
 		 command_functions.c \
@@ -39,9 +40,8 @@ debug:
 	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS)
 	$(DEBUG) $(NAME)
 
-dev:
-	$(CC) -o $(NAME) $(OBJ) $(WFLAGS)
-	./$(NAME)
+dev: $(OBJ)
+	$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(DFLAGS) $(SDL)
 
 mrproper:clean
 	rm -rf $(NAME)
