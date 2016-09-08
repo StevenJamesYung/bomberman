@@ -14,7 +14,7 @@ SDL_Surface* LoadImage32(const char* image_file)
     printf("Image %s introuvable !! \n", image_file);
     SDL_Quit();
     system("pause");
-    return (-1);
+    return (NULL);
   }
   image_result = SDL_DisplayFormat(image_ram);
   SDL_FreeSurface(image_ram);
@@ -69,7 +69,7 @@ void UpdateMap(char* str_map, Map* m)
   }
 }
 
-void LoadMap_level(FILE* F,Map* m)
+int LoadMap_level(FILE* F,Map* m)
 {
   int i;
   int j;
@@ -97,6 +97,7 @@ void LoadMap_level(FILE* F,Map* m)
       m->schema[i][j] = tmp;
     }
   }
+  return (0);
 }
 
 Map* LoadMap(const char* level)
@@ -110,7 +111,7 @@ Map* LoadMap(const char* level)
     printf("fichier %s introuvable !! \n",level);
     SDL_Quit();
     system("pause");
-    return (-1);
+    return (NULL);
   }
   m = malloc(sizeof(Map));
   LoadMap_tileset(F,m);
