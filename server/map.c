@@ -72,7 +72,7 @@ t_map *init_map()
       m[i][y] = 0;
     }
   }
-  map->players = players;  
+  map->players = players;
   for (i = 0; i < MAX_PLAYERS; i++)
     map->players[i] = NULL;
   map->value = m;
