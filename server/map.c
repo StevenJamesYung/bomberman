@@ -83,7 +83,11 @@ t_map *init_map()
 int add_player(t_map *map, int s)
 {
   t_player *new_player;
+  int i;
+  int x;
+  int y;
 
+  /*
   if (map->nb_players == 0)
   {
     if ((new_player = init_player(0, 0, s)) == NULL)
@@ -104,7 +108,36 @@ int add_player(t_map *map, int s)
     if ((new_player = init_player(HEIGHT - 1, WIDTH - 1, s)) == NULL)
       return (-1);
   }
-  map->players[map->nb_players++] = new_player;
+  */
+
+  x = -1;
+  y = -1;
+  for (i = 0; (i < MAX_PLAYERS) || (x < 0 && y < 0); i++)
+    if (map->players[i] == NULL)
+    {
+      if (i == 0)
+      {
+        x = 0;
+        y = 0;
+      }
+      else if (i == 1)
+      {
+        x = 0;
+        y = WIDTH - 1;
+      }
+      else if (i == 2)
+      {
+        x = HEIGHT - 1;
+        y = 0;
+      }
+      else if (i == 3)
+      {
+        x = HEIGHT - 1;
+        y = WIDTH - 1;
+      }
+      map->players[i] = init_player(x, y, s);
+      map->nb_players++;
+    }
   return (0);
 }
 
