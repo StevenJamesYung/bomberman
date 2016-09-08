@@ -13,12 +13,13 @@
 int ask_disconnection(int s)
 {
   char *cmd;
-  size_t size;
+  int size;
   int ret;
   int nread;
 
   nread = 0;
   cmd = "111";
+  size = strlen(cmd);
   do {
   ret = send(s, cmd, size, 0);
   if (ret == -1)
