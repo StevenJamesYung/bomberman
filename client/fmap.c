@@ -8,13 +8,13 @@ SDL_Surface* LoadImage32(const char* fichier_image)
 {
   SDL_Surface* image_result;
   SDL_Surface* image_ram = SDL_LoadBMP(fichier_image);    // charge l'image dans image_ram en RAM
-    if (image_ram==NULL)
-      {
-	printf("Image %s introuvable !! \n",fichier_image);
-	SDL_Quit();
-	system("pause");
-	exit(-1);
-      }
+  if (image_ram==NULL)
+  {
+    printf("Image %s introuvable !! \n",fichier_image);
+    SDL_Quit();
+    system("pause");
+    exit(-1);
+  }
   image_result = SDL_DisplayFormat(image_ram);
   SDL_FreeSurface(image_ram);
   return image_result;
@@ -33,19 +33,19 @@ void ChargerMap_tileset(FILE* F,Map* m)
   m->HAUTEUR_TILE = m->tileset->h/m->nbtilesY;
   m->props = malloc(m->nbtilesX*m->nbtilesY*sizeof(TileProp));
   for(j=0,numtile=0;j<m->nbtilesY;j++)
+  {
+    for(i=0;i<m->nbtilesX;i++,numtile++)
     {
-      for(i=0;i<m->nbtilesX;i++,numtile++)
-	{
-	  m->props[numtile].R.w = m->LARGEUR_TILE;
-	  m->props[numtile].R.h = m->HAUTEUR_TILE;
-	  m->props[numtile].R.x = i*m->LARGEUR_TILE;
-	  m->props[numtile].R.y = j*m->HAUTEUR_TILE;
-	  fscanf(F,"%s %s",buf,buf2);
-	  m->props[numtile].mur = 0;
-	  if (strcmp(buf2,"mur")==0)
-	    m->props[numtile].mur = 1;
-	}
+      m->props[numtile].R.w = m->LARGEUR_TILE;
+      m->props[numtile].R.h = m->HAUTEUR_TILE;
+      m->props[numtile].R.x = i*m->LARGEUR_TILE;
+      m->props[numtile].R.y = j*m->HAUTEUR_TILE;
+      fscanf(F,"%s %s",buf,buf2);
+      m->props[numtile].mur = 0;
+      if (strcmp(buf2,"mur")==0)
+        m->props[numtile].mur = 1;
     }
+  }
 }
 
 void UpdateMap(char* str_map, Map* m)
@@ -54,14 +54,14 @@ void UpdateMap(char* str_map, Map* m)
 
   k = 0;  
   for(j=0;j<m->nbtiles_hauteur_monde;j++)
+  {
+    for(i=0;i<m->nbtiles_largeur_monde;i++)
     {
-      for(i=0;i<m->nbtiles_largeur_monde;i++)
-	{
-	  m->schema[i][j] = str_map[k] - 48;
-	  k++;
-	}
+      m->schema[i][j] = str_map[k] - 48;
+      k++;
     }
-  
+  }
+
 }
 
 void ChargerMap_level(FILE* F,Map* m)
@@ -74,22 +74,22 @@ void ChargerMap_level(FILE* F,Map* m)
   for(i=0;i<m->nbtiles_largeur_monde;i++)
     m->schema[i] = malloc(m->nbtiles_hauteur_monde*sizeof(Uint16));
   for(j=0;j<m->nbtiles_hauteur_monde;j++)
+  {
+    for(i=0;i<m->nbtiles_largeur_monde;i++)
     {
-      for(i=0;i<m->nbtiles_largeur_monde;i++)
-	{
-	  int tmp;
-	  fscanf(F,"%d",&tmp);
+      int tmp;
+      fscanf(F,"%d",&tmp);
 
-	  if (tmp>=m->nbtilesX*m->nbtilesY)
-	    {
-	      printf("level tile hors limite\n");
-	      SDL_Quit();
-	      system("pause");
-	      exit(-1);
-	    }
-	  m->schema[i][j] = tmp;
-	}
+      if (tmp>=m->nbtilesX*m->nbtilesY)
+      {
+        printf("level tile hors limite\n");
+        SDL_Quit();
+        system("pause");
+        exit(-1);
+      }
+      m->schema[i][j] = tmp;
     }
+  }
 }
 
 Map* ChargerMap(const char* level)
@@ -98,12 +98,12 @@ Map* ChargerMap(const char* level)
   Map* m;
   F = fopen(level,"r");
   if (!F)
-    {
-      printf("fichier %s introuvable !! \n",level);
-      SDL_Quit();
-      system("pause");
-      exit(-1);
-    }
+  {
+    printf("fichier %s introuvable !! \n",level);
+    SDL_Quit();
+    system("pause");
+    exit(-1);
+  }
   m = malloc(sizeof(Map));
   ChargerMap_tileset(F,m);
   ChargerMap_level(F,m);
@@ -119,16 +119,16 @@ int AfficherMap(Map* m,SDL_Surface* screen)
   printf("tilesHauteur %d", m->nbtiles_largeur_monde);
   printf("tilesLargeur %d", m->nbtiles_hauteur_monde);
   for (i=0;i<m->nbtiles_largeur_monde;i++)
+  {
+    for(j=0;j<m->nbtiles_hauteur_monde;j++)
     {
-      for(j=0;j<m->nbtiles_hauteur_monde;j++)
-	{
-	  Rect_dest.x = i*m->LARGEUR_TILE;
-	  Rect_dest.y = j*m->HAUTEUR_TILE;
-	  numero_tile = m->schema[i][j];
-	  SDL_BlitSurface(m->tileset,&(m->props[numero_tile].R),screen,&Rect_dest);
-	  printf("valeurTile %d\n", m->schema[i][j]);
-	}
+      Rect_dest.x = i*m->LARGEUR_TILE;
+      Rect_dest.y = j*m->HAUTEUR_TILE;
+      numero_tile = m->schema[i][j];
+      SDL_BlitSurface(m->tileset,&(m->props[numero_tile].R),screen,&Rect_dest);
+      printf("valeurTile %d\n", m->schema[i][j]);
     }
+  }
   return 0;
 }
 

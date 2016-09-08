@@ -6,19 +6,19 @@
 
 typedef struct
 {
-	SDL_Rect R;
-	int mur;
-	// tout ce que vous voulez...
+  SDL_Rect R;
+  int mur;
+  // tout ce que vous voulez...
 } TileProp;
 
 typedef struct
 {
-	int LARGEUR_TILE,HAUTEUR_TILE;
-	int nbtilesX,nbtilesY;
-	SDL_Surface* tileset;
-	TileProp* props;
-	Uint16** schema;
-	int nbtiles_largeur_monde,nbtiles_hauteur_monde;
+  int LARGEUR_TILE,HAUTEUR_TILE;
+  int nbtilesX,nbtilesY;
+  SDL_Surface* tileset;
+  TileProp* props;
+  Uint16** schema;
+  int nbtiles_largeur_monde,nbtiles_hauteur_monde;
 } Map;
 
 Map* ChargerMap(const char* fic);
