@@ -9,3 +9,5 @@ settings.json
 .BROWSE.VC.DB
 *.o
 bomberman-*
+*~
+svn

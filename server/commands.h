@@ -1,25 +1,25 @@
+/*
+** commands.h for bomberman in /Users/stevenyung/workspace/current/bomberman
+**
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+**
+** Started on  Tue Sep  6 22:14:17 2016 YUNG Steven
+** Last update Thu Sep  8 22:23:15 2016 YUNG Steven
+*/
+
 #ifndef __COMMANDS_H__
 # define __COMMANDS_H__
 # define _GNU_SOURCE
 
-# include "../bomberman.h"
-# include "global.h"
-# include "map.h"
+#include "../bomberman.h"
+#include "map.h"
+#include "map_functions.h"
 
-typedef void (*t_func)(t_global *global, int player);
-
-typedef struct	s_command_funct t_command_funct;
-struct	s_command_funct
-{
-  char		*key;
-  t_func	function;
-};
-
-void up(t_global *global, int player);
-void down(t_global *global, int player);
-void right(t_global *global, int player);
-void left(t_global *global, int player);
-void drop(t_global *global, int player);
-t_command_funct *init_funct_tab();
+int	up(t_map *map, int player);
+int	down(t_map *map, int player);
+int	right(t_map *map, int player);
+int	left(t_map *map, int player);
+int	drop(t_map *map, int player);
 
 #endif

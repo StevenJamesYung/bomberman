@@ -1,0 +1,17 @@
+#tileset
+tileset1.bmp
+10 1
+tile0: ciel
+tile1: mur
+tile2: mur
+tile3: mur
+tile4: mur
+tile5: mur
+tile6: mur
+tile7: mur
+tile8: mur
+tile9: mur
+
+#level
+10 10
+5 5 5 5 5 5 5 5 5 5 5 1 0 0 0 0 0 0 2 5 5 0 5 0 5 0 5 0 0 5 5 5 0 0 0 0 9 0 0 5 5 0 5 0 5 0 5 0 5 5 5 0 5 5 0 0 0 7 0 5 5 0 5 0 5 0 5 0 5 5 5 5 0 0 0 0 0 0 0 5 5 0 5 3 5 0 5 0 5 5 5 5 5 5 5 5 5 5 5 5
