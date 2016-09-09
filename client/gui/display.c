@@ -10,7 +10,7 @@
 
 #include "display.h"
 
-int		ShowMap(Map* m,SDL_Surface* screen)
+int		show_map(Map* m,SDL_Surface* screen)
 {
   int		i;
   int		j;

@@ -12,7 +12,7 @@
 #include <string.h>
 #include "fmap.h"
 
-SDL_Surface	*LoadImage32(const char* image_file)
+SDL_Surface	*load_image_32(const char* image_file)
 {
   SDL_Surface	*image_result;
   SDL_Surface	*image_ram;
@@ -30,7 +30,7 @@ SDL_Surface	*LoadImage32(const char* image_file)
   return (image_result);
 }
 
-void		LoadMap_tileset(FILE* F,Map* m)
+void		load_map_tileset(FILE* F,Map* m)
 {
   int		numtile;
   int		i;
@@ -40,7 +40,7 @@ void		LoadMap_tileset(FILE* F,Map* m)
 
   fscanf(F, "%s", buf);
   fscanf(F, "%s", buf);
-  m->tileset = LoadImage32(buf);
+  m->tileset = load_image_32(buf);
   fscanf(F, "%d %d", &m->nbtilesX, &m->nbtilesY);
   m->TILE_WIDTH = m->tileset->w / m->nbtilesX;
   m->TILE_HEIGHT = m->tileset->h / m->nbtilesY;
@@ -59,7 +59,7 @@ void		LoadMap_tileset(FILE* F,Map* m)
     }
 }
 
-void		UpdateMap(char* str_map, Map* m)
+void		update_map(char* str_map, Map* m)
 {
   int		i;
   int		j;
@@ -76,7 +76,7 @@ void		UpdateMap(char* str_map, Map* m)
   }
 }
 
-int		LoadMap_level(FILE* F,Map* m)
+int		load_map_level(FILE* F,Map* m)
 {
   int		i;
   int		j;
@@ -107,7 +107,7 @@ int		LoadMap_level(FILE* F,Map* m)
   return (0);
 }
 
-Map*		LoadMap(const char* level)
+Map*		load_map(const char* level)
 {
   FILE*		F;
   Map*		m;
@@ -121,8 +121,8 @@ Map*		LoadMap(const char* level)
     return (NULL);
   }
   m = malloc(sizeof(Map));
-  LoadMap_tileset(F,m);
-  LoadMap_level(F,m);
+  load_map_tileset(F,m);
+  load_map_level(F,m);
   fclose(F);
   return (m);
 }

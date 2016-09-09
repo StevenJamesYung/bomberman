@@ -66,7 +66,7 @@ int		handle_file_desc(int s, fd_set read_fds, char **new_buff)
 
 int setup_loop(Map *m, SDL_Surface *screen, fd_set *active_fds, int s)
 {
-  ShowMap(m, screen);
+  show_map(m, screen);
   SDL_Flip(screen);
   FD_ZERO(active_fds);
   FD_SET(s, active_fds);
@@ -98,8 +98,8 @@ int		main_loop(int s, SDL_Surface* screen, Map* m)
     if (ret == 0 && new_buf != NULL)
     {
       printf("newbuff : %s\n", new_buf);
-      UpdateMap(new_buf, m);
-      ShowMap(m, screen);
+      update_map(new_buf, m);
+      show_map(m, screen);
       SDL_Flip(screen);
     }
   }
@@ -123,9 +123,9 @@ int		main(int argc, char **argv)
   {
     SDL_Init(SDL_INIT_VIDEO);
     screen = SDL_SetVideoMode(280, 280, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    m = LoadMap("level.txt");
+    m = load_map("level.txt");
     ret = main_loop(s, screen, m);
-    FreeMap(m);
+    free_map(m);
   }
   if (ret < 0 || ret == 2)
     handle_error(ret);

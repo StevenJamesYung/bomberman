@@ -14,6 +14,4 @@
 
 # include "gui.h"
 
-int		ShowMap(Map* m,SDL_Surface* screen);
-
 #endif
