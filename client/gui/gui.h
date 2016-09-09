@@ -33,4 +33,10 @@ typedef struct
   int nbtiles_width_world,nbtiles_height_world;
 } Map;
 
+int		free_map(Map* m);
+Map	*load_map(const char* fic);
+int	show_map(Map* m,SDL_Surface* screen);
+int	free_map(Map* m);
+void	update_map(char* str_map, Map* m);
+
 #endif

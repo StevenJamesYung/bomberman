@@ -14,9 +14,4 @@
 
 #include "gui.h"
 
-Map	*LoadMap(const char* fic);
-int	ShowMap(Map* m,SDL_Surface* screen);
-int	FreeMap(Map* m);
-void	UpdateMap(char* str_map, Map* m);
-
 #endif
