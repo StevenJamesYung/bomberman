@@ -16,6 +16,7 @@ NAME= bomberman-client
 SRC= 	client.c \
 	keyboard.c \
 	gui/fmap.c \
+	gui/display.c \
 	connection.c \
 	error_handler.c \
 	my_recv.c \

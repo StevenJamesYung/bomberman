@@ -1,3 +1,13 @@
+/*
+** fmap.c for bomberman in
+**
+** Made by YUNG Steven
+** Login   <yung_s@etna-alternance.net>
+**
+** Started on  Fri Sep  9 02:40:24 2016 YUNG Steven
+** Last update Fri Sep  9 02:40:31 2016 YUNG Steven
+*/
+
 #define _CRT_SECURE_NO_DEPRECATE
 #include <string.h>
 #include "fmap.h"
@@ -115,26 +125,6 @@ Map*		LoadMap(const char* level)
   LoadMap_level(F,m);
   fclose(F);
   return (m);
-}
-
-int		ShowMap(Map* m,SDL_Surface* screen)
-{
-  int		i;
-  int		j;
-  SDL_Rect	Rect_dest;
-  int		numero_tile;
-
-  for (i = 0; i < m->nbtiles_width_world; i++)
-  {
-    for (j = 0; j < m->nbtiles_height_world; j++)
-    {
-      Rect_dest.x = i * m->TILE_WIDTH;
-      Rect_dest.y = j * m->TILE_HEIGHT;
-      numero_tile = m->schema[i][j];
-      SDL_BlitSurface(m->tileset, &(m->props[numero_tile].R), screen, &Rect_dest);
-    }
-  }
-  return (0);
 }
 
 int		FreeMap(Map* m)
