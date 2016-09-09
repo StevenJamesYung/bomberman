@@ -17,6 +17,7 @@ SRC= 	client.c \
 	keyboard.c \
 	gui/fmap.c \
 	gui/display.c \
+	gui/free_gui.c \
 	connection.c \
 	error_handler.c \
 	my_recv.c \
