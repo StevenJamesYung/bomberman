@@ -8,7 +8,7 @@
 ** Last update Thu Sep  8 22:08:27 2016 YUNG Steven
 */
 
-#include "fmap.h"
+#include "gui/fmap.h"
 #include <unistd.h>
 #include "client.h"
 #include "signal.h"

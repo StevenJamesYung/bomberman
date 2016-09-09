@@ -15,7 +15,7 @@ WFLAGS= -Wno-unknown-pragmas `sdl-config --cflags --libs`
 NAME= bomberman-client
 SRC= 	client.c \
 	keyboard.c \
-	fmap.c \
+	gui/fmap.c \
 	connection.c \
 	error_handler.c \
 	my_recv.c \
