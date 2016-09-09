@@ -5,14 +5,14 @@
 ** Login   <yung_s@etna-alternance.net>
 **
 ** Started on  Tue Sep  6 22:16:30 2016 YUNG Steven
-** Last update Thu Sep  8 22:54:20 2016 TRAORE Abdoulaye Karim
+** Last update Fri Sep  9 02:02:53 2016 TRAORE Abdoulaye Karim
 */
 
-#include <netdb.h>
-#include <sys/select.h>
-#include "command_functions.h"
-#include "server_functions.h"
-#include <unistd.h>
+#include	<netdb.h>
+#include	<sys/select.h>
+#include	"command_functions.h"
+#include	"server_functions.h"
+#include	<unistd.h>
 
 char		*get_map_str(t_map *map)
 {
@@ -72,10 +72,7 @@ int		broadcast_map(t_map *map, fd_set *active_fds, int server_socket)
 
 int			exec_cmd(char *cmd, t_map *map, int player, fd_set *active_fds)
 {
-  int			i;
-  char			*username;
   t_command_funct	*tab;
-  int			src_player;
 
   tab = init_funct_tab();
   printf("is disconnect: %d\n\n", strncmp(cmd, "111", 3) == 0);
@@ -86,57 +83,13 @@ int			exec_cmd(char *cmd, t_map *map, int player, fd_set *active_fds)
   }
   else if (strncmp(cmd, "000", 3) == 0)
   {
-    username = strtok(cmd, "000");
-    src_player = search_player_by_socket(map->players, map->nb_players, player);
-    if (src_player >= 0)
-    {
-      map->players[src_player]->username = username;
-      printf("%s joined the game\n", map->players[src_player]->username);
-    }
+    user_connect(cmd, map, player);
   }
   else
   {
-    for (i = 0; i < 5; i++)
-    {
-      if ((strncmp(cmd, tab[i].key, 1) == 0))
-      {
-        if (tab[i].function(map, player) == -1)
-        {
-          free(tab);
-          return (-1);
-        }
-      }
-    }
+    call_cmd(cmd, tab, player, map);
   }
   free(tab);
-  return (0);
-}
-
-int			handleNewConnection(int s, fd_set *active_fds, t_map *map)
-{
-  struct sockaddr_in	peer_addr;
-  socklen_t		peer_addr_size;
-  int			cfd;
-  char			*msg;
-
-  peer_addr_size = sizeof(struct sockaddr_in);
-  cfd = accept(s, (struct sockaddr *)&peer_addr, &peer_addr_size);
-  if (cfd < 0)
-    return (-1);
-  printf("Server: connect from %d\n", cfd);
-  if (map->nb_players >= MAX_PLAYERS)
-    {
-      msg = "full";
-      send(cfd, msg, strlen(msg), 0);
-      close(cfd);
-    }
-  else
-    {
-      if ((add_player(map, cfd)) == -1)
-        return (-1);
-      FD_SET(cfd, active_fds);
-    }
-  debug_map(map);
   return (0);
 }
 
@@ -145,8 +98,6 @@ int			server_loop(fd_set active_fds,
 					int s,
 					t_map *map)
 {
-  char			buf[1024];
-  int			nread;
   int			i;
 
   while (1)
@@ -158,24 +109,8 @@ int			server_loop(fd_set active_fds,
         {
           if (FD_ISSET(i, &read_fds))
             {
-              if (i == s)
-                {
-                  if (handleNewConnection(s, &active_fds, map) == -1)
-                    return (-1);
-                }
-              else
-                {
-                  nread = recv(i, buf, 1024, 0);
-                  if (nread != 0)
-                    {
-                      if ((exec_cmd(buf, map, i, &active_fds)) == -1)
-                        return (-1);
-                    }
-                  printf("b4 broadcast");
-                  if (broadcast_map(map, &active_fds, s) == -1)
-                    return (-1);
-                  printf("after broadcast");
-                }
+              if (handle_connection_server(i, s, &active_fds, map) == -1)
+                return (-1);
             }
         }
     }
